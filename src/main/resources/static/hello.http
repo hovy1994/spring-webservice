@@ -1,10 +1,11 @@
+#POST http://ec2-54-180-123-184.ap-northeast-2.compute.amazonaws.com/posts
 POST http://localhost:8080/posts
 Content-Type: application/json
 
 {
- "title": "테스트 타이틀",
-  "content": "테스트 본문",
-  "author": "테스트"
+ "title": "test title4",
+  "content": "test content4",
+  "author": "seojeong4"
 }
 
 ###

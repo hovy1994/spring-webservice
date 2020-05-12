@@ -35,7 +35,8 @@ public class PostsRepositoryTest {
                 .title("테스트 게시글")
                 .content("테스트 본문")
                 .author("seojeong")
-                .build());
+                .build()
+        );
 
         //when
         List<Posts> postsList = postsRepository.findAll();
