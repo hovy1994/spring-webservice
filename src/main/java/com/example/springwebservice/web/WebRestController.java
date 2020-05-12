@@ -37,13 +37,13 @@ public class WebRestController {
     }
 
     @GetMapping("/board/setposts")
-    public PostsSaveRequestDto getBoard(){
+    public void getBoard(){
         PostsSaveRequestDto postsSaveRequestDto = new PostsSaveRequestDto();
         postsSaveRequestDto.setAuthor("moomin1");
         postsSaveRequestDto.setTitle("title1");
         postsSaveRequestDto.setContent("content1");
         postsRepository.save(postsSaveRequestDto.toEntity());
-        return postsSaveRequestDto;
+        //return postsSaveRequestDto;
     }
 
     @GetMapping("/board/getposts")
