@@ -27,7 +27,7 @@ public class WebRestController {
     }
 
     //@PostMapping("/posts")
-    @CrossOrigin(origins = "http://13.125.236.67:8081/posts")
+    @CrossOrigin(origins = "*")
     @RequestMapping(value="/posts",method={ RequestMethod.GET, RequestMethod.POST })
     public Posts savePosts(@RequestBody PostsSaveRequestDto dto){
         postsRepository.save(dto.toEntity());
