@@ -32,9 +32,9 @@ public class PostsRepositoryTest {
     public void load_posts() {
         //given
         postsRepository.save(Posts.builder()
-                .title("테스트 게시글")
-                .content("테스트 본문")
-                .author("seo jeong")
+                .title("asd")
+                .content("asd")
+                .author("seojeong")
                 .build()
         );
 
