@@ -21,22 +21,23 @@ public class WebRestController {
         return "HelloWorld"; // helloworld 문자열을 json 형태로 반환
     }
 
-    @RequestMapping(value="/", method={ RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value="/request", method={ RequestMethod.GET, RequestMethod.POST })
     public String returnhello(){
         return "hello";
     }
 
-    @PostMapping("/posts")
-    @ResponseBody
+    //@PostMapping("/posts")
+    @RequestMapping(value="/posts",method={ RequestMethod.GET, RequestMethod.POST })
     public Posts savePosts(@RequestBody PostsSaveRequestDto dto){
         postsRepository.save(dto.toEntity());
         List<Posts> postsList = postsRepository.findAll();
 
         Posts posts = postsList.get(0);
-        return posts;
+       // return posts;
+        return dto.toEntity();
     }
 
-    @GetMapping("/board/setposts")
+    @RequestMapping("/board/setposts")
     public void getBoard(){
         PostsSaveRequestDto postsSaveRequestDto = new PostsSaveRequestDto();
         postsSaveRequestDto.setAuthor("moomin1");
