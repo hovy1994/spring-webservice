@@ -3,8 +3,8 @@ POST http://54.180.123.184:8080/posts
 Content-Type: application/json
 
 {
- "title": "ㅎ아",
-  "content": "test15",
+ "title": "test3",
+  "content": "test3",
   "author": "seojeong-test"
 }
 
