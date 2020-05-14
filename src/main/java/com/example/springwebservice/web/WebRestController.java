@@ -12,6 +12,7 @@ import static org.junit.Assert.assertThat;
 
 @RestController // @ResponseBody를 모든 메소드에 적용
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class WebRestController {
 
     private PostsRepository postsRepository;
@@ -27,7 +28,6 @@ public class WebRestController {
     }
 
     //@PostMapping("/posts")
-    @CrossOrigin(origins = "*")
     @RequestMapping(value="/posts",method={ RequestMethod.GET, RequestMethod.POST })
     public Posts savePosts(@RequestBody PostsSaveRequestDto dto){
         postsRepository.save(dto.toEntity());

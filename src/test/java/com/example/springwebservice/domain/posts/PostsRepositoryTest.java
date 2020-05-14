@@ -32,8 +32,8 @@ public class PostsRepositoryTest {
     public void load_posts() {
         //given
         postsRepository.save(Posts.builder()
-                .title("asd")
-                .content("asd")
+                .title("test1")
+                .content("test1")
                 .author("seojeong")
                 .build()
         );
@@ -43,8 +43,8 @@ public class PostsRepositoryTest {
 
         //then
         Posts posts = postsList.get(0);
-        assertThat(posts.getTitle(), is("asd"));
-        assertThat(posts.getContent(), is("asd"));
+        assertThat(posts.getTitle(), is("test1"));
+        assertThat(posts.getContent(), is("test1"));
     }
 
 }
