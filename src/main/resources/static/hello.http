@@ -1,11 +1,13 @@
-POST http://13.125.236.67:8080/posts
-#POST http://localhost:8080/posts
+#POST http://13.125.236.67:8080/posts
+POST http://localhost:8080/inquiry
 Content-Type: application/json
 
 {
- "title": "test3",
-  "content": "test2",
-  "author": "seojeong-test2"
+  "user_id": 1,
+  "title": "title2",
+  "content": "test2"
 }
 
 ###
+
+

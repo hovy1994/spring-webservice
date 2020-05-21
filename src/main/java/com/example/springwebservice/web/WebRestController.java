@@ -1,5 +1,7 @@
 package com.example.springwebservice.web;
 
+import com.example.springwebservice.domain.inquiry.Inquiry;
+import com.example.springwebservice.domain.inquiry.InquiryRepository;
 import com.example.springwebservice.domain.posts.Posts;
 import com.example.springwebservice.domain.posts.PostsRepository;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import static org.junit.Assert.assertThat;
 public class WebRestController {
 
     private PostsRepository postsRepository;
+    private InquiryRepository inquiryRepository;
 
     @GetMapping("/hello")
     public String hello() {
@@ -27,15 +30,26 @@ public class WebRestController {
         return "hello";
     }
 
-    //@PostMapping("/posts")
+
+    @RequestMapping(value="/inquiry",method={ RequestMethod.GET, RequestMethod.POST })
+    public Inquiry saveInquiry(@RequestBody InquirySaveRequestDto dto){
+
+        inquiryRepository.save(dto.toEntity());
+        List<Inquiry> inquiryList = inquiryRepository.findAll();
+
+        Inquiry inquiry = inquiryList.get(0);
+        return inquiry;
+    }
+
+
+
     @RequestMapping(value="/posts",method={ RequestMethod.GET, RequestMethod.POST })
     public Posts savePosts(@RequestBody PostsSaveRequestDto dto){
         postsRepository.save(dto.toEntity());
         List<Posts> postsList = postsRepository.findAll();
 
         Posts posts = postsList.get(0);
-       // return posts;
-        return dto.toEntity();
+        return posts;
     }
 
     @RequestMapping("/board/setposts")
