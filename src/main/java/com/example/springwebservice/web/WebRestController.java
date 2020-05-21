@@ -2,6 +2,7 @@ package com.example.springwebservice.web;
 
 import com.example.springwebservice.domain.inquiry.Inquiry;
 import com.example.springwebservice.domain.inquiry.InquiryRepository;
+import com.example.springwebservice.domain.member.MemberRepository;
 import com.example.springwebservice.domain.posts.Posts;
 import com.example.springwebservice.domain.posts.PostsRepository;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class WebRestController {
 
     private PostsRepository postsRepository;
     private InquiryRepository inquiryRepository;
+    private MemberRepository memberRepository;
 
     @GetMapping("/hello")
     public String hello() {
@@ -51,6 +53,15 @@ public class WebRestController {
         map.put("USER_PHONE","000-0000-0000");
         map.put("USER_PW","1234");
         map.put("USER_NICKNAME","nick");
+        MemberSaveRequestDto memberSaveRequestDto = new MemberSaveRequestDto();
+
+        memberSaveRequestDto.setUSER_ID(map.get("id"));
+        memberSaveRequestDto.setUSER_NICKNAME(map.get("nickname"));
+        memberSaveRequestDto.setUSER_NAME("name");
+        memberSaveRequestDto.setUSER_PHONE("000-0000-0000");
+        memberSaveRequestDto.setUSER_PW("1232");
+
+        memberRepository.save(memberSaveRequestDto.toEntity());
         return map.get("id");
     }
 

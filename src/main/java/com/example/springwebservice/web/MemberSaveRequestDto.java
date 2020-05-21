@@ -2,9 +2,16 @@ package com.example.springwebservice.web;
 
 import com.example.springwebservice.domain.inquiry.Inquiry;
 import com.example.springwebservice.domain.member.Member;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class MemberSaveRequestDto {
 
     private Integer USER_IDX;
