@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class InquirySaveRequestDto {
 
-    private Integer user_id;
+    private Integer user_idx;
     private String title;
     private String content;
 
     public Inquiry toEntity(){
         return Inquiry.builder()
-                .user_id(user_id)
+                .user_idx(user_idx)
                 .title(title)
                 .content(content)
                 .build();

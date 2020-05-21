@@ -1,4 +1,4 @@
-package com.example.springwebservice.domain.posts;
+package com.example.springwebservice.domain.member;
 
 import org.junit.After;
 import org.junit.Test;
@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -18,33 +16,36 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PostsRepositoryTest {
+public class MemberRepositoryTest {
 
     @Autowired
-    PostsRepository postsRepository;
+    MemberRepository memberRepository;
 
     @After
     public void cleanup() {
-        postsRepository.deleteAll();
+        memberRepository.deleteAll();
     }
 
     @Test
-    public void load_posts() {
+    public void Member_register(){
         //given
-        postsRepository.save(Posts.builder()
-                .title("test1")
-                .content("test1")
-                .author("seojeong")
+
+        memberRepository.save(Member.builder()
+                .USER_IDX(1)
+                .USER_ID("WER")
+                .USER_NAME("name1")
+                .USER_PHONE("000-0000-0000")
+                .USER_PW("1232")
+                .USER_NICKNAME("nick")
                 .build()
         );
 
         //when
-        List<Posts> postsList = postsRepository.findAll();
+        List<Member> memberList = memberRepository.findAll();
 
         //then
-        Posts posts = postsList.get(0);
-        assertThat(posts.getTitle(), is("test1"));
-        assertThat(posts.getContent(), is("test1"));
+        Member member = memberList.get(0);
+        assertThat(member.getUSER_IDX(), is(1));
     }
 
 }

@@ -7,6 +7,7 @@ import com.example.springwebservice.domain.posts.PostsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -41,6 +42,17 @@ public class WebRestController {
         return inquiry;
     }
 
+
+    //@PostMapping(path = "/getKakaoAuth")
+    @RequestMapping(value="/getKakaoAuth",method={ RequestMethod.GET, RequestMethod.POST })
+    public String echoKakao(@RequestBody HashMap<String,String> map) {
+        //System.out.println("id : " + map[ID]);
+        map.put("USER_NAME","name");
+        map.put("USER_PHONE","000-0000-0000");
+        map.put("USER_PW","1234");
+        map.put("USER_NICKNAME","nick");
+        return map.get("id");
+    }
 
 
     @RequestMapping(value="/posts",method={ RequestMethod.GET, RequestMethod.POST })

@@ -26,7 +26,7 @@ public class Inquiry extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    private Integer user_id;
+    private Integer user_idx;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String title;
@@ -34,8 +34,8 @@ public class Inquiry extends BaseTimeEntity{
     private String content;
 
     @Builder
-    public Inquiry(Integer user_id, String title, String content) {
-        this.user_id=user_id;
+    public Inquiry(Integer user_idx, String title, String content) {
+        this.user_idx=user_idx;
         this.title = title;
         this.content = content;
     }

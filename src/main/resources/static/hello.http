@@ -3,9 +3,9 @@ POST http://localhost:8080/inquiry
 Content-Type: application/json
 
 {
-  "user_id": 1,
-  "title": "title2",
-  "content": "test2"
+  "user_idx": 1,
+  "title": "title",
+  "content": "test"
 }
 
 ###

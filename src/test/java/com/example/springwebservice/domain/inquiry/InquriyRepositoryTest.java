@@ -26,14 +26,13 @@ public class InquriyRepositoryTest {
         inquiryRepository.deleteAll();
     }
 
-
     @Test
     public void Inquiry_register () {
         //given
         LocalDateTime now = LocalDateTime.now();
 
         inquiryRepository.save(Inquiry.builder()
-                .user_id(1)
+                .user_idx(1)
                 .title("title")
                 .content("content")
                 .build()
@@ -47,4 +46,5 @@ public class InquriyRepositoryTest {
         assertTrue(inquiry.getRequest_date().isAfter(now));
         assertThat(inquiry.getTitle(), is("title"));
     }
+
 }
