@@ -3,6 +3,7 @@ package com.example.springwebservice.web;
 import com.example.springwebservice.domain.inquiry.Inquiry;
 import com.example.springwebservice.domain.inquiry.InquiryRepository;
 import com.example.springwebservice.domain.member.MemberRepository;
+import com.example.springwebservice.domain.category.CategoryRepository;
 import com.example.springwebservice.domain.posts.Posts;
 import com.example.springwebservice.domain.posts.PostsRepository;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class WebRestController {
     private PostsRepository postsRepository;
     private InquiryRepository inquiryRepository;
     private MemberRepository memberRepository;
+    private CategoryRepository categoryRepository;
 
     @GetMapping("/hello")
     public String hello() {
@@ -43,7 +45,15 @@ public class WebRestController {
         Inquiry inquiry = inquiryList.get(0);
         return inquiry;
     }
+    
+    @RequestMapping(value='/category",method={RequestMethod.GET, RequestMethod.POST})
+    public Category saveCategory(@RequestBody CategorySaveRequestDto dto){
+        categoryRepository.save(dto.toEntity());
+        List<Category> categoryList = categoryRepository.findAll();
 
+        Category category = categoryList.get(0);
+        return category;
+    }
 
     //@PostMapping(path = "/getKakaoAuth")
     @RequestMapping(value="/getKakaoAuth",method={ RequestMethod.GET, RequestMethod.POST })
