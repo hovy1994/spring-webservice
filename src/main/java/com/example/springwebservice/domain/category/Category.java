@@ -19,7 +19,7 @@ public class Category{
     private String CATEGORY_NAME;
 
     @Builder
-    public Member(Integer CATEGORY_IDX, String CATEGORY_NAME) {
+    public Category(Integer CATEGORY_IDX, String CATEGORY_NAME) {
         this.CATEGORY_IDX=CATEGORY_IDX;
         this.CATEGORY_NAME = CATEGORY_NAME;
     }
