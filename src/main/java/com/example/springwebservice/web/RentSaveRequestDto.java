@@ -14,19 +14,24 @@ import java.time.LocalDateTime;
 public class RentSaveRequestDto {
 
     private Integer IDX;
+    private Integer ITEM_IDX;
     private Integer CABINET_IDX;
     private Integer USER_IDX;
 
     private LocalDateTime START_TIME;
     private LocalDateTime END_TIME;
+    
+    private bytes[] IMAGE;
 
     public Rent toEntity(){
         return Rent.builder()
                 .IDX(IDX)
+                .ITEM_IDX(ITEM_IDX)
                 .CABINET_IDX(CABINET_IDX)
                 .USER_IDX(USER_IDX)
                 .START_TIME(START_TIME)
                 .END_TIME(END_TIME)
+                .IMAGE(IMAGE)
                 .build();
     }
 }
