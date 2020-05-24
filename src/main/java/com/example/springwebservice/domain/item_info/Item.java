@@ -1,4 +1,4 @@
-package com.example.springwebservice.domain.member;
+package com.example.springwebservice.domain.Item;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Item_info{
+public class Item{
     @Id
     private Integer ITEM_IDX;
 
@@ -25,7 +25,7 @@ public class Item_info{
     private String ITEM_NAME;
 
     @Builder
-    public Member(Integer ITEM_IDX, Integer CATEGORY_IDX,Integer ITEM_NUM, Integer RENT_PRICE, String ITEM_NAME) {
+    public Item(Integer ITEM_IDX, Integer CATEGORY_IDX,Integer ITEM_NUM, Integer RENT_PRICE, String ITEM_NAME) {
         this.ITEM_IDX=ITEM_IDX;
         this.CATEGORY_IDX = CATEGORY_IDX;
         this.ITEM_NUM=ITEM_NUM;
