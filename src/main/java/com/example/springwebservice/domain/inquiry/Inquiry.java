@@ -17,20 +17,23 @@ import javax.persistence.*;
 public class Inquiry extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Integer IDX;
 
-    private Integer user_idx;
+    private Integer USER_IDX;
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String title;
+    private String TITLE;
 
-    private String content;
+    private String CONTENT;
+
+    private byte[] IMAGE;
 
     @Builder
-    public Inquiry(Integer user_idx, String title, String content) {
-        this.user_idx=user_idx;
-        this.title = title;
-        this.content = content;
+    public Inquiry(Integer IDX, Integer USER_IDX, String TITLE, String CONTENT, byte[] IMAGE) {
+        this.IDX=IDX;
+        this.USER_IDX = USER_IDX;
+        this.TITLE = TITLE;
+        this.IMAGE = IMAGE;
     }
 
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,15 +15,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class InquirySaveRequestDto {
 
-    private Integer user_idx;
-    private String title;
-    private String content;
+    private Integer IDX;
+    private Integer USER_IDX;
+    private String TITLE;
+    private String CONTENT;
+    private byte[] IMAGE;
 
     public Inquiry toEntity(){
         return Inquiry.builder()
-                .user_idx(user_idx)
-                .title(title)
-                .content(content)
+                .IDX(IDX)
+                .USER_IDX(USER_IDX)
+                .TITLE(TITLE)
+                .CONTENT(CONTENT)
+                .IMAGE(IMAGE)
                 .build();
     }
 }
