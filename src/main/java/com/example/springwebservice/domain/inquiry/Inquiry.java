@@ -32,6 +32,7 @@ public class Inquiry extends BaseTimeEntity{
     public Inquiry(Integer IDX, Integer USER_IDX, String TITLE, String CONTENT, byte[] IMAGE) {
         this.IDX=IDX;
         this.USER_IDX = USER_IDX;
+        this.CONTENT=CONTENT;
         this.TITLE = TITLE;
         this.IMAGE = IMAGE;
     }
