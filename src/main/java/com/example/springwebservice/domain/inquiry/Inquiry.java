@@ -1,21 +1,14 @@
 package com.example.springwebservice.domain.inquiry;
 
 import com.example.springwebservice.domain.BaseTimeEntity;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
+
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.time.LocalDateTime;
 
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

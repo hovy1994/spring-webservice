@@ -1,7 +1,5 @@
 package com.example.springwebservice.domain.member;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.*;
 
 

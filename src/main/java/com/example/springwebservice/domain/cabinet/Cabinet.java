@@ -1,7 +1,6 @@
 package com.example.springwebservice.domain.cabinet;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
