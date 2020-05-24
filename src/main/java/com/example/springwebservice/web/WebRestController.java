@@ -2,6 +2,14 @@ package com.example.springwebservice.web;
 
 import com.example.springwebservice.domain.inquiry.Inquiry;
 import com.example.springwebservice.domain.inquiry.InquiryRepository;
+import com.example.springwebservice.domain.rent.Rent;
+import com.example.springwebservice.domain.rent.RentRepository;
+import com.example.springwebservice.domain.cabinet.Cabinet;
+import com.example.springwebservice.domain.cabinet.CabinetRepository;
+import com.example.springwebservice.domain.item.Item;
+import com.example.springwebservice.domain.item.ItemRepository;
+import com.example.springwebservice.domain.category.CategoryRepository;
+import com.example.springwebservice.domain.category.Category;
 import com.example.springwebservice.domain.member.KakaoLoginTokenResponse;
 import com.example.springwebservice.domain.member.MemberRepository;
 import com.example.springwebservice.domain.posts.Posts;
