@@ -33,8 +33,8 @@ public class InquiryRepositoryTest {
         LocalDateTime now = LocalDateTime.now();
 
         inquiryRepository.save(Inquiry.builder()
-                .IDX(1)
-                .USER_IDX(1)
+                .IDX(3)
+                .USER_IDX(3)
                 .TITLE("title")
                 .CONTENT("content")
                 .build()
