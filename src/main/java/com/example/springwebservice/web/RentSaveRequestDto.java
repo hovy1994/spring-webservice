@@ -21,7 +21,7 @@ public class RentSaveRequestDto {
     private LocalDateTime START_TIME;
     private LocalDateTime END_TIME;
     
-    private bytes[] IMAGE;
+    private byte[] IMAGE;
 
     public Rent toEntity(){
         return Rent.builder()
