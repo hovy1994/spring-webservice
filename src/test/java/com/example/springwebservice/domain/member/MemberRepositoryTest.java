@@ -32,7 +32,7 @@ public class MemberRepositoryTest {
 
         memberRepository.save(Member.builder()
                 .USER_IDX(1)
-                .USER_ID("WER")
+                .USER_ID("1234")
                 .USER_NAME("name1")
                 .USER_PHONE("000-0000-0000")
                 .USER_PW("1232")

@@ -13,9 +13,11 @@ import javax.persistence.*;
 @Entity
 public class Member{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer USER_IDX;
 
     private Integer STAMP;
+
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String USER_ID;
@@ -33,7 +35,7 @@ public class Member{
     private String USER_NICKNAME;
 
     @Builder
-    public Member(Integer USER_IDX, Integer STAMP,String USER_ID, String USER_NAME, String USER_EMAIL,
+    public Member(Integer USER_IDX, Integer STAMP, String USER_ID, String USER_NAME, String USER_EMAIL,
                    String USER_PW, String USER_PHONE, String USER_GENDER, String USER_NICKNAME) {
         this.USER_IDX=USER_IDX;
         this.STAMP = STAMP;

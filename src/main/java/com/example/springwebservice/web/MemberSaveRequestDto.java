@@ -16,7 +16,7 @@ public class MemberSaveRequestDto {
 
     private Integer USER_IDX;
     private Integer STAMP;
-    private String USER_ID;
+    private String  USER_ID;
     private String USER_NAME;
     private String USER_PHONE;
     private String USER_EMAIL;
