@@ -1,6 +1,6 @@
 package com.example.springwebservice.web;
 
-import com.example.springwebservice.domain.category.Cnquiry;
+import com.example.springwebservice.domain.category.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,8 +16,8 @@ public class CategorySaveRequestDto {
     private Integer CATEGORY_IDX;
     private String CATEGORY_NAME;
 
-    public Member toEntity(){
-        return Member.builder()
+    public Category toEntity(){
+        return Category.builder()
                 .CATEGORY_IDX(CATEGORY_IDX)
                 .CATEGORY_NAME(CATEGORY_NAME)
                 .build();
