@@ -5,7 +5,7 @@
          monitoring="autodetect"
          dynamicConfig="true">
 
-    <diskStore path="com.example.test2.ehcache"/>
+    <diskStore path="com.example.springwebservice.cache.ehcache"/>
 
     <defaultCache
             maxElementsInMemory="10000"
