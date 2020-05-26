@@ -1,4 +1,4 @@
-package com.example.test2.member;
+package com.example.springwebservice.cache.member;
 
 public class Member {
     private final long user_idx;
