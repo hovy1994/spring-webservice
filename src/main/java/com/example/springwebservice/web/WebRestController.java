@@ -41,7 +41,7 @@ public class WebRestController {
 
 
     public WebRestController(KakaoLoginService service) {
-        this.service = service;
+        this.kakaoLoginService = service;
     }
 
     @GetMapping("/hello")
