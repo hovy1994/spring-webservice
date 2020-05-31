@@ -45,7 +45,7 @@ public class MemberRepositoryTest {
 
         //then
         Member member = memberList.get(0);
-        assertThat(member.getUSER_IDX(), is(1));
+        assertThat(member.getUSER_NAME(), is("name1"));
     }
 
 }
