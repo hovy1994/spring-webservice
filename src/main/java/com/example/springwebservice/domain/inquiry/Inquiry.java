@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,6 +28,8 @@ public class Inquiry extends BaseTimeEntity{
     private String CONTENT;
 
     private byte[] REQUEST_IMAGE;
+
+    //private LocalDateTime REQUEST_DATE;
 
     @Builder
     public Inquiry(Integer IDX, Integer USER_IDX, String TITLE, String CONTENT, byte[] REQUEST_IMAGE) {

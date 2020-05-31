@@ -20,16 +20,18 @@ public class Item extends BaseTimeEntity {
 
     private Integer CATEGORY_IDX;
 
-
     private Integer RENT_PRICE;
+
+    private Integer CABINET_IDX;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String ITEM_NAME;
 
     @Builder
-    public Item(Integer ITEM_IDX, Integer CATEGORY_IDX,Integer RENT_PRICE,String ITEM_NAME) {
+    public Item(Integer ITEM_IDX, Integer CATEGORY_IDX,Integer RENT_PRICE,String ITEM_NAME,Integer CABINET_IDX) {
         this.ITEM_IDX=ITEM_IDX;
         this.CATEGORY_IDX = CATEGORY_IDX;
+        this.CABINET_IDX=CABINET_IDX;
         this.RENT_PRICE=RENT_PRICE;
         this.ITEM_NAME=ITEM_NAME;
     }
