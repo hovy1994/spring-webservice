@@ -19,7 +19,7 @@ public class InquirySaveRequestDto {
     private Integer USER_IDX;
     private String TITLE;
     private String CONTENT;
-    //private byte[] IMAGE;
+    private byte[] REQUEST_IMAGE;
 
     public Inquiry toEntity(){
         return Inquiry.builder()
@@ -27,7 +27,7 @@ public class InquirySaveRequestDto {
                 .USER_IDX(USER_IDX)
                 .TITLE(TITLE)
                 .CONTENT(CONTENT)
-                //.IMAGE(IMAGE)
+                .REQUEST_IMAGE(REQUEST_IMAGE)
                 .build();
     }
 }

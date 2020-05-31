@@ -26,15 +26,15 @@ public class Inquiry extends BaseTimeEntity{
 
     private String CONTENT;
 
-    //private byte[] IMAGE;
+    private byte[] REQUEST_IMAGE;
 
     @Builder
-    public Inquiry(Integer IDX, Integer USER_IDX, String TITLE, String CONTENT, byte[] IMAGE) {
+    public Inquiry(Integer IDX, Integer USER_IDX, String TITLE, String CONTENT, byte[] REQUEST_IMAGE) {
         this.IDX=IDX;
         this.USER_IDX = USER_IDX;
         this.CONTENT=CONTENT;
         this.TITLE = TITLE;
-        //this.IMAGE = IMAGE;
+        this.REQUEST_IMAGE = REQUEST_IMAGE;
     }
 
 }

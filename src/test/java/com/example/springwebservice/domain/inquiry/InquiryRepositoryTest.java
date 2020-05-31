@@ -37,6 +37,7 @@ public class InquiryRepositoryTest {
                 .USER_IDX(1)
                 .TITLE("title")
                 .CONTENT("content")
+                .REQUEST_IMAGE(null)
                 .build()
         );
 
