@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 public class RentalRequestInfo {
     private Integer category_idx;
     private Integer user_idx;
+    private Integer cabinet_idx;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime start;

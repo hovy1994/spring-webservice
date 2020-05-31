@@ -1,11 +1,26 @@
 #POST http://13.125.236.67:8080/getKakaoAuth
-POST http://localhost:8080/recommendCabinet
+POST http://localhost:8080/apply
 Content-Type: application/json
 
 {
-  "category_idx": 1,
-  "start": "2016-01-01 11:11:11",
-  "end": "2016-01-01T10:24"
+  "user_idx": 1,
+  "cabinet_idx": 1,
+  "start": [
+    2016,
+    1,
+    1,
+    10,
+    10,
+    10
+  ],
+  "end": [
+    2016,
+    1,
+    1,
+    10,
+    10,
+    11
+  ]
 }
 
 ###

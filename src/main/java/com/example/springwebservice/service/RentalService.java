@@ -5,7 +5,10 @@ import com.example.springwebservice.domain.cabinet.CabinetRepository;
 import com.example.springwebservice.domain.item.Item;
 import com.example.springwebservice.domain.item.ItemRepository;
 import com.example.springwebservice.domain.item.RentalRequestInfo;
+import com.example.springwebservice.service.mapper.ItemMapper;
+import com.example.springwebservice.web.ItemSaveRequestDto;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +16,7 @@ import java.security.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @Transactional(readOnly = true)
@@ -20,6 +24,9 @@ import java.util.List;
 public class RentalService {
     private CabinetRepository cabinetRepository;
     private ItemRepository itemRepository;
+
+    @Autowired
+    private ItemMapper itemMapper;
 
     public ArrayList<Cabinet> matchCabinet(ArrayList<Integer> availableCabinetList){
         ArrayList<Cabinet> cabinets=new ArrayList<Cabinet>();
@@ -33,59 +40,61 @@ public class RentalService {
         }
         return cabinets;
     }
-//    public ArrayList<Integer> findCabinet(RentalRequestInfo info){
-//        List<Item> itemList = itemRepository.findAll();
-//        List<Cabinet> cabinetList = cabinetRepository.findAll();
-//        ArrayList<Integer> availableCabinetList= new ArrayList<Integer>();
-//
-//        Integer cabinet[]=new Integer[cabinetList.size()+1];
-//
-//        for (Item item:itemList){
-//            if(item.getCATEGORY_IDX()!=info.getCATEGORY_IDX()) continue;
-//            if(item.getSTART_TIME().isBefore(info.getSTART_TIME()) &&info.getEND_TIME().isAfter(item.getEND_TIME())) continue;
-//            else if(info.getSTART_TIME().isBefore(item.getEND_TIME())&&item.getEND_TIME().isBefore(info.getEND_TIME())) continue;
-//            else if(info.getSTART_TIME().isBefore(item.getSTART_TIME())&&item.getSTART_TIME().isBefore(info.getEND_TIME())) continue;
-//            else{
-//                Integer cabinet_idx=item.getCABINET_IDX();
-//                cabinet[cabinet_idx]++;
-//                if(cabinet[cabinet_idx]==1){
-//                    availableCabinetList.add(cabinet_idx);
-//                }
-//            }
-//        }
-//
-//        Integer minIdx=1, minVal=itemList.size();
-//        Integer maxIdx=1,maxVal=1;
-//        for (int i=0;i<cabinetList.size();i++){
-//            if(minVal>cabinet[i]){
-//                minVal=cabinet[i];
-//                minIdx=i;
-//            }
-//            if(maxVal<cabinet[i]){
-//                maxVal=cabinet[i];
-//                maxIdx=i;
-//            }
-//        }
-//        availableCabinetList.add(minIdx);
-//        availableCabinetList.add(maxIdx);
-//        //return matchCabinet(availableCabinetList);
-//        return availableCabinetList;
-//    }
 
-    public Integer findCabinet(RentalRequestInfo info){
+    public ArrayList<Cabinet> findCabinet(RentalRequestInfo info){
         List<Item> itemList = itemRepository.findAll();
         List<Cabinet> cabinetList = cabinetRepository.findAll();
         ArrayList<Integer> availableCabinetList= new ArrayList<Integer>();
 
-        Integer i=0;
-
-        for(Item item: itemList){
-            if(i<item.getITEM_IDX()){
-                i=item.getITEM_IDX();
+        int cabinet[]=new int[cabinetList.size()+1];
+        for (Item item:itemList){
+            if(item.getCATEGORY_IDX()!=info.getCategory_idx()) continue;
+            if(item.getSTART_TIME().isBefore(info.getStart()) &&info.getEnd().isAfter(item.getEND_TIME())) continue;
+            else if(info.getStart().isBefore(item.getEND_TIME())&&item.getEND_TIME().isBefore(info.getEnd())) continue;
+            else if(info.getStart().isBefore(item.getSTART_TIME())&&item.getSTART_TIME().isBefore(info.getEnd())) continue;
+            else{
+                Integer cabinet_idx=item.getCABINET_IDX();
+                cabinet[cabinet_idx]++;
+                if(cabinet[cabinet_idx]==1){
+                    availableCabinetList.add(cabinet_idx);
+                }
             }
         }
-        i=info.getCategory_idx();
-
-        return i;
+        Integer minIdx=1, minVal=itemList.size();
+        Integer maxIdx=1,maxVal=1;
+        for (int i=1;i<cabinetList.size()+1;i++){
+            if(minVal>cabinet[i]){
+                minVal=cabinet[i];
+                minIdx=i;
+            }
+            if(maxVal<cabinet[i]){
+                maxVal=cabinet[i];
+                maxIdx=i;
+            }
+        }
+        availableCabinetList.add(minIdx);
+        availableCabinetList.add(maxIdx);
+        return matchCabinet(availableCabinetList);
     }
+    public List<Item> findItemList(Integer cabinetIdx){
+        List<Item> itemList= itemMapper.findAll(cabinetIdx);
+
+        return itemList;
+    }
+    public Item findAvailableItem(RentalRequestInfo info){
+        System.out.print("Cabinet idx: "+info.getCabinet_idx());
+        List<Item> itemList=findItemList(info.getCabinet_idx());
+        System.out.print("itemList size: "+itemList.size());
+
+        for (Item item:itemList){
+            if(item.getSTART_TIME().isBefore(info.getStart()) &&info.getEnd().isAfter(item.getEND_TIME())) continue;
+            else if(info.getStart().isBefore(item.getEND_TIME())&&item.getEND_TIME().isBefore(info.getEnd())) continue;
+            else if(info.getStart().isBefore(item.getSTART_TIME())&&item.getSTART_TIME().isBefore(info.getEnd())) continue;
+            else{
+                return item;
+            }
+        }
+        return null;
+    }
+
 }

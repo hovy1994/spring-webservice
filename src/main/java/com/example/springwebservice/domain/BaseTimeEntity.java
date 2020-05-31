@@ -1,5 +1,6 @@
 package com.example.springwebservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,6 +17,8 @@ public abstract class BaseTimeEntity {
 
     @CreatedDate
    // private LocalDateTime REQUEST_DATE;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime START_TIME;
     private LocalDateTime END_TIME;
 
