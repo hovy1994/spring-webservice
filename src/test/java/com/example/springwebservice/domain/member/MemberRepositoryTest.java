@@ -29,13 +29,15 @@ public class MemberRepositoryTest {
     @Test
     public void Member_register(){
         //given
-
         memberRepository.save(Member.builder()
                 .USER_IDX(1)
                 .USER_ID("1234")
+                .STAMP(1)
                 .USER_NAME("name1")
                 .USER_PHONE("000-0000-0000")
                 .USER_PW("1232")
+                .USER_EMAIL("hovy199431@gmail.com")
+                .USER_GENDER("female")
                 .USER_NICKNAME("nick")
                 .build()
         );
