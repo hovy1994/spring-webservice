@@ -1,13 +1,11 @@
-POST http://13.125.236.67:8080/getKakaoAuth
-#POST http://localhost:8080/getKakaoAuth
+#POST http://13.125.236.67:8080/getKakaoAuth
+POST http://localhost:8080/posts
 Content-Type: application/json
 
 {
-  "id": 12345,
-  "connected_at": "2020-05-18T16:08:21Z",
-  "properties": {"nickname": "혁"}
+  "title": "title",
+  "content": "content",
+  "author": "author"
 }
 
 ###
-
-

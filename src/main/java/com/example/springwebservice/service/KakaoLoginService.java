@@ -70,7 +70,6 @@ public class KakaoLoginService {
             while((line = br.readLine()) != null) {
                 result += line;
             }
-
             System.out.println("response body : " + result);
 
             JsonParser parser = new JsonParser();

@@ -1,5 +1,6 @@
 package com.example.springwebservice.domain.item;
 
+import com.example.springwebservice.domain.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Item {
+public class Item extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +20,6 @@ public class Item {
 
     private Integer CATEGORY_IDX;
 
-    private Integer ITEM_NUM;
 
     private Integer RENT_PRICE;
 
@@ -27,10 +27,9 @@ public class Item {
     private String ITEM_NAME;
 
     @Builder
-    public Item(Integer ITEM_IDX, Integer CATEGORY_IDX,Integer ITEM_NUM,Integer RENT_PRICE,String ITEM_NAME) {
+    public Item(Integer ITEM_IDX, Integer CATEGORY_IDX,Integer RENT_PRICE,String ITEM_NAME) {
         this.ITEM_IDX=ITEM_IDX;
         this.CATEGORY_IDX = CATEGORY_IDX;
-        this.ITEM_NUM = ITEM_NUM;
         this.RENT_PRICE=RENT_PRICE;
         this.ITEM_NAME=ITEM_NAME;
     }

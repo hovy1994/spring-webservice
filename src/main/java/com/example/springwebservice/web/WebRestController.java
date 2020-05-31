@@ -30,19 +30,16 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RestController // @ResponseBody를 모든 메소드에 적용
-@NoArgsConstructor
+@AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class WebRestController {
 
     private PostsRepository postsRepository;
     private InquiryRepository inquiryRepository;
     private MemberRepository memberRepository;
-    KakaoLoginService kakaoLoginService;
+    private CabinetRepository cabinetRepository;
+    private KakaoLoginService service;
 
-
-    public WebRestController(KakaoLoginService service) {
-        this.kakaoLoginService = service;
-    }
 
     @GetMapping("/hello")
     public String hello() {
@@ -54,7 +51,6 @@ public class WebRestController {
         return "hello";
     }
 
-
     @RequestMapping(value="/inquiry",method={ RequestMethod.GET, RequestMethod.POST })
     public Inquiry saveInquiry(@RequestBody InquirySaveRequestDto dto) {
         inquiryRepository.save(dto.toEntity());
@@ -64,20 +60,24 @@ public class WebRestController {
         return inquiry;
     }
 
-    private KakaoLoginService service;
+//    @RequestMapping(value="/inquiry",method={ RequestMethod.GET, RequestMethod.POST })
+//    public Cabinet findCabinet(@RequestBody CabinetSaveRequestDto dto) {
+//        cabinetRepository.save(dto.toEntity());
+//        List<Cabinet> cabinetListList = cabinetRepository.findAll();
+//
+//        Cabinet cabinet = cabinetListList.get(0);
+//        //return inquiry;
+//
+//        return cabinet;
+//    }
 
-
-
-//	@PostMapping(path = "/getKakaoAuth")
-//	public String echoKakao(@RequestBody KakaoLoginTokenResponse res) {
-//		System.out.println("id : " + res.getId());
-//		return "id : " + res.getId();
-//	}
 
     @PostMapping(path = "/keyRequest")
     public KakaoLoginTokenResponse transferPublicKey() {
         KakaoLoginTokenResponse res = new KakaoLoginTokenResponse();
+
         res.setPubKey(service.getPublicKey());
+
         return res;
     }
 
@@ -88,6 +88,7 @@ public class WebRestController {
 
     @PostMapping(path = "/decode")
     public String decodeEncryptedData(@RequestBody KakaoLoginTokenResponse res) {
+
         return service.decode(res.getEncryptedUserId());
     }
 
@@ -129,12 +130,12 @@ public class WebRestController {
 //    }
 
     @RequestMapping(value="/posts",method={ RequestMethod.GET, RequestMethod.POST })
-    public Posts savePosts(@RequestBody PostsSaveRequestDto dto){
+    public List<Posts> savePosts(@RequestBody PostsSaveRequestDto dto){
         postsRepository.save(dto.toEntity());
         List<Posts> postsList = postsRepository.findAll();
 
         Posts posts = postsList.get(0);
-        return posts;
+        return postsList;
     }
 
     @RequestMapping("/board/setposts")

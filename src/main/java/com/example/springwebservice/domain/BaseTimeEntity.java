@@ -16,5 +16,7 @@ public abstract class BaseTimeEntity {
 
     @CreatedDate
     private LocalDateTime REQUEST_DATE;
+    private LocalDateTime START_TIME;
+    private LocalDateTime END_TIME;
 
 }

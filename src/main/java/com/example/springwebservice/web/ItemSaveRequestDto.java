@@ -11,7 +11,6 @@ import lombok.Setter;
 public class ItemSaveRequestDto {
     private Integer ITEM_IDX;
     private Integer CATEGORY_IDX;
-    private Integer ITEM_NUM;
     private Integer RENT_PRICE;
     private String ITEM_NAME;
 

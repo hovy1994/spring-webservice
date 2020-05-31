@@ -29,8 +29,6 @@ public class RentSaveRequestDto {
                 .ITEM_IDX(ITEM_IDX)
                 .CABINET_IDX(CABINET_IDX)
                 .USER_IDX(USER_IDX)
-                .START_TIME(START_TIME)
-                .END_TIME(END_TIME)
                 .IMAGE(IMAGE)
                 .build();
     }
