@@ -1,5 +1,5 @@
-#POST http://13.125.236.67:8080/getKakaoAuth
-POST http://localhost:8080/getKakaoAuth
+POST http://13.125.236.67:8080/getKakaoAuth
+#POST http://localhost:8080/getKakaoAuth
 Content-Type: application/json
 
 {
