@@ -26,6 +26,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -45,7 +46,7 @@ public class WebRestController {
     private InquiryRepository inquiryRepository;
     private MemberRepository memberRepository;
     private CabinetRepository cabinetRepository;
-    private KakaoLoginService kakaoLoginService;
+    private ItemRepository itemRepository;
 
 
 
@@ -61,6 +62,14 @@ public class WebRestController {
 
 
 
+    @Cacheable(value="memberCache")  // cache name을 value로
+    @GetMapping(path = "/itemList")
+    public List CategoryDisplay(){
+        System.out.print("Item list connect success");
+        List<Item> itemList =itemRepository.findAll();
+
+        return itemList;
+    }
     @RequestMapping(value="/inquiry",method={ RequestMethod.GET, RequestMethod.POST })
     public Inquiry saveInquiry(@RequestBody InquirySaveRequestDto dto) {
         inquiryRepository.save(dto.toEntity());
@@ -69,74 +78,7 @@ public class WebRestController {
         Inquiry inquiry = inquiryList.get(0);
         return inquiry;
     }
-//    @RequestMapping(value="/inquiry",method={ RequestMethod.GET, RequestMethod.POST })
-//    public Cabinet findCabinet(@RequestBody CabinetSaveRequestDto dto) {
-//        cabinetRepository.save(dto.toEntity());
-//        List<Cabinet> cabinetListList = cabinetRepository.findAll();
-//
-//        Cabinet cabinet = cabinetListList.get(0);
-//        //return inquiry;
-//
-//        return cabinet;
-//    }
 
-
-    @PostMapping(path = "/keyRequest")
-    public KakaoLoginTokenResponse transferPublicKey() {
-        KakaoLoginTokenResponse res = new KakaoLoginTokenResponse();
-
-        res.setPubKey(kakaoLoginService.getPublicKey());
-
-        return res;
-    }
-
-//	@PostMapping(path = "/encode")
-//	public String encodePlainData(@RequestBody KakaoLoginTokenResponse res) {
-//		return service.encode(res.getId());
-//	}
-
-    @PostMapping(path = "/decode")
-    public String decodeEncryptedData(@RequestBody KakaoLoginTokenResponse res) {
-
-        return kakaoLoginService.decode(res.getEncryptedUserId());
-    }
-
-    @PostMapping(path = "/joinAndLoginRequest")
-    public KakaoLoginTokenResponse joinAndLogin(@RequestBody LoginAuthInfo info) {
-        KakaoLoginTokenResponse res = new KakaoLoginTokenResponse();
-        res.setLoggedIn(false);
-        if(kakaoLoginService.join(info)) {
-            if (kakaoLoginService.login(info)) {
-                res.setLoggedIn(true);
-            }
-        }
-        return res;
-    }
-//    @PostMapping(path = "/getKakaoAuth")
-//    public String echoKakao(@RequestBody String res) {
-//        MemberSaveRequestDto memberSaveRequestDto = new MemberSaveRequestDto();
-//
-//        JsonParser parser = new JsonParser();
-//        JsonElement element = parser.parse(res);
-//
-//        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-//        //JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-//
-//        String id = element.getAsJsonObject().get("id").getAsString();
-//        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-//        //String email = kakao_account.getAsJsonObject().get("email").getAsString();
-//
-//        memberSaveRequestDto.setUSER_ID(String.valueOf(id));
-//        memberSaveRequestDto.setUSER_NICKNAME(nickname);
-//        memberSaveRequestDto.setUSER_NAME("name");
-//        memberSaveRequestDto.setUSER_PHONE("000-0000-0000");
-//        memberSaveRequestDto.setUSER_PW("1232");
-//
-//        memberRepository.save(memberSaveRequestDto.toEntity());
-//        //System.out.println("id : " + res.getId());
-//
-//        return "nickname : " + nickname;
-//    }
 
 
 

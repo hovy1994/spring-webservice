@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class LoginAuthInfo {
     private String encryptedUserId;
     private String pubKey;
+    private String nickname;
 }
