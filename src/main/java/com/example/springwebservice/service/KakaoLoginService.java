@@ -166,7 +166,7 @@ public class KakaoLoginService {
     }
     public boolean isMember(String userId){
         List<Member> memberList=memberRepository.findAll();
-        userId=decode(userId);
+        //userId=decode(userId);
         for(Member member: memberList){
             if(member.getUSER_ID()==userId){
                 return true;
