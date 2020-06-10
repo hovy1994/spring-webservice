@@ -30,7 +30,6 @@ public class MemberRepositoryTest {
     public void Member_register(){
         //given
         memberRepository.save(Member.builder()
-                .USER_IDX(1)
                 .USER_ID("1234")
                 .STAMP(1)
                 .USER_NAME("name1")
