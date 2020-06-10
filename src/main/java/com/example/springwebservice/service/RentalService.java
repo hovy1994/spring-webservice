@@ -49,7 +49,7 @@ public class RentalService {
 
         int cabinet[]=new int[cabinetList.size()+1];
         for (Item item:itemList){
-            if(item.getCATEGORY_IDX()!=info.getCategory_idx()) continue;
+            if(item.getCATEGORY_IDX()!=info.getItem_idx()) continue;
             if(item.getSTART_TIME().isBefore(info.getStart()) &&info.getEnd().isAfter(item.getEND_TIME())) continue;
             else if(info.getStart().isBefore(item.getEND_TIME())&&item.getEND_TIME().isBefore(info.getEnd())) continue;
             else if(info.getStart().isBefore(item.getSTART_TIME())&&item.getSTART_TIME().isBefore(info.getEnd())) continue;
