@@ -33,7 +33,7 @@ public class RentalController {
     @PostMapping(path = "/recommendCabinet")
     @GetMapping(path = "/recommendCabinet")
     public ArrayList<Cabinet> recommendCabinet(@RequestBody RentalRequestInfo info){
-        System.out.println("Category Idx : " + info.getCategory_idx());
+        System.out.println("Item Idx : " + info.getItem_idx());
         System.out.println("Start time : " + info.getStart());
         System.out.println("End time : " + info.getEnd());
 
@@ -57,7 +57,7 @@ public class RentalController {
         dto.setUSER_ID(info.getUser_id());
         dto.setSTART_TIME(info.getStart());
         dto.setEND_TIME(info.getEnd());
-        dto.setITEM_IDX(info.getCategory_idx());
+        dto.setITEM_IDX(info.getItem_idx());
 
         rentRepository.save(dto.toEntity());
 

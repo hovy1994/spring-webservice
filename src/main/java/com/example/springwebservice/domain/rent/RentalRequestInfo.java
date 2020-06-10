@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @Data
 public class RentalRequestInfo {
-    private Integer category_idx;
+    private Integer item_idx;
     private String user_id;
     private Integer start_cabinet_idx;
     private Integer end_cabinet_idx;
