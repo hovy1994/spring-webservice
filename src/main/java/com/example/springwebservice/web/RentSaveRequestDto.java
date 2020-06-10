@@ -17,8 +17,9 @@ public class RentSaveRequestDto extends BaseTimeEntity {
 
     private Integer IDX;
     private Integer ITEM_IDX;
-    private Integer CABINET_IDX;
-    private Integer USER_IDX;
+    private Integer START_CABINET_IDX;
+    private Integer END_CABINET_IDX;
+    private String USER_ID;
 
     private byte[] IMAGE;
 
@@ -30,8 +31,9 @@ public class RentSaveRequestDto extends BaseTimeEntity {
         return Rent.builder()
                 .IDX(IDX)
                 .ITEM_IDX(ITEM_IDX)
-                .CABINET_IDX(CABINET_IDX)
-                .USER_IDX(USER_IDX)
+                .START_CABINET_IDX(START_CABINET_IDX)
+                .END_CABINET_IDX(END_CABINET_IDX)
+                .USER_ID(USER_ID)
                 .IMAGE(IMAGE)
                 .START_TIME(START_TIME)
                 .END_TIME(END_TIME)

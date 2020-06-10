@@ -4,19 +4,17 @@ import com.example.springwebservice.domain.cabinet.Cabinet;
 import com.example.springwebservice.domain.cabinet.CabinetRepository;
 import com.example.springwebservice.domain.item.Item;
 import com.example.springwebservice.domain.item.ItemRepository;
-import com.example.springwebservice.domain.item.RentalRequestInfo;
+import com.example.springwebservice.domain.rent.RentalRequestInfo;
+import com.example.springwebservice.domain.member.MemberRepository;
 import com.example.springwebservice.service.mapper.ItemMapper;
-import com.example.springwebservice.web.ItemSaveRequestDto;
+import com.example.springwebservice.service.mapper.MemberMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.*;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 
 @AllArgsConstructor
 @Transactional(readOnly = true)
@@ -24,9 +22,11 @@ import java.util.Map;
 public class RentalService {
     private CabinetRepository cabinetRepository;
     private ItemRepository itemRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
     private ItemMapper itemMapper;
+    private MemberMapper memberMapper;
 
     public ArrayList<Cabinet> matchCabinet(ArrayList<Integer> availableCabinetList){
         ArrayList<Cabinet> cabinets=new ArrayList<Cabinet>();
@@ -40,6 +40,7 @@ public class RentalService {
         }
         return cabinets;
     }
+
 
     public ArrayList<Cabinet> findCabinet(RentalRequestInfo info){
         List<Item> itemList = itemRepository.findAll();
@@ -82,8 +83,8 @@ public class RentalService {
         return itemList;
     }
     public Item findAvailableItem(RentalRequestInfo info){
-        System.out.print("Cabinet idx: "+info.getCabinet_idx());
-        List<Item> itemList=findItemList(info.getCabinet_idx());
+        System.out.print("Cabinet idx: "+info.getStart_cabinet_idx());
+        List<Item> itemList=findItemList(info.getStart_cabinet_idx());
         System.out.print("itemList size: "+itemList.size());
 
         for (Item item:itemList){

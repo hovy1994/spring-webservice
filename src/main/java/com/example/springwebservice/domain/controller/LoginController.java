@@ -48,9 +48,9 @@ public class LoginController {
                 MemberSaveRequestDto memberSaveRequestDto = new MemberSaveRequestDto();
                 memberSaveRequestDto.setUSER_ID(kakaoLoginService.decode(info.getEncryptedUserId()));
                 memberSaveRequestDto.setUSER_NICKNAME(info.getNickname());
-                memberSaveRequestDto.setUSER_NAME("name");
-                memberSaveRequestDto.setUSER_PHONE("000-0000-0000");
-                memberSaveRequestDto.setUSER_PW("1232");
+//                memberSaveRequestDto.setUSER_NAME("name");
+//                memberSaveRequestDto.setUSER_PHONE("000-0000-0000");
+//                memberSaveRequestDto.setUSER_PW("1232");
 
                 memberRepository.save(memberSaveRequestDto.toEntity());
             }

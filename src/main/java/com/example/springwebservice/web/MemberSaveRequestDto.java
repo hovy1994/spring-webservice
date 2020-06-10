@@ -14,7 +14,6 @@ import javax.persistence.Column;
 @NoArgsConstructor
 public class MemberSaveRequestDto {
 
-    private Integer USER_IDX;
     private Integer STAMP;
     private String  USER_ID;
     private String USER_NAME;
@@ -26,7 +25,6 @@ public class MemberSaveRequestDto {
 
     public Member toEntity(){
         return Member.builder()
-                .USER_IDX(USER_IDX)
                 .STAMP(STAMP)
                 .USER_ID(USER_ID)
                 .USER_NAME(USER_NAME)

@@ -3,35 +3,18 @@ package com.example.springwebservice.domain.controller;
 
 import com.example.springwebservice.domain.inquiry.Inquiry;
 import com.example.springwebservice.domain.inquiry.InquiryRepository;
-import com.example.springwebservice.domain.item.RentalRequestInfo;
-import com.example.springwebservice.domain.member.LoginAuthInfo;
-import com.example.springwebservice.domain.rent.Rent;
-import com.example.springwebservice.domain.rent.RentRepository;
-import com.example.springwebservice.domain.cabinet.Cabinet;
 import com.example.springwebservice.domain.cabinet.CabinetRepository;
 import com.example.springwebservice.domain.item.Item;
 import com.example.springwebservice.domain.item.ItemRepository;
-import com.example.springwebservice.domain.category.CategoryRepository;
-import com.example.springwebservice.domain.category.Category;
-import com.example.springwebservice.domain.member.KakaoLoginTokenResponse;
 import com.example.springwebservice.domain.member.MemberRepository;
 import com.example.springwebservice.domain.posts.Posts;
 import com.example.springwebservice.domain.posts.PostsRepository;
-import com.example.springwebservice.service.KakaoLoginService;
-import com.example.springwebservice.service.RentalService;
 import com.example.springwebservice.web.InquirySaveRequestDto;
 import com.example.springwebservice.web.PostsSaveRequestDto;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;

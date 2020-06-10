@@ -1,4 +1,4 @@
-package com.example.springwebservice.domain.item;
+package com.example.springwebservice.domain.rent;
 
 import com.example.springwebservice.domain.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,8 +15,10 @@ import java.time.format.DateTimeFormatter;
 @Data
 public class RentalRequestInfo {
     private Integer category_idx;
-    private Integer user_idx;
-    private Integer cabinet_idx;
+    private String user_id;
+    private Integer start_cabinet_idx;
+    private Integer end_cabinet_idx;
+    private Integer recommend; // 추천 사물함 사용했으면 1, 아니면 0
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime start;

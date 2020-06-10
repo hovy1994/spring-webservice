@@ -2,21 +2,24 @@ package com.example.springwebservice.domain.controller;
 
 import com.example.springwebservice.domain.cabinet.Cabinet;
 import com.example.springwebservice.domain.item.Item;
-import com.example.springwebservice.domain.item.RentalRequestInfo;
+import com.example.springwebservice.domain.rent.RentalRequestInfo;
 import com.example.springwebservice.domain.posts.Posts;
 import com.example.springwebservice.domain.posts.PostsRepository;
-import com.example.springwebservice.domain.rent.Rent;
 import com.example.springwebservice.domain.rent.RentRepository;
 import com.example.springwebservice.service.RentalService;
 import com.example.springwebservice.service.mapper.ItemMapper;
+import com.example.springwebservice.service.mapper.MemberMapper;
 import com.example.springwebservice.web.PostsSaveRequestDto;
 import com.example.springwebservice.web.RentSaveRequestDto;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional(readOnly = false)
 @RestController // @ResponseBody를 모든 메소드에 적용
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
@@ -24,14 +27,9 @@ public class RentalController {
     private RentalService rentalService;
     private PostsRepository postsRepository;
     private RentRepository rentRepository;
+    @Autowired
+    private MemberMapper memberMapper;
 
-//    @PostMapping(value="/recommendCabinet")
-//    public Integer recommendCabinet(@RequestBody RentalRequestInfo dto){
-//
-//        return rentalService.findCabinet(dto);
-//    }
-
-//    @RequestMapping(value="/recommendCabinet",method={ RequestMethod.GET, RequestMethod.POST })
     @PostMapping(path = "/recommendCabinet")
     @GetMapping(path = "/recommendCabinet")
     public ArrayList<Cabinet> recommendCabinet(@RequestBody RentalRequestInfo info){
@@ -46,18 +44,28 @@ public class RentalController {
     @PostMapping(path = "/apply")
     @GetMapping(path = "/apply")
     public RentSaveRequestDto apply(@RequestBody RentalRequestInfo info){
-        System.out.println("User Idx : " + info.getUser_idx());
-        System.out.println("Cabinet Idx : " + info.getCabinet_idx());
+        System.out.println("User Id : " + info.getUser_id());
+        System.out.println("Start Cabinet Idx : " + info.getStart_cabinet_idx());
 
-        Item applyItem=rentalService.findAvailableItem(info);
+        //Item applyItem=rentalService.findAvailableItem(info);
 
         RentSaveRequestDto dto=new RentSaveRequestDto();
-        dto.setCABINET_IDX(info.getCabinet_idx());
-        dto.setITEM_IDX(applyItem.getITEM_IDX());
-        dto.setUSER_IDX(info.getUser_idx());
+
+        dto.setSTART_CABINET_IDX(info.getStart_cabinet_idx());
+        dto.setEND_CABINET_IDX(info.getEnd_cabinet_idx());
+        //dto.setITEM_IDX(applyItem.getITEM_IDX());
+        dto.setUSER_ID(info.getUser_id());
         dto.setSTART_TIME(info.getStart());
         dto.setEND_TIME(info.getEnd());
+        dto.setITEM_IDX(info.getCategory_idx());
+
         rentRepository.save(dto.toEntity());
+
+        // stamp 추가 -> member 정보 update
+        if(info.getRecommend()==1)
+            memberMapper.addStamp(info.getUser_id(),2);
+        else
+            memberMapper.addStamp(info.getUser_id(),1);
 
         return dto;
     }
