@@ -7,10 +7,7 @@ import com.example.springwebservice.domain.cabinet.CabinetRepository;
 import com.example.springwebservice.domain.item.Item;
 import com.example.springwebservice.domain.item.ItemRepository;
 import com.example.springwebservice.domain.member.MemberRepository;
-import com.example.springwebservice.domain.posts.Posts;
-import com.example.springwebservice.domain.posts.PostsRepository;
 import com.example.springwebservice.web.InquirySaveRequestDto;
-import com.example.springwebservice.web.PostsSaveRequestDto;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +22,6 @@ import static org.junit.Assert.assertThat;
 @CrossOrigin(origins = "*")
 public class WebRestController {
 
-    private PostsRepository postsRepository;
     private InquiryRepository inquiryRepository;
     private MemberRepository memberRepository;
     private CabinetRepository cabinetRepository;
@@ -63,26 +59,4 @@ public class WebRestController {
     }
 
 
-
-
-    @RequestMapping("/board/setposts")
-    public void getBoard(){
-        PostsSaveRequestDto postsSaveRequestDto = new PostsSaveRequestDto();
-        postsSaveRequestDto.setAuthor("moomin1");
-        postsSaveRequestDto.setTitle("title1");
-        postsSaveRequestDto.setContent("content1");
-        postsRepository.save(postsSaveRequestDto.toEntity());
-        //return postsSaveRequestDto;
-    }
-
-    @GetMapping("/board/getposts")
-    public Posts getBoard2(){
-        List<Posts> postsList = postsRepository.findAll();
-
-        Posts posts = postsList.get(0);
-        return posts;
-        //assertThat(posts.getContent(), is("테스트 본문"));
-        //postsRepository.save(postsSaveRequestDto.toEntity());
-        //return postsSaveRequestDto;
-    }
 }

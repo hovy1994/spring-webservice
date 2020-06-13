@@ -23,6 +23,10 @@ public class RentSaveRequestDto extends BaseTimeEntity {
 
     private byte[] IMAGE;
 
+    //결제 정보
+    private Integer AMOUNT;
+    private LocalDateTime APPROVED_AT;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime START_TIME;
     private LocalDateTime END_TIME;
@@ -37,6 +41,8 @@ public class RentSaveRequestDto extends BaseTimeEntity {
                 .IMAGE(IMAGE)
                 .START_TIME(START_TIME)
                 .END_TIME(END_TIME)
+                .AMOUNT(AMOUNT)
+                .APPROVED_AT(APPROVED_AT)
                 .build();
     }
 }

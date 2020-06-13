@@ -1,45 +1,77 @@
 package com.example.springwebservice.domain.controller;
 
+import com.example.springwebservice.domain.KakaoPay.KakaoPayApprovalVO;
 import com.example.springwebservice.domain.cabinet.Cabinet;
-import com.example.springwebservice.domain.item.Item;
 import com.example.springwebservice.domain.rent.RentalRequestInfo;
-import com.example.springwebservice.domain.posts.Posts;
-import com.example.springwebservice.domain.posts.PostsRepository;
 import com.example.springwebservice.domain.rent.RentRepository;
+import com.example.springwebservice.service.KakaoPayService;
 import com.example.springwebservice.service.RentalService;
-import com.example.springwebservice.service.mapper.ItemMapper;
 import com.example.springwebservice.service.mapper.MemberMapper;
-import com.example.springwebservice.web.PostsSaveRequestDto;
 import com.example.springwebservice.web.RentSaveRequestDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
+import lombok.extern.java.Log;
 
+@Log
 @Transactional(readOnly = false)
-@RestController // @ResponseBody를 모든 메소드에 적용
+@Controller // @ResponseBody를 모든 메소드에 적용
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class RentalController {
-    private RentalService rentalService;
-    private PostsRepository postsRepository;
-    private RentRepository rentRepository;
+
     @Autowired
     private MemberMapper memberMapper;
+    private RentalService rentalService;
+    private KakaoPayService kakaoPayService;
+    private RentRepository rentRepository;
 
     @PostMapping(path = "/recommendCabinet")
     @GetMapping(path = "/recommendCabinet")
     public ArrayList<Cabinet> recommendCabinet(@RequestBody RentalRequestInfo info){
-        System.out.println("Item Idx : " + info.getItem_idx());
+        System.out.println("Category Idx : " + info.getCategory_idx());
         System.out.println("Start time : " + info.getStart());
         System.out.println("End time : " + info.getEnd());
 
         return rentalService.findCabinet(info);
     }
 
+    @RequestMapping(path = "/Test")
+    public String Test(@RequestBody String st){
+        System.out.println("hello payTest");
+
+        return "redirect:/payTest";
+        //return "kakaoPay";
+    }
+
+    @RequestMapping(path = "/payTest")
+    public String payTest(){
+        System.out.println("redirect 성공");
+
+        return "kakaoPay";
+    }
+
+    @PostMapping(path = "/pay")
+    @GetMapping(path = "/pay")
+    public String kakaoPayRequest(@RequestBody KakaoPayApprovalVO approvalVO){
+        log.info("kakaoPay post............................................");
+
+        return "redirect:" + kakaoPayService.kakaoPayReady(approvalVO);
+    }
+
+    @PostMapping(path = "/kakaoPaySucess")
+    @GetMapping(path = "/kakaoPaySucess")
+    public void kakaoPayRequest(@RequestParam("pg_token") String pg_token, Model model){
+        log.info("kakaoPaySuccess get............................................");
+        log.info("kakaoPaySuccess pg_token : " + pg_token);
+
+        model.addAttribute("info", kakaoPayService.kakaoPayInfo(pg_token));
+    }
 
     @PostMapping(path = "/apply")
     @GetMapping(path = "/apply")
@@ -58,6 +90,8 @@ public class RentalController {
         dto.setSTART_TIME(info.getStart());
         dto.setEND_TIME(info.getEnd());
         dto.setITEM_IDX(info.getItem_idx());
+        dto.setAMOUNT(info.getAMOUNT());
+        dto.setAPPROVED_AT(info.getAPPROVED_AT());
 
         rentRepository.save(dto.toEntity());
 
@@ -71,14 +105,5 @@ public class RentalController {
     }
 
 
-    @RequestMapping(value="/posts",method={ RequestMethod.GET, RequestMethod.POST })
-    public List<Posts> savePosts(@RequestBody PostsSaveRequestDto dto){
-        System.out.println("posts : " + dto.getAuthor());
-        postsRepository.save(dto.toEntity());
-        List<Posts> postsList = postsRepository.findAll();
-
-        Posts posts = postsList.get(0);
-        return postsList;
-    }
 
 }

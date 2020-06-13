@@ -31,13 +31,18 @@ public class Rent{
     
     private byte[] IMAGE;
 
+    //결제 정보
+    private Integer AMOUNT;
+    private LocalDateTime APPROVED_AT;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime START_TIME;
     private LocalDateTime END_TIME;
 
+
     @Builder
     public Rent(Integer IDX, Integer ITEM_IDX, Integer END_CABINET_IDX,Integer START_CABINET_IDX, String USER_ID,
-               byte[] IMAGE,LocalDateTime START_TIME,LocalDateTime END_TIME) {
+               byte[] IMAGE,LocalDateTime START_TIME,LocalDateTime END_TIME,Integer AMOUNT,LocalDateTime APPROVED_AT) {
         this.IDX=IDX;
         this.ITEM_IDX = ITEM_IDX;
         this.START_CABINET_IDX = START_CABINET_IDX;
@@ -46,5 +51,7 @@ public class Rent{
         this.IMAGE = IMAGE;
         this.START_TIME=START_TIME;
         this.END_TIME=END_TIME;
+        this.AMOUNT=AMOUNT;
+        this.APPROVED_AT=APPROVED_AT;
     }
 }
