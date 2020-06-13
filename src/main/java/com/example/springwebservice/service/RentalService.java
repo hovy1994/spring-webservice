@@ -76,17 +76,17 @@ public class RentalService {
         Integer maxIdx=1,maxVal=1;
         for (int i=1;i<cabinetList.size()+1;i++){
             if(cabinet[i]==0) continue;
-            if(minVal>cabinet[i]){
+            if(minVal>=cabinet[i]){
                 minVal=cabinet[i];
                 minIdx=i;
             }
-            if(maxVal<cabinet[i]){
+            if(maxVal<=cabinet[i]){
                 maxVal=cabinet[i];
                 maxIdx=i;
             }
         }
-        availableCabinetList.add(minIdx);
         availableCabinetList.add(maxIdx);
+        availableCabinetList.add(minIdx);
         System.out.println("availableCabinetList size: "+availableCabinetList.size());
         System.out.println("cabinet minIdx: "+minIdx);
         System.out.println("cabinet maxIdx: "+maxIdx);
