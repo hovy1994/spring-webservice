@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 @Mapper
 public interface ItemMapper {
-
     @Select("SELECT * FROM item WHERE CABINET_IDX=#{cabinetIdx}")
     List<Item> findAll(Integer cabinetIdx);
 }

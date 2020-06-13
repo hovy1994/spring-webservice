@@ -1,5 +1,6 @@
 package com.example.springwebservice.service;
 
+import com.example.springwebservice.domain.KakaoPay.Payment;
 import com.example.springwebservice.domain.cabinet.Cabinet;
 import com.example.springwebservice.domain.cabinet.CabinetRepository;
 import com.example.springwebservice.domain.item.Item;
@@ -112,5 +113,6 @@ public class RentalService {
         }
         return null;
     }
+
 
 }

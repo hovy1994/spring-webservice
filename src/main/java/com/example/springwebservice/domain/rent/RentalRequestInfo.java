@@ -22,8 +22,8 @@ public class RentalRequestInfo {
     private Integer recommend; // 추천 사물함 사용했으면 1, 아니면 0
 
     //결제 정보
-    private Integer AMOUNT;
-    private LocalDateTime APPROVED_AT;
+    private Integer total_amount;
+    private LocalDateTime approved_at;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime start;

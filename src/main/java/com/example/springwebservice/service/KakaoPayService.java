@@ -2,10 +2,15 @@ package com.example.springwebservice.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 
 import com.example.springwebservice.domain.KakaoPay.KakaoPayApprovalVO;
 import com.example.springwebservice.domain.KakaoPay.KakaoPayReadyVO;
+import com.example.springwebservice.domain.KakaoPay.Payment;
+import com.example.springwebservice.domain.KakaoPay.PaymentRepository;
+import com.example.springwebservice.domain.rent.RentalRequestInfo;
+import com.example.springwebservice.web.PaymentSaveRequestDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,33 +35,9 @@ public class KakaoPayService {
     private KakaoPayReadyVO kakaoPayReadyVO;
     private KakaoPayApprovalVO kakaoPayApprovalVO;
 
-    //    @PostMapping(path = "/getKakaoAuth")
-//    public String echoKakao(@RequestBody String res) {
-//        MemberSaveRequestDto memberSaveRequestDto = new MemberSaveRequestDto();
-//
-//        JsonParser parser = new JsonParser();
-//        JsonElement element = parser.parse(res);
-//
-//        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-//        //JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-//
-//        String id = element.getAsJsonObject().get("id").getAsString();
-//        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-//        //String email = kakao_account.getAsJsonObject().get("email").getAsString();
-//
-//        memberSaveRequestDto.setUSER_ID(String.valueOf(id));
-//        memberSaveRequestDto.setUSER_NICKNAME(nickname);
-//        memberSaveRequestDto.setUSER_NAME("name");
-//        memberSaveRequestDto.setUSER_PHONE("000-0000-0000");
-//        memberSaveRequestDto.setUSER_PW("1232");
-//
-//        memberRepository.save(memberSaveRequestDto.toEntity());
-//        //System.out.println("id : " + res.getId());
-//
-//        return "nickname : " + nickname;
-//    }
+    private PaymentRepository paymentRepository;
 
-    public String kakaoPayReady(KakaoPayApprovalVO approvalVO) {
+    public String kakaoPayReady(RentalRequestInfo info) {
         RestTemplate restTemplate = new RestTemplate();
 
         // 서버로 요청할 Heaader
@@ -65,19 +46,21 @@ public class KakaoPayService {
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 
+        List<Payment> paymentList = paymentRepository.findAll();
+
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("cid", approvalVO.getCid());
-        params.add("tid",approvalVO.getTid());
-        params.add("partner_order_id", approvalVO.getPartner_order_id());
-        params.add("partner_user_id", approvalVO.getPartner_user_id());
-        params.add("item_name", approvalVO.getItem_name());
-        params.add("quantity", String.valueOf(approvalVO.getQuantity()));
-        params.add("total_amount", String.valueOf(approvalVO.getAmount().getTotal()));
-        params.add("tax_free_amount", String.valueOf(approvalVO.getAmount().getTax_free()));
-        params.add("approval_url", "http://localhost:8080/kakaoPaySuccess");
-        params.add("cancel_url", "http://localhost:8080/kakaoCancel");
-        params.add("fail_url", "http://localhost:8080/kakaoFail");
+        params.add("cid", "123");
+        params.add("tid",String.valueOf(paymentList.size()+1));
+        params.add("partner_order_id", "1004");
+        params.add("partner_user_id", info.getUser_id());
+        params.add("item_name", String.valueOf(info.getItem_idx()));
+        params.add("quantity","1");
+        params.add("total_amount", String.valueOf(info.getTotal_amount()));
+        params.add("tax_free_amount", "0");
+        params.add("approval_url", "http://13.125.236.67:8080/kakaoPaySuccess");
+        params.add("cancel_url", "http://13.125.236.67:8080/kakaoCancel");
+        params.add("fail_url", "http://13.125.236.67:8080/kakaoFail");
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 
@@ -86,7 +69,7 @@ public class KakaoPayService {
 
             log.info("" + kakaoPayReadyVO);
 
-            return kakaoPayReadyVO.getNext_redirect_pc_url();
+            return kakaoPayReadyVO.getNext_redirect_app_url();
         } catch (RestClientException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -94,7 +77,6 @@ public class KakaoPayService {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         return "/pay";
     }
 
@@ -113,18 +95,35 @@ public class KakaoPayService {
 
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        //params.add("cid", "TC0ONETIME");
+
+        params.add("cid", "TC0ONETIME");
+
         params.add("tid", kakaoPayReadyVO.getTid());
-        //params.add("partner_order_id", "1004");
-        //params.add("partner_user_id", "BEBLET_USER1");
-        //params.add("pg_token", pg_token);
-        //params.add("total_amount", "15000");
+        System.out.println("kakaoPayReadVO.getTid(): "+kakaoPayReadyVO.getTid());
+
+        params.add("partner_order_id", "1004");
+        params.add("partner_user_id", "BEBLET_USER1");
+        params.add("pg_token", pg_token);
+        params.add("total_amount", "15000");
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 
         try {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
             log.info("" + kakaoPayApprovalVO);
+
+
+            PaymentSaveRequestDto dto = new PaymentSaveRequestDto();
+            dto.setTID(kakaoPayReadyVO.getTid());
+            dto.setPARTNER_ORDER_ID(kakaoPayApprovalVO.getPartner_order_id());
+            dto.setPARTNER_USER_ID(kakaoPayApprovalVO.getPartner_order_id());
+            dto.setITEM_NAME(kakaoPayApprovalVO.getItem_name());
+            dto.setQUANTITY(kakaoPayApprovalVO.getQuantity());
+            dto.setTOTAL_AMOUNT(kakaoPayApprovalVO.getAmount().getTotal());
+            dto.setTAX_FREE_AMOUNT(kakaoPayApprovalVO.getTax_free_amount());
+
+            paymentRepository.save(dto.toEntity());
+
             return kakaoPayApprovalVO;
         } catch (RestClientException e) {
             // TODO Auto-generated catch block
@@ -136,4 +135,26 @@ public class KakaoPayService {
 
         return null;
     }
+
+    public Payment paySuccess(String tid){
+
+        List<Payment> paymentList=paymentRepository.findAll();
+
+        for(Payment payment: paymentList){
+            if(payment.getTID()==tid){
+                return payment;
+            }
+        }
+        return null;
+    }
+
+//    public void applyCancelService(String tid){
+//        List<Payment> paymentList=paymentRepository.findAll();
+//
+//        for(Payment payment: paymentList){
+//            if(payment.getTID()==tid){
+//
+//            }
+//        }
+//    }
 }
