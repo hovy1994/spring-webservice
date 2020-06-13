@@ -51,12 +51,17 @@ public class KakaoPayService {
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "123");
+        System.out.println("여기1");
         params.add("tid",String.valueOf(paymentList.size()+1));
         params.add("partner_order_id", "1004");
+        System.out.println("여기2");
         params.add("partner_user_id", info.getUser_id());
+        System.out.println("여기3");
         params.add("item_name", String.valueOf(info.getItem_idx()));
         params.add("quantity","1");
+        System.out.println("여기4");
         params.add("total_amount", String.valueOf(info.getTotal_amount()));
+        System.out.println("여기5");
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://13.125.236.67:8080/kakaoPaySuccess");
         params.add("cancel_url", "http://13.125.236.67:8080/kakaoCancel");
