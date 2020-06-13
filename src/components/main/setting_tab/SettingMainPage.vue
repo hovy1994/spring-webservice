@@ -50,6 +50,7 @@ export default {
       var logoutCallBack = function () {
         window.localStorage.removeItem("id");
         window.localStorage.removeItem("pubKey");
+        window.localStorage.removeItem("nickname");
         window.location.reload();
       }
 

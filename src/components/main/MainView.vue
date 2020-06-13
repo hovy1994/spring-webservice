@@ -15,10 +15,15 @@ import ServiceView from './service_tab/ServiceView.vue'
 import MypageView from './mypage_tab/MypageView.vue'
 import SettingView from './setting_tab/SettingView.vue'
 import TopToolBar from '../common/TopToolBar.vue';
+import ListView from "./list_view/ListView.vue";
+
+let listCount = 0;
+
 
 export default {
   data: function() {
     return {
+
       activeIndex: 0,
       tabs: [
         {
@@ -26,6 +31,13 @@ export default {
           label: '서비스',
           page: ServiceView,
           key: "ServiceView",
+        },        
+        {
+          icon: "fa-clipboard-list",
+          label: '리스트',
+          badge: listCount,
+          page: ListView,
+          key: "ListView"
         },
         {
           icon: 'fa-user',
@@ -39,13 +51,25 @@ export default {
           label: '설정',
           page: SettingView,
           key: "settingView"
-        }
+        },
+
       ],
     };
   },
   methods : {
     tabbarChange: function() {
       this.$store.commit('pageIndexChange', this.activeIndex);
+    }
+  },
+  beforeCreate() {
+    if(window.sessionStorage.getItem("tablet") !== null) {
+      listCount += 1;
+    }
+    if(window.sessionStorage.getItem("pen") !== null) {
+      listCount += 1;
+    }
+    if(window.sessionStorage.getItem("keyboard") !== null) {
+      listCount += 1;
     }
   },
   components: {

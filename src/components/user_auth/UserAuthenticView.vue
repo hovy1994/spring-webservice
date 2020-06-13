@@ -52,30 +52,9 @@ export default {
 			KakaoCordovaSDK.unlinkApp(success, failed);
 		},
 		kakaoLoginBtnAction: function() {
-			let loginOptions = {
-				authTypes: [1],
-			};
-			var testObj = {
-        id: "1315156231231",
-        properties: {
-          nickname: "혁",
-        }
-			};
 
-			// this.success(testObj, kakaoLogin);
-
-			// console.log(isLoggedIn);
-			kakaoLogin(testObj);
-			// KakaoCordovaSDK.login(loginOptions, this.success, this.failed);
+      kakaoLogin();
 		},
-		success: async function(res, callback) {
-			var result = await callback(res);
-			// console.log(result);
-			this.$emit("login-success");
-		},
-		failed: function(res) {
-			window.alert(JSON.stringify(res));
-    },
     next: function(){
       this.$emit("next");
     }

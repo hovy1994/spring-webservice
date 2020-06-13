@@ -2,13 +2,15 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import ServiceViewMainPage from './components/main/service_tab/main_page/ServiceViewMainPage.vue';
+import ListViewMainPage from './components/main/list_view/ListViewMainPage.vue';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    pageNameStack: ["BeBlet"],
     pageStack: [ServiceViewMainPage],
+    listPageStack: [ListViewMainPage],
+    kakaoMap: null,
     items: [
       {
         idx: 0,
@@ -68,6 +70,9 @@ export default new Vuex.Store({
     selectedItemIdx: null,
   },
   mutations: {
+    setKakaoMap: function (state, payload) {
+      state.kakaoMap = payload;
+    },
     pageStackPush: function(state, payload) {
       state.pageStack.push(payload.page);
       state.selectedItemIdx = payload.selectedItemIdx;

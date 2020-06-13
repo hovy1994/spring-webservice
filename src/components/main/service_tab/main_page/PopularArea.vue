@@ -14,7 +14,6 @@
       v-bind:width="180"
       v-bind:height="240"
       v-bind:space="170"
-      v-bind:autoplay="true"
       v-bind:disable3d="true">
       <slide v-for="(tablet, i) in items" v-bind:key="i" v-bind:index="i" class="item" v-bind:class="tablet.maker" v-bind:style="'backgroundColor:transparent'">
         <div class="slide_container">

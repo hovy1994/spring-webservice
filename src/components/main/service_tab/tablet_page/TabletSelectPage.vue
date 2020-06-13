@@ -13,20 +13,104 @@
         v-bind:hoveringTooltip="true" 
         v-bind:i18n="datePickerOption" 
         v-bind:currentDateStyle="{border: '1px solid #0076ff'}"
-        v-on:closed="checkTime($event)"
+        v-on:check-in-changed="selectStartDate($event)"
+        v-on:check-out-changed="selectReturnDate($event)"
         ></HotelDatePicker>
     </div>
     <i class="far fa-calendar-alt cal_icon"></i>
+
+    <v-ons-list>
+      <v-ons-list-header class="time_header">대여 시간</v-ons-list-header>
+      <v-ons-list-item>
+        <div class="start_time_select">
+          <v-ons-select calss="rent" v-on:modelEvent="$event === '' ? rentInfoObj.start[3] = 0 :rentInfoObj.start[3] = $event">
+            <option disabled value="" class="time_option">선택</option>
+            <option v-for="time in timePicker" v-bind:key="time" v-bind:value="time" class="time_option" v-if="((startDate !== '') && (((todayDate === startDate) && (time > currentTime)) || (todayDate !== startDate)))">
+              {{ time >= 12 ? "PM " : "AM " }} {{ time > 12 ? time - 12 : time }}:00
+            </option>
+          </v-ons-select>
+        </div>
+      </v-ons-list-item>
+      <v-ons-list-header class="time_header">반납 시간</v-ons-list-header>
+      <v-ons-list-item>
+        <div class="return_time_select">
+          <v-ons-select v-model="returnTime" v-on:modelEvent="$event === '' ? rentInfoObj.end[3] = 0 : rentInfoObj.end[3] = $event">
+            <option disabled value="" class="time_option">선택</option>
+            <option v-for="time in timePicker" v-bind:key="time" v-bind:value="time" class="time_option" v-if="((returnDate !== '') && (((startDate === returnDate) && (time > startTime)) || (startDate !== returnDate)))">
+              {{ time >= 12 ? "PM " : "AM " }} {{ time > 12 ? time - 12 : time }}:00
+            </option>
+          </v-ons-select>
+        </div>
+      </v-ons-list-item>
+
+      <v-ons-list-header class="time_header">대여 장소 선택</v-ons-list-header>
+      <v-ons-list-item>
+        <v-ons-button v-on:click="relayout">지도보기</v-ons-button>
+        <v-ons-dialog
+          :visible.sync="mapOn"
+          >
+          <div class="cancel_btn" v-on:click="mapOn = false">
+            <i class="fas fa-times-circle cancel_btn"></i>
+          </div>
+          <kakao-map 
+            class="map_popup"
+            :appkey="appkey"
+            :center="center"
+            :width="mapWidth"
+            :height="mapHeight"
+            :isShowing="mapOn"
+            ></kakao-map>
+        </v-ons-dialog>
+      </v-ons-list-item>
+
+      <v-ons-list-header class="time_header">반납 장소 선택</v-ons-list-header>
+      <v-ons-list-item>
+        <v-ons-button v-on:click="relayout">지도보기</v-ons-button>
+        <v-ons-dialog
+          :visible.sync="mapOn"
+          >
+          <div class="cancel_btn" v-on:click="mapOn = false">
+            <i class="fas fa-times-circle cancel_btn"></i>
+          </div>
+          <kakao-map 
+            class="map_popup"
+            :appkey="appkey"
+            :center="center"
+            :width="mapWidth"
+            :height="mapHeight"
+            :isShowing="mapOn"
+            ></kakao-map>
+        </v-ons-dialog>
+      </v-ons-list-item>
+    </v-ons-list>
+
+    <div class="confirm_btn">
+      <!-- <v-ons-button modifier="outline" v-on:click="addListAlert">
+        <i class="fas fa-clipboard-list"></i>리스트 추가
+      </v-ons-button> -->
+      <v-ons-button v-on:click="commit">
+        <i class="fas fa-sign-out-alt"></i>대여 신청
+      </v-ons-button>
+    </div>
+
+    <!-- <v-ons-alert-dialog modifier="rowfooter"
+      :visible.sync="listAddDialog"
+    >
+      <span slot="title" v-bind:style="'fontWeight:800'">리스트 추가</span>
+      리스트에 해당 아이템 추가 후<br>
+      아이템 선택창으로 이동합니다.
+      <template slot="footer">
+        <v-ons-alert-dialog-button v-on:click="listAddDialog = false">취소</v-ons-alert-dialog-button>
+        <v-ons-alert-dialog-button v-on:click="addList">추가</v-ons-alert-dialog-button>
+      </template>
+    </v-ons-alert-dialog> -->
 
   </v-ons-page>
 </template>
 
 <script>
 import HotelDatePicker from 'vue-hotel-datepicker'
-
-// var popProcess = async function() {
-
-// }
+import KakaoMap from './KakaoMap.vue'
 
 export default {
   key: "TabletSelectPage",
@@ -42,44 +126,123 @@ export default {
         'check-out': '반납일',
         'month-names': ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
       },
-      startTime: "",
+      timePicker: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
+      
+      startDate: "",
+      returnDate: "",
+      startTime: 0,
+      returnTime: 0,
+      
+      rentInfoObj: {
+        userId: window.localStorage.getItem("id"),
+        itemIdx: -1,
+        start: [0, 0, 0, 0, 0, 0],
+        end: [0, 0, 0, 0, 0, 0],
+        recommemd: 0,
+        start_cabinet_idx: 1,
+        end_cabinet_idx: 2
+      },
+      listAddDialog: false,
+      mapOn: false,
+
+      showMap: false,
+      appkey:'a04f05666032a9ee976b653738fe4b63',
+      center:[37.449366, 126.654386],
+      mapWidth: 100,
+      mapHeight: 100
     }
   },
   methods: {
+    relayout: function () {
+      this.mapOn = true; 
+      // this.$store.state.KakaoMap.relayout();
+      console.log("called");
+      
+    },
+    commit: function () {
+      console.log(JSON.parse(JSON.stringify(this.rentInfoObj)));
+    },
     popPage: function ($event) {
       $event.preventDefault();
       this.$store.commit("pageStackPop");
     },
-    checkTime: function ($event) {
-      let dateObj = new Date($event._data.checkIn);
-      let year = dateObj.getFullYear();
-      let month = dateObj.getMonth() + 1;
-      let day = dateObj.getDay();
-      let dateStr = year + "-";
-      if (month < 10) {
-        month = "0" + month;
+    selectStartDate: function ($event) {
+      if($event === null) {
+        this.startDate = "";
+        return;
       }
-      if (date < 10) {
-        date = "0" + date;
-      }
-      dateStr += month;
-      dateStr += "-";
-      dateStr += date;
+      let startDateObj = new Date($event);
+      let startYear = startDateObj.getFullYear();
+      let startMonth = startDateObj.getMonth() + 1;
+      let startDate = startDateObj.getDate();
+      this.rentInfoObj.start[0] = startYear;
+      this.rentInfoObj.start[1] = startMonth;
+      this.rentInfoObj.start[2] = startDate;
 
-      if(dateStr === this.todayDate) {
-        let todayObj = new Date();
-        let curHour = todayObj.getHours();
-        
-        curHour += 1;
-
-        if (curHour > 24) {
-          curHour = 0;
-        }
+      let startDateStr = startYear + "-";
+      if (startMonth < 10) {
+        startMonth = "0" + startMonth;
       }
-    }
+      if (startDate < 10) {
+        startDate = "0" + startDate;
+      }
+      startDateStr += startMonth;
+      startDateStr += "-";
+      startDateStr += startDate;
+
+      this.startDate = startDateStr;
+    },
+    selectReturnDate: function ($event) { 
+      if($event === null) {
+        this.returnDate = "";
+        return;
+      }
+      let returnDateObj = new Date($event);
+      let returnYear = returnDateObj.getFullYear();
+      let returnMonth = returnDateObj.getMonth() + 1;
+      let returnDate = returnDateObj.getDate();
+
+      this.rentInfoObj.end[0] = returnYear;
+      this.rentInfoObj.end[1] = returnMonth;
+      this.rentInfoObj.end[2] = returnDate;
+
+
+      let returnDateStr = returnYear + "-";
+      if (returnMonth < 10) {
+        returnMonth = "0" + returnMonth;
+      }
+      if (returnDate < 10) {
+        returnDate = "0" + returnDate;
+      }
+      returnDateStr += returnMonth;
+      returnDateStr += "-";
+      returnDateStr += returnDate;
+      this.returnDate = returnDateStr;
+    },
+    addListAlert: function () {
+      if(this.startDate !== "" && this.returnDate !== "" && this.startTime !== 0 && this.returnTime !== 0) {
+        this.listAddDialog = true;
+      } else{
+        this.$ons.notification.alert("대여 정보를 입력해주세요.");
+      }
+    },
+    addList: function () {
+      if(window.sessionStorage.getItem("tablet") !== null) {
+        this.listAddDialog = false;
+        this.$ons.notification.alert("이미 리스트에 태블릿이 존재합니다.");
+      }
+      else {
+        window.sessionStorage.setItem("tablet", JSON.stringify(this.rentInfoObj));
+        // while(this.$store.state.pageStack.length !== 1) {
+        //   this.$store.commit("pageStackPop");
+        // }
+        location.reload();
+      }
+    },
   },
   computed: {
     selectedTablet: function () {
+      this.rentInfoObj.itemIdx = this.$store.getters.selectedItem.idx;
       return this.$store.getters.selectedItem;
     },
     todayDate: function () {
@@ -98,13 +261,22 @@ export default {
       dateStr += "-";
       dateStr += date;
 
-      console.log(dateStr);
 
       return dateStr;
+    },
+    currentTime: function () {
+      let todayObj = new Date();
+      let hours = todayObj.getHours(); // 시
+
+      return hours;
+    },
+    id: function () {
+      return window.localStorage.getItem("id");
     }
   },
   components: {
-    HotelDatePicker
+    HotelDatePicker,
+    KakaoMap
   }
 }
 </script>
@@ -141,7 +313,86 @@ export default {
   bottom: 15px;
 }
 
+.select-input {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 23px;
+  left: 10%;
+  position: relative;
+}
 
+.time_select {
+  position: relative;
+}
+
+.start_time_select {
+  width: 85%;
+  display: block;
+}
+
+.start_time_select * {
+  width: 100%;
+  height: 15%;
+}
+
+.return_time_select {
+  width: 85%;
+  display: block;
+}
+
+.return_time_select * {
+  width: 100%;
+  height: 15%;
+}
+
+.time_option {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 23px;
+  position: absolute;
+  left: 10%;
+}
+
+.confirm_btn {
+  position: relative;
+  margin: 10%;
+  text-align: center;
+}
+.button{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  width: 43%;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.list-header.time_header {
+  background-color: white;
+  background-image: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  left: 3%;
+}
+
+.dialog {
+  width: 90%;
+  height: 80%;
+}
+
+.map_popup {
+  height: 100%;
+}
+
+.dialog-container {
+  position: relative;
+  height: 100%;
+}
+
+.cancel_btn {
+  display: inline-block;
+  position: absolute;
+  color: black;
+  font-size: 30px;
+  z-index: 2;
+}
 
 /*
   date Picker
