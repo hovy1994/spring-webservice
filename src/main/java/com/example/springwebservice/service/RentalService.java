@@ -57,6 +57,7 @@ public class RentalService {
                 Integer cabinet_idx=item.getCABINET_IDX();
                 cabinet[cabinet_idx]++;
                 if(cabinet[cabinet_idx]==1){
+                    System.out.println("cabinet_idx: "+cabinet_idx);
                     availableCabinetList.add(cabinet_idx);
                 }
             }
@@ -74,6 +75,7 @@ public class RentalService {
         Integer minIdx=1, minVal=itemList.size();
         Integer maxIdx=1,maxVal=1;
         for (int i=1;i<cabinetList.size()+1;i++){
+            if(cabinet[i]==0) continue;
             if(minVal>cabinet[i]){
                 minVal=cabinet[i];
                 minIdx=i;
@@ -85,8 +87,9 @@ public class RentalService {
         }
         availableCabinetList.add(minIdx);
         availableCabinetList.add(maxIdx);
-
-        System.out.println("여기야1");
+        System.out.println("availableCabinetList size: "+availableCabinetList.size());
+        System.out.println("cabinet minIdx: "+minIdx);
+        System.out.println("cabinet maxIdx: "+maxIdx);
         return matchCabinet(availableCabinetList);
     }
     public List<Item> findItemList(Integer cabinetIdx){

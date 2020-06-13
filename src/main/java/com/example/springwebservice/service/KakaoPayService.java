@@ -68,6 +68,7 @@ public class KakaoPayService {
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", approvalVO.getCid());
+        params.add("tid",approvalVO.getTid());
         params.add("partner_order_id", approvalVO.getPartner_order_id());
         params.add("partner_user_id", approvalVO.getPartner_user_id());
         params.add("item_name", approvalVO.getItem_name());
