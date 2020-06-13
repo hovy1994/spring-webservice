@@ -38,6 +38,7 @@ public class RentalService {
                 }
             }
         }
+        System.out.println("cabinets size: "+cabinets.size());
         return cabinets;
     }
 
@@ -50,7 +51,7 @@ public class RentalService {
         int cabinet[]=new int[cabinetList.size()+1];
         for (Item item:itemList){
 
-            if(item.getCATEGORY_IDX()!=info.getItem_idx()) continue;
+            if(item.getCATEGORY_IDX()!=info.getCategory_idx()) continue;
 
             if(item.getSTART_TIME()==null){
                 Integer cabinet_idx=item.getCABINET_IDX();
@@ -84,6 +85,8 @@ public class RentalService {
         }
         availableCabinetList.add(minIdx);
         availableCabinetList.add(maxIdx);
+
+        System.out.println("여기야1");
         return matchCabinet(availableCabinetList);
     }
     public List<Item> findItemList(Integer cabinetIdx){

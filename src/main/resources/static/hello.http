@@ -1,12 +1,9 @@
-POST http://13.125.236.67:8080/apply
-#POST http://localhost:8080/apply
+#POST http://13.125.236.67:8080/apply
+POST http://localhost:8080/recommendCabinet
 Content-Type: application/json
 
 {
-  "user_id": "john456",
-  "start_cabinet_idx": 3,
-  "end_cabinet_idx": 1,
-  "item_idx": 1,
+  "category_idx": 1,
   "start": [
     2016,
     1,

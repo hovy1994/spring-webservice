@@ -20,7 +20,7 @@ import lombok.extern.java.Log;
 
 @Log
 @Transactional(readOnly = false)
-@Controller // @ResponseBody를 모든 메소드에 적용
+@RestController // @ResponseBody를 모든 메소드에 적용
 @AllArgsConstructor
 @CrossOrigin(origins = "*")
 public class RentalController {
@@ -41,20 +41,20 @@ public class RentalController {
         return rentalService.findCabinet(info);
     }
 
-    @RequestMapping(path = "/Test")
-    public String Test(@RequestBody String st){
-        System.out.println("hello payTest");
-
-        return "redirect:/payTest";
-        //return "kakaoPay";
-    }
-
-    @RequestMapping(path = "/payTest")
-    public String payTest(){
-        System.out.println("redirect 성공");
-
-        return "kakaoPay";
-    }
+//    @RequestMapping(path = "/Test")
+//    public String Test(@RequestBody String st){
+//        System.out.println("hello payTest");
+//
+//        return "redirect:/payTest";
+//        //return "kakaoPay";
+//    }
+//
+//    @RequestMapping(path = "/payTest")
+//    public String payTest(){
+//        System.out.println("redirect 성공");
+//
+//        return "kakaoPay";
+//    }
 
     @PostMapping(path = "/pay")
     @GetMapping(path = "/pay")
