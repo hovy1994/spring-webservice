@@ -48,7 +48,7 @@ public class KakaoPayService {
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 
         System.out.println("여기15");
-        List<Payment> paymentList = paymentRepository.findAll();
+        //List<Payment> paymentList = paymentRepository.findAll();
 
         System.out.println("여기19");
         // 서버로 요청할 Body
