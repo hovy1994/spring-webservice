@@ -24,6 +24,7 @@ import javax.crypto.Cipher;
 import com.example.springwebservice.domain.member.LoginAuthInfo;
 import com.example.springwebservice.domain.member.Member;
 import com.example.springwebservice.domain.member.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonElement;
@@ -35,6 +36,8 @@ public class KakaoLoginService {
     private static final int KEY_SIZE = 1024;
     private static final String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPSsWLEFCcQZbQ5Ls0OHqOioSGW9F6aS52CrxIMovwy7bawFNh4wIV3SNQDoPCaN0VW16cBb86UEExz4DcvpJ/39q6wFzYNZDfcdG32cGsAecIioLPiBWrd3G2wlR6n3FL84IN4Mq59DTHpclvprW2C2Gmwx0XYPdNdiz3VBxxVQIDAQAB";
     private static final String PRIVATE_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAM9KxYsQUJxBltDkuzQ4eo6KhIZb0XppLnYKvEgyi/DLttrAU2HjAhXdI1AOg8Jo3RVbXpwFvzpQQTHPgNy+kn/f2rrAXNg1kN9x0bfZwawB5wiKgs+IFat3cbbCVHqfcUvzgg3gyrn0NMelyW+mtbYLYabDHRdg9012LPdUHHFVAgMBAAECgYB1ihdTUC/1OjezQU9pP/E2bBLTQLMaLxP6OQIkCg1Rv6FyjoV5RshC7357gY9yqBVca8/MtnGFNkaRYPDXunPEakGn/orFmghmW9em6obwGErYCwpxbK6/H9ucE73a4XZyTDv1StXwGziIe0oy52cnJs/1tHCD+5FOKSjTsIpVgQJBAPt0ZF31hXmTpiDZ2oyTKVHOk2GuqwvJViyUn1aVbofuzG8HnNfDVvommnDSZAmIj1l7jZkceIec49bIlV3N2fUCQQDTCgRZeGLXjwaSFt3KFEeut9oI+k3WyIO7yDmvHuAB3ozA26zjSGJbDd5e/WHBjLJsb9UOptyPQrdsUxCdbr3hAkBNsDAyN2D9pvh0vdogBHeHpuMyEt0Vzyaor2JrRc/Yf5b51shGgTumHbcplFcD+wUPCHU/EOTMQVTDT0WWrbrhAkAT7shGYxaC4aFvPvWn1o6GtBrF6k5b0QiQPfMk1Te3NXv540XLGdUgYIj2U9xd2Zoon89x2NTQOy7z7kyNch5BAkEAwH4pI7JjMecI4YMFwBuXLLsLwhxGaqert2n4HgZvAq687NMZtWfUiTkhyqzHr8V3mp7zGFYBgRPyPK6DUIXb+Q==";
+
+    @Autowired
     private MemberRepository memberRepository;
 
     public String getPublicKey () {
