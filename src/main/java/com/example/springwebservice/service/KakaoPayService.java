@@ -11,6 +11,7 @@ import com.example.springwebservice.domain.KakaoPay.Payment;
 import com.example.springwebservice.domain.KakaoPay.PaymentRepository;
 import com.example.springwebservice.domain.rent.RentalRequestInfo;
 import com.example.springwebservice.web.PaymentSaveRequestDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -32,9 +33,11 @@ public class KakaoPayService {
 
     private static final String HOST = "https://kapi.kakao.com";
 
+
     private KakaoPayReadyVO kakaoPayReadyVO;
     private KakaoPayApprovalVO kakaoPayApprovalVO;
 
+    @Autowired
     private PaymentRepository paymentRepository;
 
     public String kakaoPayReady(RentalRequestInfo info) {
@@ -49,7 +52,7 @@ public class KakaoPayService {
 
         System.out.println("여기15");
         int tid = (int)paymentRepository.count();
-        tid++;
+
         System.out.println("여기19");
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
