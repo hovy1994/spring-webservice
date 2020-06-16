@@ -31,6 +31,7 @@ public class WebRestController {
 
     @GetMapping("/hello")
     public String hello() {
+
         return "HelloWorld"; // helloworld 문자열을 json 형태로 반환
     }
 

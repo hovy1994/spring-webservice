@@ -2,6 +2,7 @@ package com.example.springwebservice.domain.controller;
 
 import com.example.springwebservice.domain.KakaoPay.KakaoPayApprovalVO;
 import com.example.springwebservice.domain.KakaoPay.Payment;
+import com.example.springwebservice.domain.KakaoPay.PaymentRepository;
 import com.example.springwebservice.domain.cabinet.Cabinet;
 import com.example.springwebservice.domain.rent.RentalRequestInfo;
 import com.example.springwebservice.domain.rent.RentRepository;
@@ -19,6 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import lombok.extern.java.Log;
 
 @Log
@@ -34,6 +37,17 @@ public class RentalController {
     private RentalService rentalService;
     private KakaoPayService kakaoPayService;
     private RentRepository rentRepository;
+    private PaymentRepository paymentRepository;
+
+    @GetMapping("/hello1")
+    public String hello1() {
+
+        int tmp = (int)paymentRepository.count();
+        System.out.println("tmp size: "+tmp);
+        List<Payment> paymentList = paymentRepository.findAll();
+        System.out.println("size: "+paymentList.size());
+        return "HelloWorld"; // helloworld 문자열을 json 형태로 반환
+    }
 
 
     @PostMapping(path = "/recommendCabinet")
