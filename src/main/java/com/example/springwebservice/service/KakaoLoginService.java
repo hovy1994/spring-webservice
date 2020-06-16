@@ -175,23 +175,27 @@ public class KakaoLoginService {
         return false;
     }
     public boolean join(LoginAuthInfo info) {
-        if (PUBLIC_KEY.equals(info.getPubKey())) {
-            //res.id 가지고 회원가입 로직
-            String userId = decode(info.getEncryptedUserId());
-            System.out.println(userId + "님 회원가입 완료!");
-            return true;
-        }
-        return false;
+        System.out.println(info.getUserId() + "님 회원가입 완료!");
+        return true;
+//        if (PUBLIC_KEY.equals(info.getPubKey())) {
+//            //res.id 가지고 회원가입 로직
+//            //String userId = decode(info.getEncryptedUserId());
+//            System.out.println(userId + "님 회원가입 완료!");
+//            return true;
+//        }
+//        return false;
     }
 
     public boolean login(LoginAuthInfo info) {
-        if (PUBLIC_KEY.equals(info.getPubKey())) {
-            //res.id 가지고 로그인 로직
-            String userId = decode(info.getEncryptedUserId());
-            System.out.println(userId + "님 로그인 완료!");
-            return true;
-        }
-        return false;
+        System.out.println(info.getUserId() + "님 로그인 완료!");
+        return true;
+//        if (PUBLIC_KEY.equals(info.getPubKey())) {
+//            //res.id 가지고 로그인 로직
+//            //String userId = decode(info.getEncryptedUserId());
+//            System.out.println(info.getUserId() + "님 로그인 완료!");
+//            return true;
+//        }
+//        return false;
     }
 
 }

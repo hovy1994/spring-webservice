@@ -44,9 +44,9 @@ public class LoginController {
         KakaoLoginTokenResponse res = new KakaoLoginTokenResponse();
         res.setLoggedIn(false);
         if(kakaoLoginService.join(info)) {
-            if(!kakaoLoginService.isMember(info.getEncryptedUserId())){
+            if(!kakaoLoginService.isMember(info.getUserId())){
                 MemberSaveRequestDto memberSaveRequestDto = new MemberSaveRequestDto();
-                memberSaveRequestDto.setUSER_ID(kakaoLoginService.decode(info.getEncryptedUserId()));
+                memberSaveRequestDto.setUSER_ID(info.getUserId());
                 memberSaveRequestDto.setUSER_NICKNAME(info.getNickname());
 //                memberSaveRequestDto.setUSER_NAME("name");
 //                memberSaveRequestDto.setUSER_PHONE("000-0000-0000");

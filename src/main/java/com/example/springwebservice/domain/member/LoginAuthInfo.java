@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class LoginAuthInfo {
-    private String encryptedUserId;
+    private String userId;
     private String pubKey;
     private String nickname;
 }
