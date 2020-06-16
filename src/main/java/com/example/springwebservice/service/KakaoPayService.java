@@ -56,7 +56,7 @@ public class KakaoPayService {
         System.out.println("여기19");
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("cid", "123");
+        params.add("cid", String.valueOf(tid*1000));
         System.out.println("여기1");
         params.add("tid",String.valueOf(tid));
         params.add("partner_order_id", "1004");
