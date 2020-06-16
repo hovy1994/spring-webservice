@@ -82,7 +82,8 @@ public class RentalController {
 
         KakaoPayApprovalVO approvalVO = new KakaoPayApprovalVO();
 
-        return "redirect:" + kakaoPayService.kakaoPayReady(info);
+        //return "redirect:" + kakaoPayService.kakaoPayReady(info);
+        return kakaoPayService.kakaoPayReady(info);
     }
 
     @PostMapping(path = "/kakaoPaySucess")
