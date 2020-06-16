@@ -86,18 +86,22 @@ public class KakaoPayService {
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 
         try {
+            System.out.println("여기20-1");
             kakaoPayReadyVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyVO.class);
-
+            System.out.println("여기20-2");
             log.info("" + kakaoPayReadyVO);
-
+            System.out.println("여기21");
             return kakaoPayReadyVO.getNext_redirect_app_url();
         } catch (RestClientException e) {
+            System.out.println("여기22");
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (URISyntaxException e) {
+            System.out.println("여기23");
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        System.out.println("여기24");
         return "/pay";
     }
 
