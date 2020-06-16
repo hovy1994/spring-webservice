@@ -51,6 +51,7 @@ public class LoginController {
 //                memberSaveRequestDto.setUSER_NAME("name");
 //                memberSaveRequestDto.setUSER_PHONE("000-0000-0000");
 //                memberSaveRequestDto.setUSER_PW("1232");
+                memberSaveRequestDto.setSTAMP(0);
 
                 memberRepository.save(memberSaveRequestDto.toEntity());
             }

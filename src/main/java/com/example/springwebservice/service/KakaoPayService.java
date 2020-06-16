@@ -3,6 +3,7 @@ package com.example.springwebservice.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Random;
 
 
 import com.example.springwebservice.domain.KakaoPay.KakaoPayApprovalVO;
@@ -53,10 +54,12 @@ public class KakaoPayService {
         System.out.println("여기15");
         int tid = (int)paymentRepository.count();
 
+        Random rand = new Random();
+        String tmp=String.valueOf(tid*10)+"-"+String.valueOf(rand.nextInt(10000));
         System.out.println("여기19");
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("cid", String.valueOf(tid*1000));
+        params.add("cid", tmp);
         System.out.println("여기1");
         params.add("tid",String.valueOf(tid));
         params.add("partner_order_id", "1004");
