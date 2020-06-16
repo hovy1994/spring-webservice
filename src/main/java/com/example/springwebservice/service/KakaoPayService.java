@@ -55,7 +55,9 @@ public class KakaoPayService {
         int tid = (int)paymentRepository.count();
 
         Random rand = new Random();
-        String tmp=String.valueOf(tid*10)+"-"+String.valueOf(rand.nextInt(10000));
+        String tmp = String.valueOf(tid*10+rand.nextInt(100));
+        while(tmp.length()==10) tmp="0"+tmp;
+        //String tmp=String.valueOf(tid*10)+"-"+String.valueOf(rand.nextInt(10000));
         System.out.println("여기19");
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
