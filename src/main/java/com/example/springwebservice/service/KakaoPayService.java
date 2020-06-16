@@ -54,14 +54,14 @@ public class KakaoPayService {
         System.out.println("여기15");
         int tid = (int)paymentRepository.count();
 
-        Random rand = new Random();
-        String tmp = String.valueOf(tid*10+rand.nextInt(100));
-        while(tmp.length()==10) tmp="0"+tmp;
+//        Random rand = new Random();
+//        String tmp = String.valueOf(tid*10+rand.nextInt(100));
+//        while(tmp.length()==10) tmp="0"+tmp;
         //String tmp=String.valueOf(tid*10)+"-"+String.valueOf(rand.nextInt(10000));
         System.out.println("여기19");
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("cid", tmp);
+        params.add("cid", "TC0ONETIME");
         System.out.println("여기1");
         params.add("partner_order_id", "1004");
         System.out.println("여기2");
