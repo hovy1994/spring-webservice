@@ -78,6 +78,7 @@ public class RentalController {
         dto.setTOTAL_AMOUNT(info.getTotal_amount());
         dto.setQUANTITY(1);
         dto.setITEM_NAME(String.valueOf(info.getItem_idx()));
+        dto.setSTART_TIME(info.getStart());
         dto.setPARTNER_USER_ID(info.getUser_id());
         dto.setPARTNER_ORDER_ID(info.getUser_id());
         paymentRepository.save(dto.toEntity());
