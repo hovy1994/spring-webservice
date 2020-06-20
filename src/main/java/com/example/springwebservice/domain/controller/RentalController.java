@@ -83,8 +83,7 @@ public class RentalController {
     }
 
     // 사용자의 결제 내역 리스트 리턴
-    @GetMapping(path = "/returnPaymentList")
-    @PostMapping(path= "/returnPaymentList")
+    @RequestMapping(value="/returnPaymentList",method={ RequestMethod.GET, RequestMethod.POST })
     public List<Payment> returnPayment(@RequestBody RentalRequestInfo info){  // null 리턴되면 결제 제대로 안된 것
         List<Payment> payment=kakaoPayService.returnPaymentList(info.getUser_id());
 
@@ -92,8 +91,7 @@ public class RentalController {
     }
 
     // 사용자의 대여 내역 리스트 리턴
-    @GetMapping(path = "/returnRentList")
-    @PostMapping(path="/returnRentList")
+    @RequestMapping(value="/returnRentList",method={ RequestMethod.GET, RequestMethod.POST })
     public List<Rent> returnRent(@RequestBody RentalRequestInfo info){  // null 리턴되면 결제 제대로 안된 것
         List<Rent> rent=rentalService.returnRentList(info.getUser_id());
 
@@ -101,8 +99,7 @@ public class RentalController {
     }
 
     // 물품 반납 -> rent 정보 업데이트(상태:이용 완료), item 정보 업데이트(상태: 이용 가능)
-    @GetMapping(path="/returnItem")
-    @PostMapping(path="/returnItem")
+    @RequestMapping(value="/returnItem",method={ RequestMethod.GET, RequestMethod.POST })
     public void returnItem(@RequestBody RentalRequestInfo info){
         rentMapper.updateRent(info.getUser_id());
         Rent rent = rentMapper.updateRentInfo(info.getUser_id());
@@ -110,8 +107,7 @@ public class RentalController {
     }
 
     // 대여 신청 -> item, rent, member 정보 업데이트 및 추가
-    @PostMapping(path = "/apply")
-    @GetMapping(path = "/apply")
+    @RequestMapping(value="/apply",method={ RequestMethod.GET, RequestMethod.POST })
     public RentSaveRequestDto apply(@RequestBody RentalRequestInfo info){
         System.out.println("User Id : " + info.getUser_id());
         System.out.println("Start Cabinet Idx : " + info.getStart_cabinet_idx());
@@ -129,8 +125,7 @@ public class RentalController {
 
 
     // 신청 취소 -> 결제 취소 및 대여 내역 삭제
-    @PostMapping(path = "/kakaoCancel")
-    @GetMapping(path = "/kakaoCancel")
+    @RequestMapping(value="/kakaoCancel",method={ RequestMethod.GET, RequestMethod.POST })
     public KakaoPayCancelVO kakaoCancel(@RequestBody RentalRequestInfo info){
         log.info("kakaoCancel post............................................");
 
