@@ -44,16 +44,14 @@ public class KakaoPayService {
     private RentMapper rentMapper;
 
     public String kakaoPayReady(RentalRequestInfo info) {
-        System.out.println("여기10");
+        System.out.println("kakaoPayReady");
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println("여기11");
         // 서버로 요청할 Heaader
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "KakaoAK " + "16dbafbd576dc51ec0cb7a3ade20a721");
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 
-        System.out.println("여기15");
         int tid = (int)paymentRepository.count();
 
         PaymentSaveRequestDto dto =new PaymentSaveRequestDto();
@@ -67,24 +65,14 @@ public class KakaoPayService {
         dto.setPARTNER_ORDER_ID(info.getUser_id());
         paymentRepository.save(dto.toEntity());
 
-//        Random rand = new Random();
-//        String tmp = String.valueOf(tid*10+rand.nextInt(100));
-//        while(tmp.length()==10) tmp="0"+tmp;
-        //String tmp=String.valueOf(tid*10)+"-"+String.valueOf(rand.nextInt(10000));
-        System.out.println("여기19");
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
-        System.out.println("여기1");
         params.add("partner_order_id", "1004");
-        System.out.println("여기2");
         params.add("partner_user_id", info.getUser_id());
-        System.out.println("여기3");
         params.add("item_name", String.valueOf(info.getItem_idx()));
         params.add("quantity","1");
-        System.out.println("여기4");
         params.add("total_amount", String.valueOf(info.getTotal_amount()));
-        System.out.println("여기5");
         params.add("tax_free_amount", "0");
 
 
@@ -92,26 +80,19 @@ public class KakaoPayService {
         params.add("cancel_url", "http://13.125.236.67:8080/kakaoCancel");
         params.add("fail_url", "http://13.125.236.67:8080/kakaoFail");
 
-        System.out.println("여기20");
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 
         try {
-            System.out.println("여기20-1");
             kakaoPayReadyVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyVO.class);
-            System.out.println("여기20-2");
             log.info("" + kakaoPayReadyVO);
-            System.out.println("여기21");
             return kakaoPayReadyVO.getNext_redirect_app_url();
         } catch (RestClientException e) {
-            System.out.println("여기22");
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (URISyntaxException e) {
-            System.out.println("여기23");
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        System.out.println("여기24");
         return "/kakaoPay";
     }
 

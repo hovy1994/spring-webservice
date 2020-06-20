@@ -98,6 +98,7 @@ public class RentalController {
         List<Rent> rent=rentalService.returnRentList(info.getUser_id());
 
         System.out.println("서버 이상 없음");
+        System.out.println("rent list size: "+ rent.size());
         return rent;
     }
 
@@ -116,6 +117,7 @@ public class RentalController {
         System.out.println("Start Cabinet Idx : " + info.getStart_cabinet_idx());
 
         RentSaveRequestDto dto= rentalService.applyService(info);
+        System.out.println("Start time: "+dto.getSTART_TIME());
         rentRepository.save(dto.toEntity());
 
         // stamp 추가 -> member 정보 update

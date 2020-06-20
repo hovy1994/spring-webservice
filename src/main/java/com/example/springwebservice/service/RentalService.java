@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,16 +117,19 @@ public class RentalService {
                 break;
             }
         }
+        System.out.println("item_idx: "+item_idx);
         dto.setITEM_IDX(item_idx);
         dto.setUSER_ID(info.getUser_id());
         dto.setSTART_TIME(info.getStart());
         dto.setEND_TIME(info.getEnd());
         dto.setITEM_IDX(info.getItem_idx());
         dto.setAMOUNT(info.getTotal_amount());
-        dto.setAPPROVED_AT(info.getApproved_at());
+        dto.setCATEGORY_IDX(info.getCategory_idx());
+        dto.setAPPROVED_AT(LocalDateTime.now());
         dto.setSTART_CABINET_IDX(info.getStart_cabinet_idx());
         dto.setEND_CABINET_IDX(info.getEnd_cabinet_idx());
 
+        System.out.println("rent 정보 dto setting");
         return dto;
     }
     public List<Item> findItemList(Integer cabinetIdx){
