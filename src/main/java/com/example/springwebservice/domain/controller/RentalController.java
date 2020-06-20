@@ -12,6 +12,7 @@ import com.example.springwebservice.service.KakaoPayService;
 import com.example.springwebservice.service.RentalService;
 import com.example.springwebservice.service.mapper.MemberMapper;
 import com.example.springwebservice.service.mapper.PaymentMapper;
+import com.example.springwebservice.service.mapper.RentMapper;
 import com.example.springwebservice.web.PaymentSaveRequestDto;
 import com.example.springwebservice.web.RentSaveRequestDto;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,7 @@ public class RentalController {
     @Autowired
     private MemberMapper memberMapper;
     private PaymentMapper paymentMapper;
+    private RentMapper rentMapper;
     private RentalService rentalService;
     private KakaoPayService kakaoPayService;
     private RentRepository rentRepository;
@@ -97,6 +99,7 @@ public class RentalController {
 
         return payment;
     }
+    
     @GetMapping(path = "/returnRentList")
     public List<Rent> returnRent(String user_id){  // null 리턴되면 결제 제대로 안된 것
         List<Rent> rent=rentalService.returnRentList(user_id);
@@ -104,6 +107,10 @@ public class RentalController {
         return rent;
     }
 
+    @GetMapping(path="/returnItem")
+    public void returnItem(String user_id){
+        rentMapper.updateRent(user_id);
+    }
     @PostMapping(path = "/apply")
     @GetMapping(path = "/apply")
     public RentSaveRequestDto apply(@RequestBody RentalRequestInfo info){

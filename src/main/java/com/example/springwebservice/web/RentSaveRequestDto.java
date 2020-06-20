@@ -22,6 +22,7 @@ public class RentSaveRequestDto extends BaseTimeEntity {
     private String USER_ID;
 
     private byte[] IMAGE;
+    private Integer STATE;
 
     //결제 정보
     private Integer AMOUNT;
@@ -42,6 +43,7 @@ public class RentSaveRequestDto extends BaseTimeEntity {
                 .START_TIME(START_TIME)
                 .END_TIME(END_TIME)
                 .AMOUNT(AMOUNT)
+                .STATE(STATE)
                 .APPROVED_AT(APPROVED_AT)
                 .build();
     }
