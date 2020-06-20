@@ -93,8 +93,11 @@ public class RentalController {
     // 사용자의 대여 내역 리스트 리턴
     @RequestMapping(value="/returnRentList",method={ RequestMethod.GET, RequestMethod.POST })
     public List<Rent> returnRent(@RequestBody RentalRequestInfo info){  // null 리턴되면 결제 제대로 안된 것
+        System.out.println("request info.getUserId"+info.getUser_id());
+
         List<Rent> rent=rentalService.returnRentList(info.getUser_id());
 
+        System.out.println("서버 이상 없음");
         return rent;
     }
 
