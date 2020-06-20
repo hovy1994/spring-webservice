@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kakao Pay Cancel Success</title>
+</head>
+<body>
+
+카카오페이 결제 취소가 정상적으로 완료되었습니다.
+
+승인 코드:     [[${info.aid}]]<br/>
+주문 번호:    [[${info.tid}]]<br/>
+상태:    [[${info.status}]]<br/>
+결제 방법 : [[${info.payment_method_type}]]<br/>
+상품 이름:    [[${info.item_name}]]<br/>
+상품 수량:    [[${info.quantity}]]<br/>
+amount total:    [[${info.amount.total}]]<br/>
+amount vat : [[${info.amount.vat}]]<br/>
+canceled_amount total : [[${info.canceled_amount.total}]]<br/>
+canceled_amount vat : [[${info.canceled_amount.vat}]]<br/>
+cancel_available_amount total: [[${info.cancel_available_amount.total}]]<br/>
+cancel_available_amount vat : [[${info.cancel_available_amount.vat}]]<br/>
+created_at : [[${info.created_at}]]<br/>
+approved_at : [[${info.approved_at}]]<br/>
+canceled_at : [[${info.canceled_at}]]<br/>
+
+<h2>[[${info}]]</h2>
+
+</body>
+</html>
