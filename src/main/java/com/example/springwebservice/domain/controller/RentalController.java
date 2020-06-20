@@ -1,9 +1,11 @@
 package com.example.springwebservice.domain.controller;
 
 import com.example.springwebservice.domain.KakaoPay.KakaoPayApprovalVO;
+import com.example.springwebservice.domain.KakaoPay.KakaoPayCancelVO;
 import com.example.springwebservice.domain.KakaoPay.Payment;
 import com.example.springwebservice.domain.KakaoPay.PaymentRepository;
 import com.example.springwebservice.domain.cabinet.Cabinet;
+import com.example.springwebservice.domain.rent.Rent;
 import com.example.springwebservice.domain.rent.RentalRequestInfo;
 import com.example.springwebservice.domain.rent.RentRepository;
 import com.example.springwebservice.service.KakaoPayService;
@@ -98,11 +100,17 @@ public class RentalController {
     }
 
 
-    @GetMapping(path = "/payCheck")
-    public Payment payCheck(String tid){  // null 리턴되면 결제 제대로 안된 것
-        Payment payment=kakaoPayService.paySuccess(tid);
+    @GetMapping(path = "/returnPaymentList")
+    public List<Payment> returnPayment(String user_id){  // null 리턴되면 결제 제대로 안된 것
+        List<Payment> payment=kakaoPayService.returnPaymentList(user_id);
 
         return payment;
+    }
+    @GetMapping(path = "/returnRentList")
+    public List<Rent> returnRent(String user_id){  // null 리턴되면 결제 제대로 안된 것
+        List<Rent> rent=rentalService.returnRentList(user_id);
+
+        return rent;
     }
 
     @PostMapping(path = "/apply")
@@ -137,16 +145,11 @@ public class RentalController {
 
     @PostMapping(path = "/kakaoCancel")
     @GetMapping(path = "/kakaoCancel")
-    public void kakaoCancel(String tid){
+    public KakaoPayCancelVO kakaoCancel(String user_id){
+        log.info("kakaoCancel post............................................");
 
-        /*
-        * 카카오페이 취소 구현
-        * */
-
-        // 신청 내역(Payment)에서 삭제
-        //Payment payment = paymentMapper.findPayment(tid);
-
-        //paymentMapper.deletePayment(tid);
+        kakaoPayService.applyCancelService(user_id);
+        return kakaoPayService.kakaoCancelGO(user_id);
     }
 
 }

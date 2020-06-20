@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Random;
 
 
-import com.example.springwebservice.domain.KakaoPay.KakaoPayApprovalVO;
-import com.example.springwebservice.domain.KakaoPay.KakaoPayReadyVO;
-import com.example.springwebservice.domain.KakaoPay.Payment;
-import com.example.springwebservice.domain.KakaoPay.PaymentRepository;
+import com.example.springwebservice.domain.KakaoPay.*;
+import com.example.springwebservice.domain.rent.Rent;
 import com.example.springwebservice.domain.rent.RentalRequestInfo;
+import com.example.springwebservice.service.mapper.PaymentMapper;
+import com.example.springwebservice.service.mapper.RentMapper;
 import com.example.springwebservice.web.PaymentSaveRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -34,12 +34,14 @@ public class KakaoPayService {
 
     private static final String HOST = "https://kapi.kakao.com";
 
-
+    private KakaoPayCancelVO kakaoPayCancelVO1;
     private KakaoPayReadyVO kakaoPayReadyVO;
     private KakaoPayApprovalVO kakaoPayApprovalVO;
 
     @Autowired
     private PaymentRepository paymentRepository;
+    private PaymentMapper paymentMapper;
+    private RentMapper rentMapper;
 
     public String kakaoPayReady(RentalRequestInfo info) {
         System.out.println("여기10");
@@ -165,25 +167,63 @@ public class KakaoPayService {
         return null;
     }
 
-    public Payment paySuccess(String tid){
+    public List<Payment> returnPaymentList(String user_id){
+        List<Payment> payment = paymentMapper.findPaymentList(user_id);
 
-        List<Payment> paymentList=paymentRepository.findAll();
+        return payment;
+    }
 
-        for(Payment payment: paymentList){
-            if(payment.getTID()==tid){
-                return payment;
-            }
+    public void applyCancelService(String user_id){
+        rentMapper.deleteRent(user_id);
+        paymentMapper.updatePayment(user_id);
+    }
+
+
+
+    public KakaoPayCancelVO kakaoCancelGO(String user_id) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        // 서버로 요청할 Heaader
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "KakaoAK " + "52fe79625ce67af1245667efbb7ae4de");
+        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+
+        List<Payment> paymentList=paymentMapper.findPaymentList(user_id);
+        Payment payment=paymentList.get(0);
+
+        // 서버로 요청할 Body
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("tid", payment.getTID());
+        params.add("cancel_amount", String.valueOf(payment.getTOTAL_AMOUNT()));
+        params.add("cancel_tax_free_amount", "0");
+
+        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+
+        try {
+            kakaoPayCancelVO1 = restTemplate.postForObject(new URI(HOST + "/v1/payment/cancel"), body, KakaoPayCancelVO.class);
+
+            log.info("" + kakaoPayCancelVO1);
+
+            System.out.println("aid : " + kakaoPayCancelVO1.aid.toString());
+            System.out.println("tid : " + kakaoPayCancelVO1.tid.toString());
+            System.out.println("status : " + kakaoPayCancelVO1.status.toString());
+            System.out.println("payment_method_type : " + kakaoPayCancelVO1.payment_method_type.toString());
+            System.out.println("item_name : " + kakaoPayCancelVO1.item_name.toString());
+            System.out.println("quantity : " + Integer.toString(kakaoPayCancelVO1.quantity));
+            System.out.println("amount's total : " + Integer.toString(kakaoPayCancelVO1.amount.total));
+            System.out.println("canceled_amount total : " + Integer.toString(kakaoPayCancelVO1.canceled_amount.total));
+            System.out.println("cancel_available_amount : " + Integer.toString(kakaoPayCancelVO1.cancel_available_amount.total));
+            return kakaoPayCancelVO1;
+        } catch (RestClientException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         return null;
     }
 
-//    public void applyCancelService(String tid){
-//        List<Payment> paymentList=paymentRepository.findAll();
-//
-//        for(Payment payment: paymentList){
-//            if(payment.getTID()==tid){
-//
-//            }
-//        }
-//    }
 }

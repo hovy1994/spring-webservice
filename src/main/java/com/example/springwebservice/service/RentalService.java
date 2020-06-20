@@ -5,10 +5,12 @@ import com.example.springwebservice.domain.cabinet.Cabinet;
 import com.example.springwebservice.domain.cabinet.CabinetRepository;
 import com.example.springwebservice.domain.item.Item;
 import com.example.springwebservice.domain.item.ItemRepository;
+import com.example.springwebservice.domain.rent.Rent;
 import com.example.springwebservice.domain.rent.RentalRequestInfo;
 import com.example.springwebservice.domain.member.MemberRepository;
 import com.example.springwebservice.service.mapper.ItemMapper;
 import com.example.springwebservice.service.mapper.MemberMapper;
+import com.example.springwebservice.service.mapper.RentMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class RentalService {
     @Autowired
     private ItemMapper itemMapper;
     private MemberMapper memberMapper;
+    private RentMapper rentMapper;
 
     public ArrayList<Cabinet> matchCabinet(ArrayList<Integer> availableCabinetList){
         ArrayList<Cabinet> cabinets=new ArrayList<Cabinet>();
@@ -98,6 +101,7 @@ public class RentalService {
 
         return itemList;
     }
+
     public Item findAvailableItem(RentalRequestInfo info){
         System.out.print("Cabinet idx: "+info.getStart_cabinet_idx());
         List<Item> itemList=findItemList(info.getStart_cabinet_idx());
@@ -114,5 +118,10 @@ public class RentalService {
         return null;
     }
 
+    public List<Rent> returnRentList(String user_id){
+        List<Rent> rent = rentMapper.findRentList(user_id);
+
+        return rent;
+    }
 
 }
