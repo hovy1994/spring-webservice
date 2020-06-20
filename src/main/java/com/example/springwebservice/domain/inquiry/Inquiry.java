@@ -27,17 +27,15 @@ public class Inquiry extends BaseTimeEntity{
 
     private String CONTENT;
 
-    private byte[] REQUEST_IMAGE;
-
-    //private LocalDateTime REQUEST_DATE;
+    private LocalDateTime REQUEST_DATE;
 
     @Builder
-    public Inquiry(Integer IDX, Integer USER_IDX, String TITLE, String CONTENT, byte[] REQUEST_IMAGE) {
+    public Inquiry(Integer IDX, Integer USER_IDX, String TITLE, String CONTENT,LocalDateTime REQUEST_DATE) {
         this.IDX=IDX;
         this.USER_IDX = USER_IDX;
         this.CONTENT=CONTENT;
         this.TITLE = TITLE;
-        this.REQUEST_IMAGE = REQUEST_IMAGE;
+        this.REQUEST_DATE=REQUEST_DATE;
     }
 
 }

@@ -22,7 +22,6 @@ public class RentSaveRequestDto extends BaseTimeEntity {
     private Integer END_CABINET_IDX;
     private String USER_ID;
 
-    private byte[] IMAGE;
     private Integer STATE;
 
     //결제 정보
@@ -41,7 +40,6 @@ public class RentSaveRequestDto extends BaseTimeEntity {
                 .START_CABINET_IDX(START_CABINET_IDX)
                 .END_CABINET_IDX(END_CABINET_IDX)
                 .USER_ID(USER_ID)
-                .IMAGE(IMAGE)
                 .START_TIME(START_TIME)
                 .END_TIME(END_TIME)
                 .AMOUNT(AMOUNT)

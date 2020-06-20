@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -69,6 +70,7 @@ public class WebRestController {
 
     @RequestMapping(value="/inquiry",method={ RequestMethod.GET, RequestMethod.POST })
     public void saveInquiry(@RequestBody InquirySaveRequestDto dto) {
+        dto.setREQUEST_DATE(LocalDateTime.now());
         inquiryRepository.save(dto.toEntity());
     }
 

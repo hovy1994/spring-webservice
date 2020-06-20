@@ -29,8 +29,7 @@ public class Rent{
     private Integer END_CABINET_IDX;
 
     private String USER_ID;
-    
-    private byte[] IMAGE;
+
 
     private Integer STATE;
 
@@ -45,14 +44,13 @@ public class Rent{
 
     @Builder
     public Rent(Integer IDX, Integer ITEM_IDX, Integer END_CABINET_IDX,Integer START_CABINET_IDX, String USER_ID,Integer CATEGORY_IDX,
-               byte[] IMAGE,LocalDateTime START_TIME,LocalDateTime END_TIME,Integer AMOUNT,Integer STATE,LocalDateTime APPROVED_AT) {
+               LocalDateTime START_TIME,LocalDateTime END_TIME,Integer AMOUNT,Integer STATE,LocalDateTime APPROVED_AT) {
         this.IDX=IDX;
         this.ITEM_IDX = ITEM_IDX;
         this.CATEGORY_IDX=CATEGORY_IDX;
         this.START_CABINET_IDX = START_CABINET_IDX;
         this.END_CABINET_IDX=END_CABINET_IDX;
         this.USER_ID = USER_ID;
-        this.IMAGE = IMAGE;
         this.START_TIME=START_TIME;
         this.END_TIME=END_TIME;
         this.AMOUNT=AMOUNT;
