@@ -30,7 +30,7 @@ public class LoginController {
 
 //	@PostMapping(path = "/encode")
 //	public String encodePlainData(@RequestBody KakaoLoginTokenResponse res) {
-//		return service.encode(res.getId());
+//		return kakaoLoginService.encode(res.getId());
 //	}
 
     @PostMapping(path = "/decode")
@@ -62,29 +62,4 @@ public class LoginController {
         return res;
     }
 
-//    @PostMapping(path = "/getKakaoAuth")
-//    public String echoKakao(@RequestBody String res) {
-//        MemberSaveRequestDto memberSaveRequestDto = new MemberSaveRequestDto();
-//
-//        JsonParser parser = new JsonParser();
-//        JsonElement element = parser.parse(res);
-//
-//        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-//        //JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-//
-//        String id = element.getAsJsonObject().get("id").getAsString();
-//        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-//        //String email = kakao_account.getAsJsonObject().get("email").getAsString();
-//
-//        memberSaveRequestDto.setUSER_ID(String.valueOf(id));
-//        memberSaveRequestDto.setUSER_NICKNAME(nickname);
-//        memberSaveRequestDto.setUSER_NAME("name");
-//        memberSaveRequestDto.setUSER_PHONE("000-0000-0000");
-//        memberSaveRequestDto.setUSER_PW("1232");
-//
-//        memberRepository.save(memberSaveRequestDto.toEntity());
-//        //System.out.println("id : " + res.getId());
-//
-//        return "nickname : " + nickname;
-//    }
 }

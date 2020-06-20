@@ -66,13 +66,10 @@ public class WebRestController {
 
         return itemList;
     }
-    @RequestMapping(value="/inquiry",method={ RequestMethod.GET, RequestMethod.POST })
-    public Inquiry saveInquiry(@RequestBody InquirySaveRequestDto dto) {
-        inquiryRepository.save(dto.toEntity());
-        List<Inquiry> inquiryList = inquiryRepository.findAll();
 
-        Inquiry inquiry = inquiryList.get(0);
-        return inquiry;
+    @RequestMapping(value="/inquiry",method={ RequestMethod.GET, RequestMethod.POST })
+    public void saveInquiry(@RequestBody InquirySaveRequestDto dto) {
+        inquiryRepository.save(dto.toEntity());
     }
 
 

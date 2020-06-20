@@ -101,7 +101,7 @@ public class KakaoPayService {
             System.out.println("여기20-2");
             log.info("" + kakaoPayReadyVO);
             System.out.println("여기21");
-            return kakaoPayReadyVO.getNext_redirect_pc_url();
+            return kakaoPayReadyVO.getNext_redirect_app_url();
         } catch (RestClientException e) {
             System.out.println("여기22");
             // TODO Auto-generated catch block

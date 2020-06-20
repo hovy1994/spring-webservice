@@ -47,7 +47,7 @@ public class RentalController {
     private PaymentRepository paymentRepository;
 
 
-
+    // 사용자가 대여할 물품과 시간을 선택하면 이용 가능 캐비넷과 추천 캐비넷 정보(리스트) 반환
     @PostMapping(path = "/recommendCabinet")
     @GetMapping(path = "/recommendCabinet")
     public ArrayList<Cabinet> recommendCabinet(@RequestBody RentalRequestInfo info){
@@ -58,6 +58,7 @@ public class RentalController {
         return rentalService.findCabinet(info);
     }
 
+    // 카카오페이 결제 요청
     @PostMapping(path = "/kakaoPay")
     @GetMapping(path = "/kakaoPay")
     public String kakaoPayRequest(@RequestBody RentalRequestInfo info){
@@ -69,6 +70,7 @@ public class RentalController {
         return kakaoPayService.kakaoPayReady(info);
     }
 
+    // 카카오페이 성공하면 카카오 서버에서 이 api로 리다이렉트
     @PostMapping(path = "/kakaoPaySucess")
     @GetMapping(path = "/kakaoPaySucess")
     public KakaoPayApprovalVO kakaoPayRequest(@RequestParam("pg_token") String pg_token, Model model){
@@ -80,7 +82,7 @@ public class RentalController {
         return (KakaoPayApprovalVO)model.getAttribute("info");
     }
 
-
+    // 사용자의 결제 내역 리스트 리턴
     @GetMapping(path = "/returnPaymentList")
     public List<Payment> returnPayment(String user_id){  // null 리턴되면 결제 제대로 안된 것
         List<Payment> payment=kakaoPayService.returnPaymentList(user_id);
@@ -88,6 +90,7 @@ public class RentalController {
         return payment;
     }
 
+    // 사용자의 대여 내역 리스트 리턴
     @GetMapping(path = "/returnRentList")
     public List<Rent> returnRent(String user_id){  // null 리턴되면 결제 제대로 안된 것
         List<Rent> rent=rentalService.returnRentList(user_id);
@@ -95,12 +98,15 @@ public class RentalController {
         return rent;
     }
 
+    // 물품 반납 -> rent 정보 업데이트(상태:이용 완료), item 정보 업데이트(상태: 이용 가능)
     @GetMapping(path="/returnItem")
     public void returnItem(String user_id){
         rentMapper.updateRent(user_id);
         Rent rent = rentMapper.updateRentInfo(user_id);
         itemMapper.updateReturnItem(rent.getITEM_IDX());
     }
+
+    // 대여 신청 -> item, rent, member 정보 업데이트 및 추가
     @PostMapping(path = "/apply")
     @GetMapping(path = "/apply")
     public RentSaveRequestDto apply(@RequestBody RentalRequestInfo info){
@@ -119,6 +125,7 @@ public class RentalController {
     }
 
 
+    // 신청 취소 -> 결제 취소 및 대여 내역 삭제
     @PostMapping(path = "/kakaoCancel")
     @GetMapping(path = "/kakaoCancel")
     public KakaoPayCancelVO kakaoCancel(String user_id){
