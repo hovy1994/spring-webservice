@@ -5,11 +5,13 @@ import com.example.springwebservice.domain.KakaoPay.KakaoPayCancelVO;
 import com.example.springwebservice.domain.KakaoPay.Payment;
 import com.example.springwebservice.domain.KakaoPay.PaymentRepository;
 import com.example.springwebservice.domain.cabinet.Cabinet;
+import com.example.springwebservice.domain.item.Item;
 import com.example.springwebservice.domain.rent.Rent;
 import com.example.springwebservice.domain.rent.RentalRequestInfo;
 import com.example.springwebservice.domain.rent.RentRepository;
 import com.example.springwebservice.service.KakaoPayService;
 import com.example.springwebservice.service.RentalService;
+import com.example.springwebservice.service.mapper.ItemMapper;
 import com.example.springwebservice.service.mapper.MemberMapper;
 import com.example.springwebservice.service.mapper.PaymentMapper;
 import com.example.springwebservice.service.mapper.RentMapper;
@@ -36,6 +38,7 @@ public class RentalController {
 
     @Autowired
     private MemberMapper memberMapper;
+    private ItemMapper itemMapper;
     private PaymentMapper paymentMapper;
     private RentMapper rentMapper;
     private RentalService rentalService;
@@ -54,21 +57,6 @@ public class RentalController {
 
         return rentalService.findCabinet(info);
     }
-
-//    @RequestMapping(path = "/Test")
-//    public String Test(@RequestBody String st){
-//        System.out.println("hello payTest");
-//
-//        return "redirect:/payTest";
-//        //return "kakaoPay";
-//    }
-//
-//    @RequestMapping(path = "/payTest")
-//    public String payTest(){
-//        System.out.println("redirect 성공");
-//
-//        return "kakaoPay";
-//    }
 
     @PostMapping(path = "/kakaoPay")
     @GetMapping(path = "/kakaoPay")
@@ -99,7 +87,7 @@ public class RentalController {
 
         return payment;
     }
-    
+
     @GetMapping(path = "/returnRentList")
     public List<Rent> returnRent(String user_id){  // null 리턴되면 결제 제대로 안된 것
         List<Rent> rent=rentalService.returnRentList(user_id);
@@ -110,6 +98,8 @@ public class RentalController {
     @GetMapping(path="/returnItem")
     public void returnItem(String user_id){
         rentMapper.updateRent(user_id);
+        Rent rent = rentMapper.updateRentInfo(user_id);
+        itemMapper.updateReturnItem(rent.getITEM_IDX());
     }
     @PostMapping(path = "/apply")
     @GetMapping(path = "/apply")
@@ -117,19 +107,7 @@ public class RentalController {
         System.out.println("User Id : " + info.getUser_id());
         System.out.println("Start Cabinet Idx : " + info.getStart_cabinet_idx());
 
-        RentSaveRequestDto dto=new RentSaveRequestDto();
-
-        dto.setSTART_CABINET_IDX(info.getStart_cabinet_idx());
-        dto.setEND_CABINET_IDX(info.getEnd_cabinet_idx());
-        //dto.setITEM_IDX(applyItem.getITEM_IDX());
-        dto.setUSER_ID(info.getUser_id());
-        dto.setSTART_TIME(info.getStart());
-        dto.setEND_TIME(info.getEnd());
-        dto.setITEM_IDX(info.getItem_idx());
-        dto.setAMOUNT(info.getTotal_amount());
-        dto.setAPPROVED_AT(info.getApproved_at());
-
-        rentRepository.save(dto.toEntity());
+        RentSaveRequestDto dto= rentalService.applyService(info);
 
         // stamp 추가 -> member 정보 update
         if(info.getRecommend()==1)

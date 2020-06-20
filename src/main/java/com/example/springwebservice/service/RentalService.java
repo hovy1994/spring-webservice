@@ -6,11 +6,13 @@ import com.example.springwebservice.domain.cabinet.CabinetRepository;
 import com.example.springwebservice.domain.item.Item;
 import com.example.springwebservice.domain.item.ItemRepository;
 import com.example.springwebservice.domain.rent.Rent;
+import com.example.springwebservice.domain.rent.RentRepository;
 import com.example.springwebservice.domain.rent.RentalRequestInfo;
 import com.example.springwebservice.domain.member.MemberRepository;
 import com.example.springwebservice.service.mapper.ItemMapper;
 import com.example.springwebservice.service.mapper.MemberMapper;
 import com.example.springwebservice.service.mapper.RentMapper;
+import com.example.springwebservice.web.RentSaveRequestDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,14 +25,17 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class RentalService {
-    private CabinetRepository cabinetRepository;
-    private ItemRepository itemRepository;
-    private MemberRepository memberRepository;
+
 
     @Autowired
     private ItemMapper itemMapper;
     private MemberMapper memberMapper;
     private RentMapper rentMapper;
+    private RentRepository rentRepository;
+    private CabinetRepository cabinetRepository;
+    private ItemRepository itemRepository;
+    private MemberRepository memberRepository;
+
 
     public ArrayList<Cabinet> matchCabinet(ArrayList<Integer> availableCabinetList){
         ArrayList<Cabinet> cabinets=new ArrayList<Cabinet>();
@@ -95,6 +100,34 @@ public class RentalService {
         System.out.println("cabinet minIdx: "+minIdx);
         System.out.println("cabinet maxIdx: "+maxIdx);
         return matchCabinet(availableCabinetList);
+    }
+    public RentSaveRequestDto applyService(RentalRequestInfo info){
+        RentSaveRequestDto dto=new RentSaveRequestDto();
+
+        dto.setSTART_CABINET_IDX(info.getStart_cabinet_idx());
+        dto.setEND_CABINET_IDX(info.getEnd_cabinet_idx());
+
+        List<Item> itemList= itemMapper.findItemList(info.getCategory_idx());
+
+        Integer item_idx=0;
+        for(Item item: itemList){
+            if(item.getSTATE()==1){
+                item_idx=item.getITEM_IDX();
+                itemMapper.updateUsedItem(item_idx);
+                break;
+            }
+        }
+        dto.setITEM_IDX(item_idx);
+        dto.setUSER_ID(info.getUser_id());
+        dto.setSTART_TIME(info.getStart());
+        dto.setEND_TIME(info.getEnd());
+        dto.setITEM_IDX(info.getItem_idx());
+        dto.setAMOUNT(info.getTotal_amount());
+        dto.setAPPROVED_AT(info.getApproved_at());
+
+        rentRepository.save(dto.toEntity());
+
+        return dto;
     }
     public List<Item> findItemList(Integer cabinetIdx){
         List<Item> itemList= itemMapper.findAll(cabinetIdx);
