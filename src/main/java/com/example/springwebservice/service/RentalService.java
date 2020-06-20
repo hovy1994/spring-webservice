@@ -126,8 +126,6 @@ public class RentalService {
         dto.setSTART_CABINET_IDX(info.getStart_cabinet_idx());
         dto.setEND_CABINET_IDX(info.getEnd_cabinet_idx());
 
-        rentRepository.save(dto.toEntity());
-
         return dto;
     }
     public List<Item> findItemList(Integer cabinetIdx){

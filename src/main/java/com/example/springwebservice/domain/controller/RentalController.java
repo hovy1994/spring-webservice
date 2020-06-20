@@ -116,6 +116,7 @@ public class RentalController {
         System.out.println("Start Cabinet Idx : " + info.getStart_cabinet_idx());
 
         RentSaveRequestDto dto= rentalService.applyService(info);
+        rentRepository.save(dto.toEntity());
 
         // stamp 추가 -> member 정보 update
         if(info.getRecommend()==1)
