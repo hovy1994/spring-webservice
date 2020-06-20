@@ -84,7 +84,7 @@ public class RentalController {
 
     // 사용자의 결제 내역 리스트 리턴
     @GetMapping(path = "/returnPaymentList")
-    @PostMapping(path="/returnPaymentList")
+    @PostMapping(path= "/returnPaymentList")
     public List<Payment> returnPayment(@RequestBody RentalRequestInfo info){  // null 리턴되면 결제 제대로 안된 것
         List<Payment> payment=kakaoPayService.returnPaymentList(info.getUser_id());
 

@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 @Mapper
 public interface ItemMapper {
-    @Select("SELECT * FROM item WHERE CABINET_IDX=#{cabinetIdx}")
-    List<Item> findAll(Integer cabinetIdx);
+    @Select("SELECT * FROM item WHERE START_CABINET_IDX=#{startCabinetIdx}")
+    List<Item> findAll(Integer startCabinetIdx);
 
     @Select("SELECT * FROM item WHERE CATEGORY_IDX=#{category_idx}")
     List<Item> findItemList(Integer category_idx);
