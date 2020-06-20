@@ -26,7 +26,6 @@ import java.util.List;
 @Service
 public class RentalService {
 
-
     @Autowired
     private ItemMapper itemMapper;
     private MemberMapper memberMapper;
@@ -63,7 +62,7 @@ public class RentalService {
             if(item.getCATEGORY_IDX()!=info.getCategory_idx()) continue;
 
             if(item.getSTART_TIME()==null){
-                Integer cabinet_idx=item.getCABINET_IDX();
+                Integer cabinet_idx=item.getSTART_CABINET_IDX();
                 cabinet[cabinet_idx]++;
                 if(cabinet[cabinet_idx]==1){
                     System.out.println("cabinet_idx: "+cabinet_idx);
@@ -74,7 +73,7 @@ public class RentalService {
             else if(info.getStart().isBefore(item.getEND_TIME())&&item.getEND_TIME().isBefore(info.getEnd())) continue;
             else if(info.getStart().isBefore(item.getSTART_TIME())&&item.getSTART_TIME().isBefore(info.getEnd())) continue;
             else{
-                Integer cabinet_idx=item.getCABINET_IDX();
+                Integer cabinet_idx=item.getSTART_CABINET_IDX();
                 cabinet[cabinet_idx]++;
                 if(cabinet[cabinet_idx]==1){
                     availableCabinetList.add(cabinet_idx);
@@ -124,6 +123,8 @@ public class RentalService {
         dto.setITEM_IDX(info.getItem_idx());
         dto.setAMOUNT(info.getTotal_amount());
         dto.setAPPROVED_AT(info.getApproved_at());
+        dto.setSTART_CABINET_IDX(info.getStart_cabinet_idx());
+        dto.setEND_CABINET_IDX(info.getEnd_cabinet_idx());
 
         rentRepository.save(dto.toEntity());
 

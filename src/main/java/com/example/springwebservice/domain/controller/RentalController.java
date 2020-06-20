@@ -84,6 +84,7 @@ public class RentalController {
 
     // 사용자의 결제 내역 리스트 리턴
     @GetMapping(path = "/returnPaymentList")
+    @PostMapping(path="/returnPaymentList")
     public List<Payment> returnPayment(String user_id){  // null 리턴되면 결제 제대로 안된 것
         List<Payment> payment=kakaoPayService.returnPaymentList(user_id);
 
@@ -92,6 +93,7 @@ public class RentalController {
 
     // 사용자의 대여 내역 리스트 리턴
     @GetMapping(path = "/returnRentList")
+    @PostMapping(path="/returnRentList")
     public List<Rent> returnRent(String user_id){  // null 리턴되면 결제 제대로 안된 것
         List<Rent> rent=rentalService.returnRentList(user_id);
 
@@ -100,6 +102,7 @@ public class RentalController {
 
     // 물품 반납 -> rent 정보 업데이트(상태:이용 완료), item 정보 업데이트(상태: 이용 가능)
     @GetMapping(path="/returnItem")
+    @PostMapping(path="/returnItem")
     public void returnItem(String user_id){
         rentMapper.updateRent(user_id);
         Rent rent = rentMapper.updateRentInfo(user_id);
