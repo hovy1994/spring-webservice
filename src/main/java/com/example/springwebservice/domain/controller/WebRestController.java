@@ -6,9 +6,13 @@ import com.example.springwebservice.domain.inquiry.InquiryRepository;
 import com.example.springwebservice.domain.cabinet.CabinetRepository;
 import com.example.springwebservice.domain.item.Item;
 import com.example.springwebservice.domain.item.ItemRepository;
+import com.example.springwebservice.domain.member.Member;
 import com.example.springwebservice.domain.member.MemberRepository;
+import com.example.springwebservice.service.mapper.MemberMapper;
 import com.example.springwebservice.web.InquirySaveRequestDto;
+import com.example.springwebservice.web.MemberSaveRequestDto;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +26,12 @@ import static org.junit.Assert.assertThat;
 @CrossOrigin(origins = "*")
 public class WebRestController {
 
+    @Autowired
     private InquiryRepository inquiryRepository;
     private MemberRepository memberRepository;
     private CabinetRepository cabinetRepository;
     private ItemRepository itemRepository;
-
+    private MemberMapper memberMapper;
 
 
     @GetMapping("/hello")
@@ -41,6 +46,17 @@ public class WebRestController {
     }
 
 
+    @RequestMapping(value="/userInfo",method={ RequestMethod.GET, RequestMethod.POST })
+    public Member userInfo(@RequestBody MemberSaveRequestDto userDto){
+        Member member=memberMapper.findUser(userDto.getUSER_ID());
+        return member;
+    }
+
+    @RequestMapping(value="/changeUserInfo",method={ RequestMethod.GET, RequestMethod.POST })
+    public void changeUserInfo(@RequestBody MemberSaveRequestDto userDto){
+        Member member=memberMapper.findUser(userDto.getUSER_ID());
+        memberMapper.updateUser(userDto.getUSER_ID(),userDto.getUSER_NICKNAME());
+    }
 
     @Cacheable(value="memberCache")  // cache name을 value로
     @GetMapping(path = "/itemList")

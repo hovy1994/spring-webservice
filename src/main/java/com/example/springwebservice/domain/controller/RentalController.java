@@ -39,15 +39,6 @@ public class RentalController {
     private RentRepository rentRepository;
     private PaymentRepository paymentRepository;
 
-    @GetMapping("/hello1")
-    public String hello1() {
-
-        int tmp = (int)paymentRepository.count();
-        System.out.println("tmp size: "+tmp);
-        List<Payment> paymentList = paymentRepository.findAll();
-        System.out.println("size: "+paymentList.size());
-        return "HelloWorld"; // helloworld 문자열을 json 형태로 반환
-    }
 
 
     @PostMapping(path = "/recommendCabinet")
@@ -75,12 +66,21 @@ public class RentalController {
 //        return "kakaoPay";
 //    }
 
-    @PostMapping(path = "/pay")
-    @GetMapping(path = "/pay")
+    @PostMapping(path = "/kakaoPay")
+    @GetMapping(path = "/kakaoPay")
     public String kakaoPayRequest(@RequestBody RentalRequestInfo info){
         log.info("kakaoPay post............................................");
 
-        KakaoPayApprovalVO approvalVO = new KakaoPayApprovalVO();
+        PaymentSaveRequestDto dto =new PaymentSaveRequestDto();
+        dto.setTAX_FREE_AMOUNT(0);
+        dto.setTOTAL_AMOUNT(info.getTotal_amount());
+        dto.setQUANTITY(1);
+        dto.setITEM_NAME(String.valueOf(info.getItem_idx()));
+        dto.setPARTNER_USER_ID(info.getUser_id());
+        dto.setPARTNER_ORDER_ID(info.getUser_id());
+        paymentRepository.save(dto.toEntity());
+
+        //KakaoPayApprovalVO approvalVO = new KakaoPayApprovalVO();
 
         //return "redirect:" + kakaoPayService.kakaoPayReady(info);
         return kakaoPayService.kakaoPayReady(info);
@@ -144,9 +144,9 @@ public class RentalController {
         * */
 
         // 신청 내역(Payment)에서 삭제
-        Payment payment = paymentMapper.findPayment(tid);
+        //Payment payment = paymentMapper.findPayment(tid);
 
-        paymentMapper.deletePayment(tid);
+        //paymentMapper.deletePayment(tid);
     }
 
 }

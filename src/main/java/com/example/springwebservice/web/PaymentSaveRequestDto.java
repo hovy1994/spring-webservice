@@ -2,11 +2,13 @@ package com.example.springwebservice.web;
 
 
 import com.example.springwebservice.domain.KakaoPay.Payment;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -27,6 +29,10 @@ public class PaymentSaveRequestDto {
 
     private Integer TAX_FREE_AMOUNT;
 
+    private Integer IDX;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime START_TIME;
+
     public Payment toEntity(){
         return Payment.builder()
                 .PARTNER_ORDER_ID(PARTNER_ORDER_ID)
@@ -36,6 +42,8 @@ public class PaymentSaveRequestDto {
                 .QUANTITY(QUANTITY)
                 .TOTAL_AMOUNT(TOTAL_AMOUNT)
                 .TAX_FREE_AMOUNT(TAX_FREE_AMOUNT)
+                .IDX(IDX)
+                .START_TIME(START_TIME)
                 .build();
     }
 }
