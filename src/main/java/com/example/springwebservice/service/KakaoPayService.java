@@ -30,7 +30,7 @@ import com.google.gson.JsonParser;
 import lombok.extern.java.Log;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @Log
 public class KakaoPayService {
 
@@ -160,11 +160,11 @@ public class KakaoPayService {
         return payment;
     }
 
-    @Transactional
+    //@Transactional
     public void applyCancelService(String user_id){
         System.out.println("service- user_id: "+user_id);
         //rentMapper.deleteRent(user_id);
-        rentMapper.calcelRent(user_id);
+        //rentMapper.cancelRent(user_id);
         System.out.println("delete rent information");
         paymentMapper.updatePayment(user_id);
         System.out.println("update payment");
