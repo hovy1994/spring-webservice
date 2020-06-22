@@ -128,8 +128,9 @@ public class RentalService {
         dto.setAPPROVED_AT(LocalDateTime.now());
         dto.setSTART_CABINET_IDX(info.getStart_cabinet_idx());
         dto.setEND_CABINET_IDX(info.getEnd_cabinet_idx());
-
+        dto.setSTATE(1);
         System.out.println("rent 정보 dto setting");
+
         return dto;
     }
     public List<Item> findItemList(Integer cabinetIdx){

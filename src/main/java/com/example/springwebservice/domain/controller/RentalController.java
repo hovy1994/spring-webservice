@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +91,18 @@ public class RentalController {
         return payment;
     }
 
+    //
+    public String CancleOrReturn(@RequestBody RentalRequestInfo info){
+        List<Rent> rentList=rentalService.returnRentList(info.getUser_id());
+        for(Rent rent:rentList){
+            if(rent.getIDX()==info.getRent_idx()){
+                if(rent.getSTART_TIME().isAfter(LocalDateTime.now())) return "cancel";
+                else return "return";
+            }
+        }
+        return "cancel";
+    }
+
     // 사용자의 대여 내역 리스트 리턴
     @RequestMapping(value="/returnRentList",method={ RequestMethod.GET, RequestMethod.POST })
     public List<Rent> returnRent(@RequestBody RentalRequestInfo info){  // null 리턴되면 결제 제대로 안된 것
@@ -120,6 +133,7 @@ public class RentalController {
         System.out.println("Start time: "+dto.getSTART_TIME());
         rentRepository.save(dto.toEntity());
 
+        System.out.println("rentRepository save 완료");
         // stamp 추가 -> member 정보 update
         if(info.getRecommend()==1)
             memberMapper.addStamp(info.getUser_id(),2);
