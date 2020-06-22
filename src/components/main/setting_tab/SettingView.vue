@@ -1,10 +1,7 @@
 <template>
   <v-ons-navigator swipeable   
     options.animation="slide-ios"
-    :page-stack="pageStack"
-    @push-page="updateStack($event)"
-    v-on:postpush="changeTopToolbar"
-    v-on:postpop="changeTopToolbar"
+    :page-stack="this.$store.state.settingPageStack"
   ></v-ons-navigator>
 </template>
 

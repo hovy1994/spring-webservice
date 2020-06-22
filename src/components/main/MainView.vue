@@ -15,16 +15,16 @@ import ServiceView from './service_tab/ServiceView.vue'
 import MypageView from './mypage_tab/MypageView.vue'
 import SettingView from './setting_tab/SettingView.vue'
 import TopToolBar from '../common/TopToolBar.vue';
-import ListView from "./list_view/ListView.vue";
-
 let listCount = 0;
-
+import { rentListReq } from '../../api/index'
 
 export default {
   data: function() {
     return {
-
       activeIndex: 0,
+      get id() {
+        return window.localStorage.getItem("id");
+      },
       tabs: [
         {
           icon: 'fa-link',
@@ -32,13 +32,6 @@ export default {
           page: ServiceView,
           key: "ServiceView",
         },        
-        {
-          icon: "fa-clipboard-list",
-          label: '리스트',
-          badge: listCount,
-          page: ListView,
-          key: "ListView"
-        },
         {
           icon: 'fa-user',
           label: '마이페이지',
@@ -52,13 +45,20 @@ export default {
           page: SettingView,
           key: "settingView"
         },
-
       ],
+
     };
   },
   methods : {
-    tabbarChange: function() {
+    tabbarChange: function($event) {
       this.$store.commit('pageIndexChange', this.activeIndex);
+      if(this.activeIndex === 1) {
+        rentListReq(this.id)
+          .then((res) => {
+          this.$store.commit("rentItemListUpdate", res);
+          this.loading = false;
+        })
+      }
     }
   },
   beforeCreate() {
@@ -77,7 +77,6 @@ export default {
     SettingView,
     MypageView,
     TopToolBar,
-
   }
 }
 </script>

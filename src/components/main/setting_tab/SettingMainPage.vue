@@ -9,7 +9,7 @@
         <i class="fas fa-headset"></i> 문의하기
       </v-ons-list-item>
       <v-ons-list-item tappable>
-        <i class="fas fa-won-sign"></i> 결제 / 환전
+        <i class="fas fa-won-sign"></i> 결제내역
       </v-ons-list-item>
 
       <v-ons-list-header></v-ons-list-header>
@@ -36,9 +36,11 @@
 
 <script>
 import DetailSettingPage from './DetailSettingPage.vue';
+
 export default {
-  key: 'page1',
-  template: '#page1',
+  key: "SettingPage",
+  name: "Setting",
+  toolBarName: "BeBlet",
   methods: {
     push: function() {
       this.$emit('push-page', DetailSettingPage);

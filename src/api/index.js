@@ -18,82 +18,89 @@ const instance = axios.create({
 });
 
 
+export const cancelOrReturn = function(user_id, rent_idx) {
+  let infoObj = {
+    user_id: user_id,
+    rent_idx: rent_idx
+  }
+  return instance.post("/CancleOrReturn", infoObj);
+}
+
+export const rentListReq = function (userId) {
+  let userInfo = {
+    user_id: userId
+  }
+  return instance.post("/returnRentList", userInfo)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      window.alert(error);
+    })
+}
+
+export const returnItem = function(userId, itemIdx) {
+  var returnItemObj = {
+    user_id: userId,
+    item_idx: itemIdx
+  }
+  return instance.post("/returnItem", returnItemObj);
+}
+
+export const kakaoCancel = function(userId, RENT_IDX) {
+  var kakaoCancelObj = {
+    user_id: userId,
+    rent_idx: RENT_IDX
+  }
+  return instance.post("/kakaoCancel", kakaoCancelObj);
+}
+
+export const question = function(quesObj) {
+  return instance.post("/inquire", quesObj);
+}
+
+export const rentCommit = function (rentObj) {
+  return instance.post("/apply", rentObj)
+      .then((res) => {
+        kakaoPay(rentObj)
+      });
+}
+
+export const kakaoPay = function (rentObj) {
+  return instance.post("/kakaoPay", rentObj)
+      .then((res) => {
+        return res.data;
+      }).then((payURL) => {
+        var ref = cordova.InAppBrowser.open(
+          payURL,
+          "_system",
+          "hideurlbar=yes"
+        );
+      }).
+      catch((error) => {
+        window.alert(error);
+      })
+}
+
 export const sendAuthInfo = function(userData) {
   window.alert(JSON.stringify(userData));
   return instance.post("/getKakaoAuth", userData);
 };
 
+export const recommendCabinet = function(rentObj) {
+  return instance.post("/recommendCabinet", rentObj)
+    .then(function(res) {
+      return res.data;
+    })
+    .then(function(availableCabinetArr){
+      return availableCabinetArr;
+    }).catch((error) => {
+      window.alert(error);
+    })
+}
+
 
 export const kakaoLogin = function() {
-  var unEncryptedUserId;
-  var userNickName;
-  var encryptedUserId;
-  var authObj = {};
-  var key;
-
-  // var kakaoRes = {
-  //   id: "13115813224242343413252525326465476",
-  //   properties: {
-  //     nickname: "혁"
-  //   }
-  // }
-
-  //   unEncryptedUserId = kakaoRes.id;
-  //   userNickName = kakaoRes.properties.nickname;
-  //   encryptedUserId = null;
-
-  //   instance
-  //     .post("/keyRequest")
-  //     .then(function (res) {
-  //       // console.log(JSON.stringify(res.data));
-  //       return res.data;
-  //     })
-  //     .then(function (parsedRes) {
-  //       // console.log(JSON.stringify(parsedRes));
-  //       // console.log(parsedRes.pubKey);
-  //       // console.log(unEncryptedUserId);
-
-  //       key = parsedRes.key;
-  //       encryptedUserId = CryptoJS.AES.encrypt(unEncryptedUserId, key).toString(); // 암호화 method
-  //       // console.log(CryptoJS.AES.encrypt(unEncryptedUserId, key));
-  //       // console.log(key);
-  //       // console.log(encryptedUserId);
-  //       if (parsedRes.key !== null) {
-  //         window.localStorage.setItem("key", key);
-  //       }
-  //       authObj = {
-  //         encryptedUserId: encryptedUserId,
-  //         nickname: userNickName,
-  //         cliKey: key
-  //       };
-  //       // console.log(authObj);
-  //       return authObj;
-  //     })
-  //     .then(function (authObj) {
-  //       instance.post("/joinAndLoginRequest", authObj)
-  //         .then(function (loginRes) {
-  //           return loginRes.data;
-  //         })
-  //         .then(function (parsedRes) {
-  //           if (parsedRes.loggedIn === true) {
-  //             window.alert("로그인 성공\n" + JSON.stringify(authObj));
-  //             window.localStorage.setItem("id", encryptedUserId);
-  //             window.localStorage.setItem("nickname", userNickName);
-  //           }
-  //           // console.log(parsedRes.loggedIn);
-  //           // location.reload();
-  //           return parsedRes;
-  //         }).catch((error) => {
-  //           // console.log(error);
-  //           window.alert(error);
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       // console.log(error);
-  //       window.alert(error);
-  //     });
-
-
   let loginOptions = {
     authTypes: [1],
   };
@@ -102,19 +109,19 @@ export const kakaoLogin = function() {
     window.alert("로그인에 실패했습니다.");
   }
   let success = function (kakaoRes){
-    userId = kakaoRes.id;
-    userNickName = kakaoRes.properties.nickname;
+    var userId = kakaoRes.id;
+    var userNickName = kakaoRes.properties.nickname;
     let authObj = {
           userId: userId,
           nickname: userNickName,
         };
+    // window.alert(JSON.stringify(kakaoRes));
     instance.post("/joinAndLoginRequest", authObj)
         .then(function (loginRes) {
           return loginRes.data;
         })
         .then(function (parsedRes) {
           if (parsedRes.loggedIn === true) {
-            window.alert("로그인 성공\n" + JSON.stringify(authObj));
             window.localStorage.setItem("id", userId);
             window.localStorage.setItem("nickname", userNickName);
           }
@@ -125,9 +132,12 @@ export const kakaoLogin = function() {
           // console.log(error);
           window.alert(error);
         });
-  KakaoCordovaSDK.login(loginOptions, success, failed);
   }
+  KakaoCordovaSDK.login(loginOptions, success, failed);
 }
+
+
+
 // var sendAuthObjToServe = async function(unEncryptedUserId) {
 // 	await getAuthObj(unEncryptedUserId);
 // };

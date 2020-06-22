@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="banner_desc_container">
-      <div class="banner_desc">
+      <div class="banner_desc" v-on:click="testWeb">
         태블릿 공유 플랫폼 >
       </div>  
     </div>
@@ -36,6 +36,9 @@ export default {
     }
   },
   methods: {
+    testWeb:function() {
+      var ref = cordova.InAppBrowser.open('http://apache.org', '_blank', 'location=yes');
+    },
 		unlinkKakao: function(res) {
 			let success = function() {
 				window.alert(
@@ -52,7 +55,6 @@ export default {
 			KakaoCordovaSDK.unlinkApp(success, failed);
 		},
 		kakaoLoginBtnAction: function() {
-
       kakaoLogin();
 		},
     next: function(){

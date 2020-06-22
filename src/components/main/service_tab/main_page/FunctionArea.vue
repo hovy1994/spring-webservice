@@ -36,7 +36,12 @@ export default {
   },
   methods: {
     btn: function (func) {
-      this.$emit("funcSelected", func.idx);
+      if(func.idx === 0) {
+        this.$emit("funcSelected", func.idx);
+      }
+      else {
+        this.$ons.notification.alert("준비중입니다.");
+      }
     }
   }
 }

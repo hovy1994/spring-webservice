@@ -16,15 +16,28 @@ export default {
   },
   methods:{
     popPage: function () {
-      this.$store.commit("pageStackPop");
+    switch(this.$store.state.tabbarIdx) {
+      case 0:
+        return this.$store.commit("pageStackPop");
+      case 1:
+        return this.$store.commit("myPageStackPop");
+      case 2:
+        return this.$store.commit("settingPageStackPop");
+      }
     }
   },
   computed: {
     index: function () {
     },
     pageStack: function () {
-      // return this.$store.state.pageNameStack[this.$store.state.pageNameStack.length - 1];
-      return this.$store.state.pageStack;
+      switch(this.$store.state.tabbarIdx) {
+      case 0:
+        return this.$store.state.pageStack;
+      case 1:
+        return this.$store.state.myPageStack;
+      case 2:
+        return this.$store.state.settingPageStack;
+      }
     },
     pageName: function () {
       return this.pageStack[this.pageStack.length - 1].toolBarName;

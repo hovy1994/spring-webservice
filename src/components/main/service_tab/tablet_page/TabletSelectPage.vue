@@ -20,10 +20,10 @@
     <i class="far fa-calendar-alt cal_icon"></i>
 
     <v-ons-list>
-      <v-ons-list-header class="time_header">대여 시간</v-ons-list-header>
+      <v-ons-list-header class="time_header">대여 시간 <div class="selected_time" v-if="startTime !== 0">{{ startTime >= 12 ? "PM " : "AM " }} {{ startTime > 12 ? startTime - 12 : startTime }}:00</div></v-ons-list-header>
       <v-ons-list-item>
         <div class="start_time_select">
-          <v-ons-select calss="rent" v-on:modelEvent="$event === '' ? rentInfoObj.start[3] = 0 :rentInfoObj.start[3] = $event">
+          <v-ons-select v-on:modelEvent="startTimeSelect($event)" :size="3">
             <option disabled value="" class="time_option">선택</option>
             <option v-for="time in timePicker" v-bind:key="time" v-bind:value="time" class="time_option" v-if="((startDate !== '') && (((todayDate === startDate) && (time > currentTime)) || (todayDate !== startDate)))">
               {{ time >= 12 ? "PM " : "AM " }} {{ time > 12 ? time - 12 : time }}:00
@@ -31,10 +31,10 @@
           </v-ons-select>
         </div>
       </v-ons-list-item>
-      <v-ons-list-header class="time_header">반납 시간</v-ons-list-header>
+      <v-ons-list-header class="time_header">반납 시간 <div class="selected_time" v-if="returnTime !== 0">{{ returnTime >= 12 ? "PM " : "AM " }} {{ returnTime > 12 ? returnTime - 12 : returnTime }}:00</div></v-ons-list-header>
       <v-ons-list-item>
         <div class="return_time_select">
-          <v-ons-select v-model="returnTime" v-on:modelEvent="$event === '' ? rentInfoObj.end[3] = 0 : rentInfoObj.end[3] = $event">
+          <v-ons-select v-on:modelEvent="endTimeSelect($event)" :size="3">
             <option disabled value="" class="time_option">선택</option>
             <option v-for="time in timePicker" v-bind:key="time" v-bind:value="time" class="time_option" v-if="((returnDate !== '') && (((startDate === returnDate) && (time > startTime)) || (startDate !== returnDate)))">
               {{ time >= 12 ? "PM " : "AM " }} {{ time > 12 ? time - 12 : time }}:00
@@ -43,9 +43,9 @@
         </div>
       </v-ons-list-item>
 
-      <v-ons-list-header class="time_header">대여 장소 선택</v-ons-list-header>
+        
+      <v-ons-list-header class="time_header">대여 및 반납 장소 선택 <v-ons-button v-on:click="selectCab" style="text-align:center">지도보기</v-ons-button></v-ons-list-header>
       <v-ons-list-item>
-        <v-ons-button v-on:click="relayout">지도보기</v-ons-button>
         <v-ons-dialog
           :visible.sync="mapOn"
           >
@@ -59,28 +59,19 @@
             :width="mapWidth"
             :height="mapHeight"
             :isShowing="mapOn"
+            :availableCabinets="availableCabinets"
+            :pinUpdated="pinUpdated"
+            :state="mapState"
+            v-on:pinUpdateComplete="pinUpdateComplete"
+            v-on:cabinetSelected="cabinetSelect($event)"
             ></kakao-map>
         </v-ons-dialog>
       </v-ons-list-item>
-
-      <v-ons-list-header class="time_header">반납 장소 선택</v-ons-list-header>
       <v-ons-list-item>
-        <v-ons-button v-on:click="relayout">지도보기</v-ons-button>
-        <v-ons-dialog
-          :visible.sync="mapOn"
-          >
-          <div class="cancel_btn" v-on:click="mapOn = false">
-            <i class="fas fa-times-circle cancel_btn"></i>
-          </div>
-          <kakao-map 
-            class="map_popup"
-            :appkey="appkey"
-            :center="center"
-            :width="mapWidth"
-            :height="mapHeight"
-            :isShowing="mapOn"
-            ></kakao-map>
-        </v-ons-dialog>
+        <div>대여 : {{ startCabinetObj.cabinet_NAME }}</div>
+      </v-ons-list-item>
+      <v-ons-list-item>
+        <div>반납 : {{ endCabinetObj.cabinet_NAME }}</div>
       </v-ons-list-item>
     </v-ons-list>
 
@@ -93,6 +84,13 @@
       </v-ons-button>
     </div>
 
+
+
+    <v-ons-modal :visible="loading">
+      <p style="text-align: center">
+        Loading <v-ons-icon icon="fa-spinner" spin></v-ons-icon>
+      </p>
+    </v-ons-modal>
     <!-- <v-ons-alert-dialog modifier="rowfooter"
       :visible.sync="listAddDialog"
     >
@@ -111,6 +109,9 @@
 <script>
 import HotelDatePicker from 'vue-hotel-datepicker'
 import KakaoMap from './KakaoMap.vue'
+import axios from 'axios';
+import { recommendCabinet } from '../../../../api/index';
+import { rentCommit } from '../../../../api/index';
 
 export default {
   key: "TabletSelectPage",
@@ -134,33 +135,129 @@ export default {
       returnTime: 0,
       
       rentInfoObj: {
-        userId: window.localStorage.getItem("id"),
-        itemIdx: -1,
+        user_id: window.localStorage.getItem("id"),
+        category_idx: -1,
         start: [0, 0, 0, 0, 0, 0],
         end: [0, 0, 0, 0, 0, 0],
-        recommemd: 0,
-        start_cabinet_idx: 1,
-        end_cabinet_idx: 2
+        recommend: 0,
+        start_cabinet_idx: -1,
+        end_cabinet_idx: -1,
+        
+        total_amount: 0,
+        item_idx: 15
       },
       listAddDialog: false,
       mapOn: false,
+      mapState: true, // false -> 대여 true -> 반납
 
       showMap: false,
       appkey:'a04f05666032a9ee976b653738fe4b63',
       center:[37.449366, 126.654386],
       mapWidth: 100,
-      mapHeight: 100
+      mapHeight: 100,
+      availableCabinets: [],
+      pinUpdated: false,
+      startCabinetObj: {},
+      endCabinetObj: {},
+      loading: false
     }
   },
   methods: {
-    relayout: function () {
+    cabinetSelect($event) {
+      if($event[1] === 0) { // start
+        this.mapState = true;
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.$ons.notification.alert("반납 위치를 선택해주세요.", "{title: '반납 위치 선택'}");
+        }, 500);
+        this.rentInfoObj.start_cabinet_idx = $event[0].cabinet_IDX;
+        this.startCabinetObj = $event[0];
+      } else if($event[1] === 1) { // end
+        this.rentInfoObj.end_cabinet_idx = $event[0].cabinet_IDX;
+        this.endCabinetObj = $event[0];
+        this.mapOn = false;
+        this.mapState = false;
+        if (this.rentInfoObj.start_cabinet_idx === this.availableCabinets[this.availableCabinets.length - 2].cabinet_IDX && this.rentInfoObj.end_cabinet_idx === this.availableCabinets[this.availableCabinets.length - 1].cabinet_IDX) {
+          this.rentInfoObj.recommemd = 1;
+        } else {
+          this.rentInfoObj.recommemd = 0;
+
+        }
+      }
+    },
+    pinUpdateComplete: function() {
+      this.pinUpdated = false;
+    },
+    startTimeSelect: function ($event) {
+      if($event === '') {
+        this.rentInfoObj.start[3] = 0;
+        this.startTime = 0;
+      }
+      else {
+        this.rentInfoObj.start[3] = $event;
+        this.startTime = $event;
+      }
+      if(this.startTime !== 0 && this.returnTime !== 0) {
+        if(this.rentInfoObj.end[3] > this.rentInfoObj.start[3]){
+          this.rentInfoObj.total_amount = ((this.rentInfoObj.end[2] - this.rentInfoObj.start[2] - 1) * 24 * this.$store.state.items[this.rentInfoObj.category_idx - 1].price) + ((24 + this.rentInfoObj.end[3] - this.rentInfoObj.start[3]) * this.$store.state.items[this.rentInfoObj.category_idx - 1].price);
+        } else{
+          this.rentInfoObj.total_amount = ((this.rentInfoObj.end[2] - this.rentInfoObj.start[2]) * 24 * this.$store.state.items[this.rentInfoObj.category_idx - 1].price) + ((this.rentInfoObj.end[3] - this.rentInfoObj.start[3]) * this.$store.state.items[this.rentInfoObj.category_idx - 1].price);
+        }
+        recommendCabinet(this.rentInfoObj)
+        .then((availableCabinetArr) => {
+            this.availableCabinets = availableCabinetArr;
+            // this.pinUpdated = true;
+            this.mapState = false;
+          });
+      }
+    },
+    endTimeSelect: function($event) {
+      if($event === '') {
+        this.rentInfoObj.end[3] = 0;
+        this.returnTime = 0;
+      }
+      else {
+        this.rentInfoObj.end[3] = $event;
+        this.returnTime = $event;
+      }
+
+      if(this.startTime !== 0 && this.returnTime !== 0) {
+        if(this.rentInfoObj.end[3] > this.rentInfoObj.start[3]){
+          this.rentInfoObj.total_amount = ((this.rentInfoObj.end[2] - this.rentInfoObj.start[2] - 1) * 24 * this.$store.state.items[this.rentInfoObj.category_idx - 1].price) + ((24 + this.rentInfoObj.end[3] - this.rentInfoObj.start[3]) * this.$store.state.items[this.rentInfoObj.category_idx - 1].price);
+        } else{
+          this.rentInfoObj.total_amount = ((this.rentInfoObj.end[2] - this.rentInfoObj.start[2]) * 24 * this.$store.state.items[this.rentInfoObj.category_idx - 1].price) + ((this.rentInfoObj.end[3] - this.rentInfoObj.start[3]) * this.$store.state.items[this.rentInfoObj.category_idx - 1].price);
+        }
+        recommendCabinet(this.rentInfoObj)
+        .then((availableCabinetArr) => {
+          this.availableCabinets = availableCabinetArr;
+          // this.pinUpdated = true;
+          this.mapState = false;
+        });
+      }
+    },
+    backToPage: function() {
+      $event.preventDefault();
+      this.mapOn = false;
+    },
+    selectCab: function () {
+      if(this.availableCabinets.length === 2) {
+        this.$ons.notification.alert("해당 물건은 해당 시간에 재고가 없습니다.<br>다른 아이템을 선택해주세요.", "{title: '재고 없음'}");
+        this.$store.commit("pageStackPop");
+      }
+      this.mapState = false;
+      this.$ons.notification.alert("대여 위치를 선택해주세요.", "{title : '대여 위치 선택'}");
       this.mapOn = true; 
-      // this.$store.state.KakaoMap.relayout();
-      console.log("called");
-      
     },
     commit: function () {
-      console.log(JSON.parse(JSON.stringify(this.rentInfoObj)));
+      // console.log(JSON.parse(JSON.stringify(this.rentInfoObj)));
+      rentCommit(this.rentInfoObj);
+      setTimeout(() => {
+        this.loading = false;
+        while(this.$store.state.pageStack.length > 1) {
+          this.$store.commit("pageStackPop");
+        }
+      }, 2000);
     },
     popPage: function ($event) {
       $event.preventDefault();
@@ -191,6 +288,8 @@ export default {
       startDateStr += startDate;
 
       this.startDate = startDateStr;
+      this.startTime = 0;
+      this.rentInfoObj.start[4] = 0;
     },
     selectReturnDate: function ($event) { 
       if($event === null) {
@@ -218,6 +317,8 @@ export default {
       returnDateStr += "-";
       returnDateStr += returnDate;
       this.returnDate = returnDateStr;
+      this.returnTime = 0;
+      this.rentInfoObj.end[4] = 0;
     },
     addListAlert: function () {
       if(this.startDate !== "" && this.returnDate !== "" && this.startTime !== 0 && this.returnTime !== 0) {
@@ -242,7 +343,7 @@ export default {
   },
   computed: {
     selectedTablet: function () {
-      this.rentInfoObj.itemIdx = this.$store.getters.selectedItem.idx;
+      this.rentInfoObj.category_idx = this.$store.getters.selectedItem.idx;
       return this.$store.getters.selectedItem;
     },
     todayDate: function () {
@@ -273,6 +374,9 @@ export default {
     id: function () {
       return window.localStorage.getItem("id");
     }
+  },
+  mounted() {
+    this.rentInfoObj.category_idx = this.$store.getters.selectedItem.idx;
   },
   components: {
     HotelDatePicker,
@@ -347,8 +451,6 @@ export default {
 .time_option {
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 23px;
-  position: absolute;
-  left: 10%;
 }
 
 .confirm_btn {
@@ -392,6 +494,10 @@ export default {
   color: black;
   font-size: 30px;
   z-index: 2;
+}
+
+.selected_time {
+  display: inline-block;
 }
 
 /*

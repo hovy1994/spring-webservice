@@ -31,7 +31,7 @@ export default {
       var payloadObj = {
         page: null,
         pageName: "태블릿 선택",
-        selectedItemIdx: item.idx
+        selectedItemIdx: item.idx - 1
       };
       this.$emit("push-tablet-page", payloadObj);
     }

@@ -4,6 +4,7 @@
   "description": "인하대학교 컴퓨터공학과 2020 캡스톤 003분반 2조",
   "author": "bbyuck <k941026h@naver.com>",
   "private": true,
+  "proxy": "http://13.125.236.67:8080",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
@@ -12,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "cors": "^2.8.5",
     "crypto-browserify": "^3.12.0",
     "crypto-js": "^4.0.0",
     "jsencrypt": "^3.0.0-rc.1",

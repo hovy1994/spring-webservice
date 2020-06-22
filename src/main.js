@@ -10,8 +10,11 @@ import App from './App'
 import Carousel3d from "vue-carousel-3d";
 
 
+var cors = require("cors");
+
 Vue.config.productionTip = false
 
+Vue.use(cors);
 Vue.use(VueOnsen)
 Vue.use(Carousel3d);
 

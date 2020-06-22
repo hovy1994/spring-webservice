@@ -3,7 +3,7 @@
     <transition name="mode-change" mode="out-in">
       <user-authentication-view v-if="viewMode === 0" v-on:login-success="loginSuccess" v-on:next="next"></user-authentication-view>
       <main-view v-if="viewMode === 2"></main-view>
-      <test-module v-if="viewMode === -1"></test-module>
+      <!-- <test-module v-if="viewMode === -1"></test-module> -->
     </transition>
   </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
 import MainView from './components/main/MainView.vue';
 import UserAuthenticationView from './components/user_auth/UserAuthenticView.vue';
-import TestModule from './components/TestModule.vue'
+// import TestModule from './components/TestModule.vue'
 
 
 export default {
@@ -19,7 +19,7 @@ export default {
   components: {
     MainView,
     UserAuthenticationView,
-    TestModule
+    // TestModule
   },
   data: function() {
     return {
