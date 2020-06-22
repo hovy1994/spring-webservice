@@ -18,6 +18,10 @@ public interface RentMapper {
     @Delete("DELETE FROM rent WHERE USER_ID=#{user_id}")
     void deleteRent(String user_id);
 
+    //1 - 이용 중, 0 - 이용 종료, -1: 신청 취소
+    @Update("UPDATE rent SET STATE=-1 WHERE USER_ID=#{user_id} ORDER BY START_TIME DESC LIMIT 1")
+    void calcelRent(String user_id);
+
     //1 - 이용 중, 0 - 이용 종료
     @Update("UPDATE rent SET STATE=0 WHERE USER_ID=#{user_id} ORDER BY START_TIME DESC LIMIT 1")
     void updateRent(String user_id);
