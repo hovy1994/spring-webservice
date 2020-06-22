@@ -15,7 +15,7 @@ public interface RentMapper {
     @Select("SELECT * FROM rent WHERE USER_ID=#{user_id}")
     List<Rent> findRentList(String user_id);
 
-    @Delete("DELETE * FROM rent WHERE USER_ID=#{user_id}")
+    @Delete("DELETE FROM rent WHERE USER_ID=#{user_id}")
     void deleteRent(String user_id);
 
     //1 - 이용 중, 0 - 이용 종료

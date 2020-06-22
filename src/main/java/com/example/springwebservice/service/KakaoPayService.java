@@ -160,7 +160,9 @@ public class KakaoPayService {
 
     public void applyCancelService(String user_id){
         rentMapper.deleteRent(user_id);
+        System.out.println("delete rent information");
         paymentMapper.updatePayment(user_id);
+        System.out.println("update payment");
     }
 
 
