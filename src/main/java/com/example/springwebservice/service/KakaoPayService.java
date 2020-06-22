@@ -160,6 +160,7 @@ public class KakaoPayService {
         return payment;
     }
 
+    @Transactional
     public void applyCancelService(String user_id){
         System.out.println("service- user_id: "+user_id);
 
