@@ -150,6 +150,7 @@ public class RentalController {
     public KakaoPayCancelVO kakaoCancel(@RequestBody RentalRequestInfo info){
         log.info("kakaoCancel post............................................");
 
+        System.out.println("controller- user_id: "+info.getUser_id());
         kakaoPayService.applyCancelService(info.getUser_id());
         return kakaoPayService.kakaoCancelGO(info.getUser_id());
     }
