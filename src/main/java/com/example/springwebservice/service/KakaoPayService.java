@@ -30,7 +30,7 @@ import com.google.gson.JsonParser;
 import lombok.extern.java.Log;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @Log
 public class KakaoPayService {
 
