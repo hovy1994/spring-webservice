@@ -14,8 +14,8 @@ public class RentResponseVO {
 
     private String USER_ID;
 
-
     private Integer STATE;
+    private Boolean CANCEL;
 
     //결제 정보
     private Integer AMOUNT;
