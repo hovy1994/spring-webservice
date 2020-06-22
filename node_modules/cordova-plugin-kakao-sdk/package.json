@@ -1,0 +1,62 @@
+{
+  "_from": "cordova-plugin-kakao-sdk",
+  "_id": "cordova-plugin-kakao-sdk@3.0.5",
+  "_inBundle": false,
+  "_integrity": "sha512-wLuAqSWyLIKFdGAaJxg0BOm6uihiyo7h/4KQnlfTjxca9ONeBpKMfU7C2uGfqWLYa6b5zyOvuQxIHYNtU5voKw==",
+  "_location": "/cordova-plugin-kakao-sdk",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-kakao-sdk",
+    "name": "cordova-plugin-kakao-sdk",
+    "escapedName": "cordova-plugin-kakao-sdk",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-kakao-sdk/-/cordova-plugin-kakao-sdk-3.0.5.tgz",
+  "_shasum": "4adcedf4fdbb2398b11b666d17d661bc40ee62d7",
+  "_spec": "cordova-plugin-kakao-sdk",
+  "_where": "G:\\2020capstone\\capstone_build",
+  "author": {
+    "name": "raccoondev85"
+  },
+  "bugs": {
+    "url": "https://github.com/raccoondev85/cordova-plugin-kakao-sdk/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-kakao-sdk",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Kakao Cordova SDK Plugin",
+  "homepage": "https://github.com/raccoondev85/cordova-plugin-kakao-sdk#readme",
+  "id": "cordova-plugin-kakao-sdk",
+  "keywords": [
+    "cordova",
+    "kakao",
+    "kakaotalk",
+    "login",
+    "kakao-sdk",
+    "kakaoaccount",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-kakao-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raccoondev85/cordova-plugin-kakao-sdk.git"
+  },
+  "version": "3.0.5"
+}

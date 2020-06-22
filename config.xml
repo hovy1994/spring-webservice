@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="inha.capstone.team2.beblet" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Beblet</name>
+    <description>
+      대학 태블릿 공유 플랫폼 Beblet
+    </description>
+    <author email="k941026h@naver.com" href="http://github.com/bbyuck">
+      2020 컴퓨터공학 종합설계-003분반 2조    
+    </author>
+    <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    
+    <access origin="*" />
+    <access origin="intent://*" launch-external="true" />
+
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <preference name="CrosswalkAnimatable" value="true" />	
+    <platform name="android">
+        <allow-intent href="market:*" />
+
+        <splash src="res/screen/android/Beblet_splash.jpg" density="port-hdpi"/>
+
+        <icon src="res/icon/android/Beblet_icon.jpg" width="57" height="57" density="mdpi" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+</widget>

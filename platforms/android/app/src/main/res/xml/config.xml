@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="inha.capstone.team2.beblet" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="KakaoCordovaSDK">
+        <param name="android-package" value="com.raccoondev85.plugin.kakao.KakaoCordovaSDK" />
+    </feature>
+    <access origin="https://*.kakao.com" />
+    <access origin="https://*.kakao.co.kr" />
+    <access origin="https://*.kakaocdn.net" />
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <name>Beblet</name>
+    <description>
+      대학 태블릿 공유 플랫폼 Beblet
+    </description>
+    <author email="k941026h@naver.com" href="http://github.com/bbyuck">
+      2020 컴퓨터공학 종합설계-003분반 2조    
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <access launch-external="true" origin="intent://*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <allow-intent href="market:*" />
+    <splash density="port-hdpi" src="res/screen/android/Beblet_splash.jpg" />
+    <icon density="mdpi" height="57" src="res/icon/android/Beblet_icon.jpg" width="57" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="CrosswalkAnimatable" value="true" />
+</widget>
