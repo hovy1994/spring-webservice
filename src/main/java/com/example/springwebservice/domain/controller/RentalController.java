@@ -92,6 +92,7 @@ public class RentalController {
     }
 
     //
+    @RequestMapping(value="/CancleOrReturn",method={ RequestMethod.GET, RequestMethod.POST })
     public String CancleOrReturn(@RequestBody RentalRequestInfo info){
         List<Rent> rentList=rentalService.returnRentList(info.getUser_id());
         for(Rent rent:rentList){
