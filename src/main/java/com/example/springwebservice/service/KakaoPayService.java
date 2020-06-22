@@ -17,6 +17,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
@@ -29,6 +30,7 @@ import com.google.gson.JsonParser;
 import lombok.extern.java.Log;
 
 @Service
+@Transactional(readOnly = true)
 @Log
 public class KakaoPayService {
 
@@ -160,6 +162,7 @@ public class KakaoPayService {
 
     public void applyCancelService(String user_id){
         System.out.println("service- user_id: "+user_id);
+
         rentMapper.deleteRent(user_id);
         System.out.println("delete rent information");
         paymentMapper.updatePayment(user_id);
