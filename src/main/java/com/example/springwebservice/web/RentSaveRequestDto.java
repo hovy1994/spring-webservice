@@ -22,6 +22,7 @@ public class RentSaveRequestDto extends BaseTimeEntity {
     private Integer END_CABINET_IDX;
     private String USER_ID;
 
+    // 0
     private Integer STATE;
 
     //결제 정보

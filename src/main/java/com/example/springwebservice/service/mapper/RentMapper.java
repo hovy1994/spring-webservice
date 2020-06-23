@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 @Mapper
 public interface RentMapper {
-    @Select("SELECT * FROM rent WHERE USER_ID=#{user_id}")
+
+    @Select("SELECT * FROM rent WHERE USER_ID=#{user_id} AND STATE=1")
     List<Rent> findRentList(String user_id);
 
     @Delete("DELETE FROM rent WHERE USER_ID=#{user_id}")

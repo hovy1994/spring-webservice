@@ -93,12 +93,12 @@ public class RentalController {
     }
 
     // 사용자의 결제 내역 리스트 리턴
-//    @RequestMapping(value="/returnPaymentList",method={ RequestMethod.GET, RequestMethod.POST })
-//    public List<Payment> returnPayment(@RequestBody RentalRequestInfo info){  // null 리턴되면 결제 제대로 안된 것
-//        List<Payment> payment=kakaoPayService.returnPaymentList(info.getUser_id());
-//
-//        return payment;
-//    }
+    @RequestMapping(value="/returnPaymentList",method={ RequestMethod.GET, RequestMethod.POST })
+    public Payment returnPayment(@RequestBody RentalRequestInfo info){  // null 리턴되면 결제 제대로 안된 것
+        Payment payment = paymentMapper.findPaymentList(info.getUser_id());
+
+        return payment;
+    }
 
     //
     @RequestMapping(value="/CancleOrReturn",method={ RequestMethod.GET, RequestMethod.POST })
@@ -166,7 +166,9 @@ public class RentalController {
         paymentMapper.updatePayment(info.getUser_id());
         System.out.println("update payment");
         //kakaoPayService.applyCancelService(info.getUser_id());
-        return kakaoPayService.kakaoCancelGO(info.getUser_id());
+
+        Payment payment=paymentMapper.findPaymentList(info.getUser_id());
+        return kakaoPayService.kakaoCancelGO(info.getUser_id(),payment);
     }
 
 }
