@@ -51,6 +51,7 @@ public class RentalController {
 
     @RequestMapping(value="/TestCode",method={ RequestMethod.GET, RequestMethod.POST })
     public void TestCode(@RequestBody RentalRequestInfo info){
+//        kakaoPayService.applyCancelService(info.getUser_id());
         rentMapper.cancelRent(info.getUser_id());
         System.out.println("delete rent information");
         paymentMapper.updatePayment(info.getUser_id());
@@ -159,7 +160,12 @@ public class RentalController {
         log.info("kakaoCancel post............................................");
 
         System.out.println("controller- user_id: "+info.getUser_id());
-        kakaoPayService.applyCancelService(info.getUser_id());
+
+        rentMapper.cancelRent(info.getUser_id());
+        System.out.println("delete rent information");
+        paymentMapper.updatePayment(info.getUser_id());
+        System.out.println("update payment");
+        //kakaoPayService.applyCancelService(info.getUser_id());
         return kakaoPayService.kakaoCancelGO(info.getUser_id());
     }
 
