@@ -154,11 +154,11 @@ public class KakaoPayService {
         return null;
     }
 
-    public List<Payment> returnPaymentList(String user_id){
-        List<Payment> payment = paymentMapper.findPaymentList(user_id);
-
-        return payment;
-    }
+//    public List<Payment> returnPaymentList(String user_id){
+//        List<Payment> payment = paymentMapper.findPaymentList(user_id);
+//
+//        return payment;
+//    }
 
     //@Transactional
     public void applyCancelService(String user_id){
@@ -181,8 +181,8 @@ public class KakaoPayService {
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 
-        List<Payment> paymentList=paymentMapper.findPaymentList(user_id);
-        Payment payment=paymentList.get(0);
+        System.out.println("kakaoCancelGO- user_id: "+user_id);
+        Payment payment=paymentMapper.findPaymentList(user_id);
 
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();

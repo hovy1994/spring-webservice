@@ -17,8 +17,8 @@ public interface PaymentMapper {
 //    void addStamp(String userID,Integer num);
 
 
-    @Select("SELECT * FROM payment WHERE PARTNER_USER_ID=#{user_id}")
-    List<Payment> findPaymentList(String user_id);
+    @Select("SELECT * FROM payment WHERE PARTNER_USER_ID=#{user_id} ORDER BY START_TIME DESC LIMIT 1")
+    Payment findPaymentList(String user_id);
 
     //1 - 정상 결제, 0 - 결제 취소
     @Update("UPDATE payment SET STATE=0 WHERE PARTNER_USER_ID=#{user_id} ORDER BY START_TIME DESC LIMIT 1")
