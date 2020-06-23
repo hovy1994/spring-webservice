@@ -49,7 +49,13 @@ public class RentalController {
     private RentRepository rentRepository;
     private PaymentRepository paymentRepository;
 
-
+    @RequestMapping(value="/TestCode",method={ RequestMethod.GET, RequestMethod.POST })
+    public void TestCode(@RequestBody RentalRequestInfo info){
+        rentMapper.cancelRent(info.getUser_id());
+        System.out.println("delete rent information");
+        paymentMapper.updatePayment(info.getUser_id());
+        System.out.println("update payment");
+    }
     // 사용자가 대여할 물품과 시간을 선택하면 이용 가능 캐비넷과 추천 캐비넷 정보(리스트) 반환
     @PostMapping(path = "/recommendCabinet")
     @GetMapping(path = "/recommendCabinet")
