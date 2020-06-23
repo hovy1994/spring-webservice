@@ -39,6 +39,13 @@ export const rentListReq = function (userId) {
     })
 }
 
+export const getUserInfo = function(user_id) {
+  var reqObj = {
+    user_id: user_id
+  }
+  return instance.post('/userInfo', reqObj);
+}
+
 export const returnItem = function(userId, itemIdx) {
   var returnItemObj = {
     user_id: userId,

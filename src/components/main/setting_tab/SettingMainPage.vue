@@ -12,18 +12,13 @@
         <i class="fas fa-won-sign"></i> 결제내역
       </v-ons-list-item>
 
+      <v-ons-list-item tappable v-on:click="showStamp">
+        <i class="fas fa-won-sign"></i> 스탬프
+      </v-ons-list-item>
+
       <v-ons-list-header></v-ons-list-header>
       <v-ons-list-item modifier="chevron" tappable>앱 설정</v-ons-list-item>
 
-      <v-ons-list-header></v-ons-list-header>
-      <v-ons-list-item>
-        <div class="left">
-          <img class="list-item__thumbnail" src="http://placekitten.com/g/40/40">
-        </div>
-        <div class="center">
-          <span class="list-item__title">유저 닉네임</span><span class="list-item__subtitle">유저 정보</span>
-        </div>
-      </v-ons-list-item>
 
       <v-ons-list-header></v-ons-list-header>
       <v-ons-list-item tappable v-on:click="logout" title="로그아웃">
@@ -35,12 +30,21 @@
 </template>
 
 <script>
+import {getUserInfo} from '../../../api/index'
+
 import DetailSettingPage from './DetailSettingPage.vue';
 
 export default {
   key: "SettingPage",
   name: "Setting",
   toolBarName: "BeBlet",
+  data() {
+    return {
+      get id() {
+        return window.localStorage.getItem('id');
+      }
+    }
+  },
   methods: {
     push: function() {
       this.$emit('push-page', DetailSettingPage);
@@ -57,6 +61,12 @@ export default {
       }
 
       this.$ons.notification.confirm('정말로 로그아웃 하시겠습니까?', options).then(logoutCallBack);
+    },
+    showStamp() {
+      getUserInfo(this.id).then((res) => {
+        console.log(res);
+        this.$ons.notification.alert(JSON.stringify(res.data));
+      })
     }
   }
 }

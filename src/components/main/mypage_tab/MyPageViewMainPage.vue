@@ -26,6 +26,8 @@
 <script>
 import { returnItem } from '../../../api/index'
 import { kakaoCancel } from '../../../api/index'
+import { rentListReq } from "../../../api/index";
+
 
 import ItemRow from './ItemRow.vue';
 
@@ -61,14 +63,21 @@ export default {
       if(this.alertName === "반납") {
         returnItem(this.id, this.selectedIdx).then((res) => {
           thisComponent.$ons.notification.alert("반납이 완료되었습니다.");
+          rentListReq(this.id)
+            .then((res) => {
+            this.$store.commit("rentItemListUpdate", res);
+          })
           thisComponent.returnOrCancelOpen = false;
         })
 
       } else if(this.alertName === "결제 취소") {
         console.log(this.selectedIdx);
-        console.log(this.selectedIdx);
         kakaoCancel(this.id, this.selectedIdx).then((res) => {
           thisComponent.$ons.notification.alert("결제 취소가 완료되었습니다.");
+          rentListReq(this.id)
+            .then((res) => {
+            this.$store.commit("rentItemListUpdate", res);
+          })
           thisComponent.returnOrCancelOpen = false;
         })
       }
