@@ -113,7 +113,6 @@ public class KakaoPayService {
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 
         // 서버로 요청할 Body
-
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 
         params.add("cid", "TC0ONETIME");
@@ -132,17 +131,7 @@ public class KakaoPayService {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
             log.info("" + kakaoPayApprovalVO);
 
-            System.out.println("결제 정보를 저장하겠습니다.");
-            PaymentSaveRequestDto dto = new PaymentSaveRequestDto();
-            dto.setTID(kakaoPayReadyVO.getTid());
-            dto.setPARTNER_ORDER_ID(kakaoPayApprovalVO.getPartner_order_id());
-            dto.setPARTNER_USER_ID(kakaoPayApprovalVO.getPartner_order_id());
-            dto.setITEM_NAME(kakaoPayApprovalVO.getItem_name());
-            dto.setQUANTITY(kakaoPayApprovalVO.getQuantity());
-            dto.setTOTAL_AMOUNT(kakaoPayApprovalVO.getAmount().getTotal());
-            dto.setTAX_FREE_AMOUNT(kakaoPayApprovalVO.getTax_free_amount());
 
-            paymentRepository.save(dto.toEntity());
 
             return kakaoPayApprovalVO;
         } catch (RestClientException e) {

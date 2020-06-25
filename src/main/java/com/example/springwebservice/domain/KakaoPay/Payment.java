@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private String PARTNER_ORDER_ID;
 
     private String TID;
@@ -31,6 +30,7 @@ public class Payment {
     private Integer TAX_FREE_AMOUNT;
 
     private Integer IDX;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime START_TIME;
 
