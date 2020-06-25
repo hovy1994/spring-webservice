@@ -79,6 +79,11 @@ public class RentalController {
         //return "redirect:" + kakaoPayService.kakaoPayReady(info);
         return kakaoPayService.kakaoPayReady(info);
     }
+    @PostMapping(path="/kakaoFail")
+    @GetMapping(path="/kakaoFail")
+    public void kakaoFail(){
+        System.out.println("kakoFail");
+    }
 
     // 카카오페이 성공하면 카카오 서버에서 이 api로 리다이렉트
     @PostMapping(path = "/kakaoPaySucess")
