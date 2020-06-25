@@ -88,7 +88,7 @@ public class KakaoPayService {
             System.out.println("kakaoPayReadVO");
             kakaoPayReadyVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyVO.class);
             log.info("" + kakaoPayReadyVO);
-            return kakaoPayReadyVO.getNext_redirect_app_url();
+            return kakaoPayReadyVO.getNext_redirect_mobile_url();
         } catch (RestClientException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
