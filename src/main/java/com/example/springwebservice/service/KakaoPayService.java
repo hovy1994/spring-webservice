@@ -130,7 +130,7 @@ public class KakaoPayService {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
             log.info("" + kakaoPayApprovalVO);
 
-
+            System.out.println("결제 정보를 저장하겠습니다.");
             PaymentSaveRequestDto dto = new PaymentSaveRequestDto();
             dto.setTID(kakaoPayReadyVO.getTid());
             dto.setPARTNER_ORDER_ID(kakaoPayApprovalVO.getPartner_order_id());

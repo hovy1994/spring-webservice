@@ -89,7 +89,9 @@ public class RentalController {
 
         model.addAttribute("info", kakaoPayService.kakaoPayInfo(pg_token));
 
-        //Payment payment = paymentMapper.RecentPayment();
+        Payment payment = paymentMapper.RecentPayment();
+        if(payment==null) System.out.println("payment idx: null");
+        else System.out.println("payment idx: "+payment.getIDX());
         //rentMapper.updateTID(payment.getTID(),payment.getIDX());
 
         return (KakaoPayApprovalVO)model.getAttribute("info");
