@@ -93,10 +93,10 @@ public class RentalController {
 
         model.addAttribute("info", kakaoPayService.kakaoPayInfo(pg_token));
 
-        Payment payment = paymentMapper.RecentPayment();
+        //Payment payment = paymentMapper.RecentPayment();
 
-        KakaoPayApprovalVO kakaoPayApprovalVO=(KakaoPayApprovalVO)model.getAttribute("info");
-        paymentMapper.updateTID(kakaoPayApprovalVO.getTid(),payment.getIDX());
+//        KakaoPayApprovalVO kakaoPayApprovalVO=(KakaoPayApprovalVO)model.getAttribute("info");
+//        paymentMapper.updateTID(kakaoPayApprovalVO.getTid(),payment.getIDX());
 
         return (KakaoPayApprovalVO)model.getAttribute("info");
     }
