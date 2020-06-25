@@ -78,7 +78,6 @@ public class KakaoPayService {
         params.add("total_amount", String.valueOf(info.getTotal_amount()));
         params.add("tax_free_amount", "0");
 
-
         params.add("approval_url", "http://13.125.236.67:8080/kakaoPaySuccess");
         params.add("cancel_url", "http://13.125.236.67:8080/kakaoCancel");
         params.add("fail_url", "http://13.125.236.67:8080/kakaoFail");
@@ -88,7 +87,7 @@ public class KakaoPayService {
         try {
             kakaoPayReadyVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyVO.class);
             log.info("" + kakaoPayReadyVO);
-            return kakaoPayReadyVO.getNext_redirect_app_url();
+            return kakaoPayReadyVO.getNext_redirect_pc_url();
         } catch (RestClientException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -96,7 +95,7 @@ public class KakaoPayService {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return "/kakaoPay";
+        return "/kakaoPaySuccess";
     }
 
     public KakaoPayApprovalVO kakaoPayInfo(String pg_token) {
