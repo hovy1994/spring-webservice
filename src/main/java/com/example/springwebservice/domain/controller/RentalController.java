@@ -94,7 +94,7 @@ public class RentalController {
         Rent rent = rentMapper.RecentRent();
         model.addAttribute("info", kakaoPayService.kakaoPayInfo(pg_token,rent));
 
-        KakaoPayApprovalVO kakaoPayApprovalVO = (KakaoPayApprovalVO)model.getAttribute("info")
+        KakaoPayApprovalVO kakaoPayApprovalVO = (KakaoPayApprovalVO)model.getAttribute("info");
         System.out.println("결제 정보를 저장하겠습니다.");
         PaymentSaveRequestDto dto = new PaymentSaveRequestDto();
         dto.setTID(kakaoPayApprovalVO.getTid());
@@ -111,7 +111,7 @@ public class RentalController {
 //        KakaoPayApprovalVO kakaoPayApprovalVO=(KakaoPayApprovalVO)model.getAttribute("info");
 //        paymentMapper.updateTID(kakaoPayApprovalVO.getTid(),payment.getIDX());
 
-        return (KakaoPayApprovalVO)model.getAttribute("info");
+        return kakaoPayApprovalVO;
     }
 
     // 사용자의 결제 내역 리스트 리턴
