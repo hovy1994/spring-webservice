@@ -114,8 +114,6 @@ public class KakaoPayService {
 
         // 서버로 요청할 Body
 
-        Payment payment = paymentMapper.RecentPayment();
-
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 
         params.add("cid", "TC0ONETIME");
@@ -141,7 +139,7 @@ public class KakaoPayService {
             dto.setPARTNER_USER_ID(kakaoPayApprovalVO.getPartner_order_id());
             dto.setITEM_NAME(kakaoPayApprovalVO.getItem_name());
             dto.setQUANTITY(kakaoPayApprovalVO.getQuantity());
-            dto.setTOTAL_AMOUNT(payment.getTOTAL_AMOUNT());
+            dto.setTOTAL_AMOUNT(kakaoPayApprovalVO.getAmount().getTotal());
             dto.setTAX_FREE_AMOUNT(kakaoPayApprovalVO.getTax_free_amount());
 
             paymentRepository.save(dto.toEntity());
