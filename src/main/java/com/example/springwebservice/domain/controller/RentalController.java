@@ -92,7 +92,7 @@ public class RentalController {
         log.info("kakaoPaySuccess pg_token : " + pg_token);
 
         Rent rent = rentMapper.RecentRent();
-        model.addAttribute("info", kakaoPayService.kakaoPayInfo(pg_token,rent);
+        model.addAttribute("info", kakaoPayService.kakaoPayInfo(pg_token,rent));
 
         //Payment payment = paymentMapper.RecentPayment();
 
