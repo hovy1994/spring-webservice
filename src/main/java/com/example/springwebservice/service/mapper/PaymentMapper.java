@@ -17,6 +17,9 @@ public interface PaymentMapper {
 //    void addStamp(String userID,Integer num);
 
 
+    @Select("SELECT * FROM payment ORDER BY START_TIME DESC LIMIT 1")
+    Payment RecentPayment();
+
     @Select("SELECT * FROM payment WHERE PARTNER_USER_ID=#{user_id} ORDER BY START_TIME DESC LIMIT 1")
     Payment findPaymentList(String user_id);
 

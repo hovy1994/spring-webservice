@@ -89,6 +89,9 @@ public class RentalController {
 
         model.addAttribute("info", kakaoPayService.kakaoPayInfo(pg_token));
 
+        Payment payment = paymentMapper.RecentPayment();
+        rentMapper.updateTID(payment.getTID(),payment.getIDX());
+
         return (KakaoPayApprovalVO)model.getAttribute("info");
     }
 
@@ -119,7 +122,6 @@ public class RentalController {
         System.out.println("request info.getUserId"+info.getUser_id());
 
         List<Rent> rent=rentalService.returnRentList(info.getUser_id());
-
         System.out.println("서버 이상 없음");
         System.out.println("rent list size: "+ rent.size());
         return rent;
