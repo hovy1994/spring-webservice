@@ -12,6 +12,7 @@
       v-bind:perspective="0" 
       v-bind:display="3"
       v-bind:width="180"
+      v-bind:autoplay="true"
       v-bind:height="240"
       v-bind:space="170"
       v-bind:disable3d="true">
