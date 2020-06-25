@@ -56,17 +56,17 @@ public class KakaoPayService {
 
         int tid = (int)paymentRepository.count();
 
-        System.out.println("여기서는 저장됨");
-        PaymentSaveRequestDto dto =new PaymentSaveRequestDto();
-        dto.setTAX_FREE_AMOUNT(0);
-        dto.setTOTAL_AMOUNT(info.getTotal_amount());
-        dto.setTID(String.valueOf(tid));
-        dto.setQUANTITY(1);
-        dto.setITEM_NAME(String.valueOf(info.getItem_idx()));
-        dto.setSTART_TIME(info.getStart());
-        dto.setPARTNER_USER_ID(info.getUser_id());
-        dto.setPARTNER_ORDER_ID(info.getUser_id());
-        paymentRepository.save(dto.toEntity());
+//        System.out.println("여기서는 저장됨");
+//        PaymentSaveRequestDto dto =new PaymentSaveRequestDto();
+//        dto.setTAX_FREE_AMOUNT(0);
+//        dto.setTOTAL_AMOUNT(info.getTotal_amount());
+//        dto.setTID(String.valueOf(tid));
+//        dto.setQUANTITY(1);
+//        dto.setITEM_NAME(String.valueOf(info.getItem_idx()));
+//        dto.setSTART_TIME(info.getStart());
+//        dto.setPARTNER_USER_ID(info.getUser_id());
+//        dto.setPARTNER_ORDER_ID(info.getUser_id());
+//        paymentRepository.save(dto.toEntity());
 
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
@@ -85,9 +85,10 @@ public class KakaoPayService {
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 
         try {
+            System.out.println("kakaoPayReadVO");
             kakaoPayReadyVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyVO.class);
             log.info("" + kakaoPayReadyVO);
-            return kakaoPayReadyVO.getNext_redirect_mobile_url();
+            return kakaoPayReadyVO.getNext_redirect_app_url();
         } catch (RestClientException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

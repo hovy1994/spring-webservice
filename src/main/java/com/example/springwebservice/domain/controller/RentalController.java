@@ -82,12 +82,12 @@ public class RentalController {
     @PostMapping(path="/kakaoFail")
     @GetMapping(path="/kakaoFail")
     public void kakaoFail(){
-        System.out.println("kakoFail");
+        System.out.println("kakaoFail");
     }
 
     // 카카오페이 성공하면 카카오 서버에서 이 api로 리다이렉트
-    @PostMapping(path = "/kakaoPaySucess")
-    @GetMapping(path = "/kakaoPaySucess")
+    @PostMapping(path = "/kakaoPaySuccess")
+    @GetMapping(path = "/kakaoPaySuccess")
     public KakaoPayApprovalVO kakaoPayRequest(@RequestParam("pg_token") String pg_token, Model model){
         log.info("kakaoPaySuccess get............................................");
         log.info("kakaoPaySuccess pg_token : " + pg_token);
