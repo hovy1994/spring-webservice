@@ -5,7 +5,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-public class Create_Table {	
+public class CreateTable {	
 	static ResultSet rs, rs2;
 	
 	// 테이블이 있는지 확인하고 없으면 생성
