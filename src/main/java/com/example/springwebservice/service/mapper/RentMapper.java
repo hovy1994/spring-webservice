@@ -27,8 +27,7 @@ public interface RentMapper {
     @Update("UPDATE rent SET STATE=0 WHERE USER_ID=#{user_id} ORDER BY START_TIME DESC LIMIT 1")
     void updateRent(String user_id);
 
-    @Update("UPDATE rent SET TID=#{tid} WHERE IDX=#{IDX}")
-    void updateTID(String tid, Integer IDX);
+
 
     @Select("SELECT * FROM rent WHERE USER_ID=#{user_id} ORDER BY START_TIME DESC LIMIT 1")
     Rent updateRentInfo(String user_id);

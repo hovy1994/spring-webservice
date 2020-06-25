@@ -56,17 +56,17 @@ public class KakaoPayService {
 
         int tid = (int)paymentRepository.count();
 
-//        System.out.println("여기서는 저장됨");
-//        PaymentSaveRequestDto dto =new PaymentSaveRequestDto();
-//        dto.setTAX_FREE_AMOUNT(0);
-//        dto.setTOTAL_AMOUNT(info.getTotal_amount());
-//        dto.setTID(String.valueOf(tid));
-//        dto.setQUANTITY(1);
-//        dto.setITEM_NAME(String.valueOf(info.getItem_idx()));
-//        dto.setSTART_TIME(info.getStart());
-//        dto.setPARTNER_USER_ID(info.getUser_id());
-//        dto.setPARTNER_ORDER_ID(info.getUser_id());
-//        paymentRepository.save(dto.toEntity());
+        System.out.println("여기서는 저장됨");
+        PaymentSaveRequestDto dto =new PaymentSaveRequestDto();
+        dto.setTAX_FREE_AMOUNT(0);
+        dto.setTOTAL_AMOUNT(info.getTotal_amount());
+        dto.setTID(String.valueOf(tid));
+        dto.setQUANTITY(1);
+        dto.setITEM_NAME(String.valueOf(info.getItem_idx()));
+        dto.setSTART_TIME(info.getStart());
+        dto.setPARTNER_USER_ID(info.getUser_id());
+        dto.setPARTNER_ORDER_ID(info.getUser_id());
+        paymentRepository.save(dto.toEntity());
 
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
@@ -113,6 +113,9 @@ public class KakaoPayService {
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 
         // 서버로 요청할 Body
+
+        Payment payment = paymentMapper.RecentPayment();
+
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 
         params.add("cid", "TC0ONETIME");
@@ -120,10 +123,10 @@ public class KakaoPayService {
         params.add("tid", kakaoPayReadyVO.getTid());
         System.out.println("kakaoPayReadVO.getTid(): "+kakaoPayReadyVO.getTid());
 
-        params.add("partner_order_id", "1004");
-        params.add("partner_user_id", "BEBLET_USER1");
+        params.add("partner_order_id", kakaoPayApprovalVO.getPartner_user_id());
+        params.add("partner_user_id", kakaoPayApprovalVO.getPartner_user_id());
         params.add("pg_token", pg_token);
-        //params.add("total_amount", "15000");
+        //params.add("total_amount", kakaoPayApprovalVO.getAmount().getTotal());
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 
@@ -138,7 +141,7 @@ public class KakaoPayService {
             dto.setPARTNER_USER_ID(kakaoPayApprovalVO.getPartner_order_id());
             dto.setITEM_NAME(kakaoPayApprovalVO.getItem_name());
             dto.setQUANTITY(kakaoPayApprovalVO.getQuantity());
-            dto.setTOTAL_AMOUNT(kakaoPayApprovalVO.getAmount().getTotal());
+            dto.setTOTAL_AMOUNT(payment.getTOTAL_AMOUNT());
             dto.setTAX_FREE_AMOUNT(kakaoPayApprovalVO.getTax_free_amount());
 
             paymentRepository.save(dto.toEntity());
