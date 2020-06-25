@@ -99,7 +99,7 @@ public class KakaoPayService {
         return "/kakaoPaySuccess";
     }
 
-    public KakaoPayApprovalVO kakaoPayInfo(String pg_token) {
+    public KakaoPayApprovalVO kakaoPayInfo(String pg_token,Rent rent) {
         log.info("KakaoPayInfoVO............................................");
         log.info("-----------------------------");
 
@@ -122,7 +122,7 @@ public class KakaoPayService {
         System.out.println("kakaoPayReadVO.getTid(): "+kakaoPayReadyVO.getTid());
 
         params.add("partner_order_id", "1004");
-        params.add("partner_user_id", "1386204126");
+        params.add("partner_user_id", rent.getUSER_ID());
         params.add("pg_token", pg_token);
         //params.add("total_amount", kakaoPayApprovalVO.getAmount().getTotal());
 
